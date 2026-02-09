@@ -1,0 +1,440 @@
+[
+  {
+    "id": "recipe-001",
+    "name": "Mediterranean Tomato Pasta",
+    "cuisine": "Mediterranean",
+    "difficulty": "Easy",
+    "timeMinutes": 25,
+    "servings": 2,
+    "ingredients": [
+      { "name": "pasta", "quantity": 200, "unit": "g" },
+      { "name": "tomato", "quantity": 2, "unit": "pcs" },
+      { "name": "garlic", "quantity": 2, "unit": "cloves" },
+      { "name": "basil", "quantity": 6, "unit": "leaves" },
+      { "name": "olive oil", "quantity": 1, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Cook pasta until al dente.",
+      "Sauté garlic in olive oil, add chopped tomatoes.",
+      "Toss pasta with sauce and basil."
+    ],
+    "nutrition": { "calories": 520, "protein": 18, "carbs": 82, "fat": 12 },
+    "dietaryTags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-002",
+    "name": "Lemon Herb Chicken Bowl",
+    "cuisine": "American",
+    "difficulty": "Easy",
+    "timeMinutes": 30,
+    "servings": 2,
+    "ingredients": [
+      { "name": "chicken", "quantity": 300, "unit": "g" },
+      { "name": "lemon", "quantity": 1, "unit": "pcs" },
+      { "name": "spinach", "quantity": 2, "unit": "cups" },
+      { "name": "garlic", "quantity": 1, "unit": "clove" },
+      { "name": "olive oil", "quantity": 1, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Marinate chicken with lemon juice, garlic, and herbs.",
+      "Pan-sear chicken until cooked through.",
+      "Serve over spinach with pan juices."
+    ],
+    "nutrition": { "calories": 430, "protein": 42, "carbs": 8, "fat": 20 },
+    "dietaryTags": ["gluten-free"]
+  },
+  {
+    "id": "recipe-003",
+    "name": "Vegetable Stir-Fry",
+    "cuisine": "Asian",
+    "difficulty": "Easy",
+    "timeMinutes": 20,
+    "servings": 2,
+    "ingredients": [
+      { "name": "broccoli", "quantity": 1, "unit": "cup" },
+      { "name": "bell pepper", "quantity": 1, "unit": "pcs" },
+      { "name": "carrot", "quantity": 1, "unit": "pcs" },
+      { "name": "soy sauce", "quantity": 2, "unit": "tbsp" },
+      { "name": "garlic", "quantity": 1, "unit": "clove" }
+    ],
+    "steps": [
+      "Stir-fry vegetables in a hot pan.",
+      "Add soy sauce and garlic.",
+      "Cook until tender-crisp."
+    ],
+    "nutrition": { "calories": 280, "protein": 10, "carbs": 34, "fat": 10 },
+    "dietaryTags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-004",
+    "name": "Avocado Toast with Egg",
+    "cuisine": "American",
+    "difficulty": "Easy",
+    "timeMinutes": 10,
+    "servings": 1,
+    "ingredients": [
+      { "name": "bread", "quantity": 2, "unit": "slices" },
+      { "name": "avocado", "quantity": 0.5, "unit": "pcs" },
+      { "name": "egg", "quantity": 1, "unit": "pcs" },
+      { "name": "lemon", "quantity": 0.5, "unit": "pcs" },
+      { "name": "salt", "quantity": 1, "unit": "pinch" }
+    ],
+    "steps": [
+      "Toast bread.",
+      "Mash avocado with lemon and salt.",
+      "Top toast with avocado and a fried egg."
+    ],
+    "nutrition": { "calories": 360, "protein": 14, "carbs": 32, "fat": 18 },
+    "dietaryTags": []
+  },
+  {
+    "id": "recipe-005",
+    "name": "Chickpea Curry",
+    "cuisine": "Indian",
+    "difficulty": "Medium",
+    "timeMinutes": 35,
+    "servings": 3,
+    "ingredients": [
+      { "name": "chickpeas", "quantity": 2, "unit": "cups" },
+      { "name": "tomato", "quantity": 2, "unit": "pcs" },
+      { "name": "onion", "quantity": 1, "unit": "pcs" },
+      { "name": "coconut milk", "quantity": 1, "unit": "cup" },
+      { "name": "curry powder", "quantity": 1, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Sauté onion and spices.",
+      "Add tomatoes, chickpeas, and coconut milk.",
+      "Simmer until thickened."
+    ],
+    "nutrition": { "calories": 410, "protein": 16, "carbs": 52, "fat": 16 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  },
+  {
+    "id": "recipe-006",
+    "name": "Grilled Salmon with Asparagus",
+    "cuisine": "American",
+    "difficulty": "Medium",
+    "timeMinutes": 25,
+    "servings": 2,
+    "ingredients": [
+      { "name": "salmon", "quantity": 2, "unit": "fillets" },
+      { "name": "asparagus", "quantity": 1, "unit": "bunch" },
+      { "name": "lemon", "quantity": 1, "unit": "pcs" },
+      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
+      { "name": "garlic", "quantity": 1, "unit": "clove" }
+    ],
+    "steps": [
+      "Season salmon and asparagus with oil, garlic, and lemon.",
+      "Grill until salmon is flaky.",
+      "Serve with extra lemon."
+    ],
+    "nutrition": { "calories": 480, "protein": 40, "carbs": 8, "fat": 30 },
+    "dietaryTags": ["gluten-free"]
+  },
+  {
+    "id": "recipe-007",
+    "name": "Tofu Teriyaki Bowl",
+    "cuisine": "Japanese",
+    "difficulty": "Easy",
+    "timeMinutes": 25,
+    "servings": 2,
+    "ingredients": [
+      { "name": "tofu", "quantity": 250, "unit": "g" },
+      { "name": "soy sauce", "quantity": 2, "unit": "tbsp" },
+      { "name": "brown rice", "quantity": 1, "unit": "cup" },
+      { "name": "broccoli", "quantity": 1, "unit": "cup" },
+      { "name": "ginger", "quantity": 1, "unit": "tsp" }
+    ],
+    "steps": [
+      "Cook rice and steam broccoli.",
+      "Sear tofu and glaze with soy sauce and ginger.",
+      "Serve tofu over rice with broccoli."
+    ],
+    "nutrition": { "calories": 520, "protein": 22, "carbs": 62, "fat": 18 },
+    "dietaryTags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-008",
+    "name": "Turkey Lettuce Wraps",
+    "cuisine": "American",
+    "difficulty": "Easy",
+    "timeMinutes": 20,
+    "servings": 2,
+    "ingredients": [
+      { "name": "ground turkey", "quantity": 300, "unit": "g" },
+      { "name": "lettuce", "quantity": 6, "unit": "leaves" },
+      { "name": "carrot", "quantity": 1, "unit": "pcs" },
+      { "name": "soy sauce", "quantity": 1, "unit": "tbsp" },
+      { "name": "garlic", "quantity": 1, "unit": "clove" }
+    ],
+    "steps": [
+      "Cook turkey with garlic and soy sauce.",
+      "Fill lettuce leaves with turkey and shredded carrot.",
+      "Serve immediately."
+    ],
+    "nutrition": { "calories": 330, "protein": 32, "carbs": 12, "fat": 16 },
+    "dietaryTags": ["gluten-free"]
+  },
+  {
+    "id": "recipe-009",
+    "name": "Caprese Salad",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "timeMinutes": 10,
+    "servings": 2,
+    "ingredients": [
+      { "name": "tomato", "quantity": 2, "unit": "pcs" },
+      { "name": "mozzarella", "quantity": 150, "unit": "g" },
+      { "name": "basil", "quantity": 6, "unit": "leaves" },
+      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
+      { "name": "balsamic", "quantity": 1, "unit": "tsp" }
+    ],
+    "steps": [
+      "Slice tomatoes and mozzarella.",
+      "Layer with basil.",
+      "Drizzle with olive oil and balsamic."
+    ],
+    "nutrition": { "calories": 310, "protein": 18, "carbs": 10, "fat": 22 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  },
+  {
+    "id": "recipe-010",
+    "name": "Beef and Quinoa Bowl",
+    "cuisine": "Mexican",
+    "difficulty": "Medium",
+    "timeMinutes": 35,
+    "servings": 3,
+    "ingredients": [
+      { "name": "beef", "quantity": 300, "unit": "g" },
+      { "name": "quinoa", "quantity": 1, "unit": "cup" },
+      { "name": "bell pepper", "quantity": 1, "unit": "pcs" },
+      { "name": "onion", "quantity": 1, "unit": "pcs" },
+      { "name": "cumin", "quantity": 1, "unit": "tsp" }
+    ],
+    "steps": [
+      "Cook quinoa.",
+      "Brown beef with spices and vegetables.",
+      "Serve beef over quinoa."
+    ],
+    "nutrition": { "calories": 560, "protein": 36, "carbs": 48, "fat": 24 },
+    "dietaryTags": ["gluten-free"]
+  },
+  {
+    "id": "recipe-011",
+    "name": "Zucchini Noodles with Pesto",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "timeMinutes": 15,
+    "servings": 2,
+    "ingredients": [
+      { "name": "zucchini", "quantity": 2, "unit": "pcs" },
+      { "name": "pesto", "quantity": 2, "unit": "tbsp" },
+      { "name": "parmesan", "quantity": 2, "unit": "tbsp" },
+      { "name": "olive oil", "quantity": 1, "unit": "tsp" },
+      { "name": "garlic", "quantity": 1, "unit": "clove" }
+    ],
+    "steps": [
+      "Spiralize zucchini.",
+      "Warm garlic in olive oil.",
+      "Toss zucchini with pesto and parmesan."
+    ],
+    "nutrition": { "calories": 260, "protein": 10, "carbs": 14, "fat": 18 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  },
+  {
+    "id": "recipe-012",
+    "name": "Shrimp Tacos",
+    "cuisine": "Mexican",
+    "difficulty": "Easy",
+    "timeMinutes": 20,
+    "servings": 2,
+    "ingredients": [
+      { "name": "shrimp", "quantity": 250, "unit": "g" },
+      { "name": "tortillas", "quantity": 4, "unit": "pcs" },
+      { "name": "cabbage", "quantity": 1, "unit": "cup" },
+      { "name": "lime", "quantity": 1, "unit": "pcs" },
+      { "name": "avocado", "quantity": 0.5, "unit": "pcs" }
+    ],
+    "steps": [
+      "Season and sauté shrimp.",
+      "Warm tortillas.",
+      "Assemble tacos with cabbage, avocado, and lime."
+    ],
+    "nutrition": { "calories": 420, "protein": 28, "carbs": 38, "fat": 16 },
+    "dietaryTags": []
+  },
+  {
+    "id": "recipe-013",
+    "name": "Mushroom Risotto",
+    "cuisine": "Italian",
+    "difficulty": "Hard",
+    "timeMinutes": 45,
+    "servings": 4,
+    "ingredients": [
+      { "name": "arborio rice", "quantity": 1.5, "unit": "cups" },
+      { "name": "mushroom", "quantity": 2, "unit": "cups" },
+      { "name": "onion", "quantity": 1, "unit": "pcs" },
+      { "name": "vegetable broth", "quantity": 4, "unit": "cups" },
+      { "name": "parmesan", "quantity": 0.5, "unit": "cup" }
+    ],
+    "steps": [
+      "Sauté onion and mushrooms.",
+      "Add rice and gradually stir in broth.",
+      "Finish with parmesan."
+    ],
+    "nutrition": { "calories": 510, "protein": 16, "carbs": 72, "fat": 18 },
+    "dietaryTags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-014",
+    "name": "Greek Yogurt Parfait",
+    "cuisine": "Greek",
+    "difficulty": "Easy",
+    "timeMinutes": 5,
+    "servings": 1,
+    "ingredients": [
+      { "name": "greek yogurt", "quantity": 1, "unit": "cup" },
+      { "name": "berries", "quantity": 0.5, "unit": "cup" },
+      { "name": "granola", "quantity": 0.25, "unit": "cup" },
+      { "name": "honey", "quantity": 1, "unit": "tsp" },
+      { "name": "almonds", "quantity": 1, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Layer yogurt, berries, and granola.",
+      "Drizzle with honey and top with almonds."
+    ],
+    "nutrition": { "calories": 320, "protein": 18, "carbs": 38, "fat": 10 },
+    "dietaryTags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-015",
+    "name": "Black Bean Chili",
+    "cuisine": "Tex-Mex",
+    "difficulty": "Medium",
+    "timeMinutes": 40,
+    "servings": 4,
+    "ingredients": [
+      { "name": "black beans", "quantity": 2, "unit": "cups" },
+      { "name": "tomato", "quantity": 2, "unit": "pcs" },
+      { "name": "onion", "quantity": 1, "unit": "pcs" },
+      { "name": "bell pepper", "quantity": 1, "unit": "pcs" },
+      { "name": "chili powder", "quantity": 1, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Sauté onion and pepper.",
+      "Add beans, tomatoes, and spices.",
+      "Simmer until thickened."
+    ],
+    "nutrition": { "calories": 390, "protein": 18, "carbs": 58, "fat": 8 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  },
+  {
+    "id": "recipe-016",
+    "name": "Quinoa Kale Salad",
+    "cuisine": "Mediterranean",
+    "difficulty": "Easy",
+    "timeMinutes": 15,
+    "servings": 2,
+    "ingredients": [
+      { "name": "quinoa", "quantity": 1, "unit": "cup" },
+      { "name": "kale", "quantity": 2, "unit": "cups" },
+      { "name": "cucumber", "quantity": 0.5, "unit": "pcs" },
+      { "name": "feta", "quantity": 0.25, "unit": "cup" },
+      { "name": "lemon", "quantity": 0.5, "unit": "pcs" }
+    ],
+    "steps": [
+      "Cook quinoa and let cool.",
+      "Massage kale with lemon.",
+      "Toss with quinoa, cucumber, and feta."
+    ],
+    "nutrition": { "calories": 340, "protein": 12, "carbs": 40, "fat": 14 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  },
+  {
+    "id": "recipe-017",
+    "name": "Spicy Ramen with Egg",
+    "cuisine": "Japanese",
+    "difficulty": "Medium",
+    "timeMinutes": 25,
+    "servings": 2,
+    "ingredients": [
+      { "name": "ramen noodles", "quantity": 2, "unit": "packs" },
+      { "name": "egg", "quantity": 2, "unit": "pcs" },
+      { "name": "spinach", "quantity": 1, "unit": "cup" },
+      { "name": "miso", "quantity": 1, "unit": "tbsp" },
+      { "name": "chili paste", "quantity": 1, "unit": "tsp" }
+    ],
+    "steps": [
+      "Cook noodles and prepare broth with miso and chili paste.",
+      "Soft-boil eggs.",
+      "Serve ramen with spinach and egg."
+    ],
+    "nutrition": { "calories": 560, "protein": 22, "carbs": 72, "fat": 18 },
+    "dietaryTags": []
+  },
+  {
+    "id": "recipe-018",
+    "name": "Baked Sweet Potato",
+    "cuisine": "American",
+    "difficulty": "Easy",
+    "timeMinutes": 45,
+    "servings": 2,
+    "ingredients": [
+      { "name": "sweet potato", "quantity": 2, "unit": "pcs" },
+      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
+      { "name": "paprika", "quantity": 1, "unit": "tsp" },
+      { "name": "yogurt", "quantity": 2, "unit": "tbsp" },
+      { "name": "chives", "quantity": 1, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Bake sweet potatoes until tender.",
+      "Top with yogurt, paprika, and chives."
+    ],
+    "nutrition": { "calories": 280, "protein": 6, "carbs": 50, "fat": 6 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  },
+  {
+    "id": "recipe-019",
+    "name": "Veggie Fried Rice",
+    "cuisine": "Chinese",
+    "difficulty": "Easy",
+    "timeMinutes": 20,
+    "servings": 3,
+    "ingredients": [
+      { "name": "rice", "quantity": 2, "unit": "cups" },
+      { "name": "egg", "quantity": 2, "unit": "pcs" },
+      { "name": "peas", "quantity": 0.5, "unit": "cup" },
+      { "name": "carrot", "quantity": 1, "unit": "pcs" },
+      { "name": "soy sauce", "quantity": 2, "unit": "tbsp" }
+    ],
+    "steps": [
+      "Scramble eggs and set aside.",
+      "Stir-fry veggies and rice with soy sauce.",
+      "Stir in eggs to finish."
+    ],
+    "nutrition": { "calories": 470, "protein": 14, "carbs": 76, "fat": 12 },
+    "dietaryTags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-020",
+    "name": "Herbed Lentil Soup",
+    "cuisine": "Middle Eastern",
+    "difficulty": "Medium",
+    "timeMinutes": 35,
+    "servings": 4,
+    "ingredients": [
+      { "name": "lentils", "quantity": 1.5, "unit": "cups" },
+      { "name": "carrot", "quantity": 2, "unit": "pcs" },
+      { "name": "celery", "quantity": 2, "unit": "stalks" },
+      { "name": "onion", "quantity": 1, "unit": "pcs" },
+      { "name": "vegetable broth", "quantity": 4, "unit": "cups" }
+    ],
+    "steps": [
+      "Sauté onion, carrot, and celery.",
+      "Add lentils and broth.",
+      "Simmer until lentils are tender."
+    ],
+    "nutrition": { "calories": 360, "protein": 20, "carbs": 52, "fat": 6 },
+    "dietaryTags": ["vegetarian", "gluten-free"]
+  }
+]
