@@ -8,5 +8,8 @@
     "start": "node src/server.js",
     "lint": "node src/index.js --lint"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.4"
+  }
 }
