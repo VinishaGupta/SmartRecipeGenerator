@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Recipe Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Smart Recipe Generator</p>
+          <h1>Cook smarter with what you already have.</h1>
+          <p class="lede">
+            Upload ingredient photos, filter by dietary needs, and get tailored recipe ideas
+            with nutrition, substitutions, and serving adjustments.
+          </p>
+        </div>
+        <section class="card hero-card">
+          <h2>Ingredient input</h2>
+          <label class="field">
+            <span>Ingredients (comma-separated)</span>
+            <input id="ingredientInput" type="text" placeholder="e.g. tomato, basil, garlic" />
+          </label>
+          <label class="field">
+            <span>Upload ingredient image</span>
+            <input id="imageInput" type="file" accept="image/*" />
+            <small id="imageHint">Recognized ingredients appear below.</small>
+          </label>
+          <div class="pill-group" id="recognizedPills"></div>
+        </section>
+      </header>
+
+      <section class="grid">
+        <section class="card">
+          <h2>Dietary preferences</h2>
+          <div class="checkbox-grid">
+            <label><input type="checkbox" value="vegetarian" /> Vegetarian</label>
+            <label><input type="checkbox" value="gluten-free" /> Gluten-free</label>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Filters</h2>
+          <label class="field">
+            <span>Difficulty</span>
+            <select id="difficultySelect">
+              <option value="">Any</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Max cooking time (minutes)</span>
+            <input id="timeInput" type="number" min="5" placeholder="30" />
+          </label>
+          <label class="field">
+            <span>Target servings</span>
+            <input id="servingsInput" type="number" min="1" placeholder="2" />
+          </label>
+        </section>
+        <section class="card">
+          <h2>Action</h2>
+          <button id="matchButton" class="primary">Generate recipes</button>
+          <p class="helper" id="status">Enter ingredients to get started.</p>
+          <div class="substitutions">
+            <h3>Popular substitutions</h3>
+            <ul id="substitutionList"></ul>
+          </div>
+        </section>
+      </section>
+
+      <section class="results">
+        <div class="results-header">
+          <h2>Recipe matches</h2>
+          <div class="toggle">
+            <label class="switch">
+              <input id="favoritesToggle" type="checkbox" />
+              <span>Show favorites only</span>
+            </label>
+          </div>
+        </div>
+        <div id="recipeList" class="recipe-grid"></div>
+      </section>
+
+      <section class="card suggestions">
+        <h2>Recommended based on your ratings</h2>
+        <div id="suggestionList" class="recipe-grid"></div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "smart-recipe-generator",
+  "version": "0.1.0",
+  "description": "Core recipe matching engine and data for Smart Recipe Generator.",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "lint": "node src/index.js --lint"
+  },
+  "license": "MIT"
+}
