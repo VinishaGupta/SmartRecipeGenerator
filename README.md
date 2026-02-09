@@ -15,10 +15,12 @@ substitution suggestions, and a lightweight ingredient recognition stub.
 ## Quick Start
 ```bash
 npm install
+export HF_TOKEN=your_hugging_face_token
 npm start
 ```
 
 Open http://localhost:3000 to view the UI.
+Ingredient recognition uses the Hugging Face Inference API and requires `HF_TOKEN` to be set.
 
 ## Files
 - `data/recipes.json` – recipe dataset.

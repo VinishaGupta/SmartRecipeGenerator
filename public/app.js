@@ -34,6 +34,7 @@ const imageInput = document.getElementById("imageInput");
 const recognizedPills = document.getElementById("recognizedPills");
 const matchButton = document.getElementById("matchButton");
 const statusEl = document.getElementById("status");
+const imageHint = document.getElementById("imageHint");
 const recipeList = document.getElementById("recipeList");
 const suggestionList = document.getElementById("suggestionList");
 const substitutionList = document.getElementById("substitutionList");
@@ -44,6 +45,23 @@ const favoritesToggle = document.getElementById("favoritesToggle");
 
 let recipes = [];
 let recognizedIngredients = [];
+
+const INGREDIENT_MAP = {
+  pizza: ["tomato", "cheese", "basil"],
+  burger: ["beef", "onion", "tomato"],
+  spaghetti: ["pasta", "tomato", "garlic"],
+  salad: ["lettuce", "tomato", "cucumber"],
+  curry: ["onion", "garlic", "tomato"],
+  sandwich: ["bread", "cheese", "tomato"],
+  soup: ["onion", "carrot", "celery"],
+  taco: ["tortilla", "beef", "avocado"],
+  sushi: ["rice", "salmon", "avocado"],
+  ramen: ["noodles", "egg", "spinach"],
+  omelette: ["egg", "cheese", "spinach"],
+  steak: ["beef", "garlic"],
+  chicken: ["chicken", "garlic"],
+  salmon: ["salmon", "lemon"]
+};
 
 const normalize = (value) => value.trim().toLowerCase();
 const getDietaryPreferences = () =>
@@ -281,20 +299,68 @@ const renderSuggestions = () => {
     .join("");
 };
 
-const recognizeIngredientsFromImage = (file) => {
+const resolveIngredients = (predictions) => {
+  const resolved = new Set();
+  predictions.forEach((prediction) => {
+    const label = prediction.label.toLowerCase();
+    Object.entries(INGREDIENT_MAP).forEach(([key, ingredients]) => {
+      if (label.includes(key)) {
+        ingredients.forEach((ingredient) => resolved.add(ingredient));
+      }
+    });
+    KNOWN_INGREDIENTS.forEach((ingredient) => {
+      if (label.includes(ingredient)) {
+        resolved.add(ingredient);
+      }
+    });
+  });
+  return Array.from(resolved);
+};
+
+const recognizeIngredientsFromImage = async (file) => {
   if (!file) {
     return [];
   }
-  const name = file.name.toLowerCase();
-  const matches = KNOWN_INGREDIENTS.filter((ingredient) =>
-    name.includes(ingredient.replace(" ", ""))
-  );
-  return matches.length ? matches : ["tomato", "onion"];
+  const reader = new FileReader();
+  const base64Data = await new Promise((resolve, reject) => {
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Failed to read image file."));
+    reader.readAsDataURL(file);
+  });
+
+  const response = await fetch("/api/recognize", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ imageBase64: base64Data })
+  });
+
+  if (!response.ok) {
+    const errorPayload = await response.json().catch(() => ({}));
+    throw new Error(errorPayload.error || "Recognition failed.");
+  }
+
+  const data = await response.json();
+  return resolveIngredients(data.predictions || []);
 };
 
-imageInput.addEventListener("change", (event) => {
+imageInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
-  recognizedIngredients = recognizeIngredientsFromImage(file);
+  if (!file) {
+    return;
+  }
+  imageHint.textContent = "Analyzing image with AI...";
+  try {
+    recognizedIngredients = await recognizeIngredientsFromImage(file);
+    if (!recognizedIngredients.length) {
+      imageHint.textContent =
+        "No ingredient match found. Try another image or add manually.";
+    } else {
+      imageHint.textContent = "Recognized ingredients appear below.";
+    }
+  } catch (error) {
+    imageHint.textContent = error.message;
+    recognizedIngredients = [];
+  }
   renderRecognized();
 });
 
