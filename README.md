@@ -105,7 +105,7 @@ http://localhost:3000
 └── package.json
 ```
 
-###🧪 How Recipe Matching Works
+### 🧪 How Recipe Matching Works
 - User ingredients are normalized
 - Recipes are scored by ingredient overlap
 - Filters are applied (diet, difficulty, time)
