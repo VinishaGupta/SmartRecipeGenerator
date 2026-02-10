@@ -167,28 +167,21 @@ These libraries are used to:
 ### 🧠 Ingredient Mapping Strategy
 - Raw ImageNet labels are not used directly
 - Labels are matched against:
+- - KNOWN_INGREDIENTS
+  - Category-based ingredient lists
+- This avoids noisy outputs (e.g. non-food objects)
+- Only food-relevant ingredients are extracted
 
-KNOWN_INGREDIENTS
+--- 
 
-Category-based ingredient lists
+### ✅ Why This Architecture?
+- ❌ No Hugging Face
+- ❌ No Google Vision
+- ❌ No paid APIs
+- ✅ Fully local
+- ✅ Deterministic & reliable
 
-This avoids noisy outputs (e.g. non-food objects)
-
-Only food-relevant ingredients are extracted
-
-✅ Why This Architecture?
-
-❌ No Hugging Face
-
-❌ No Google Vision
-
-❌ No paid APIs
-
-✅ Fully local
-
-✅ Deterministic & reliable
-
-✅ Ideal for demos, assessments, and offline use
+---
 
 ### 🛠 Extensibility
 
