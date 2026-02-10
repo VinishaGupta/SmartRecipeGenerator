@@ -1,87 +1,88 @@
-🍳 Smart Recipe Generator
+# 🍳 Smart Recipe Generator
 
 An AI-assisted cooking application that helps users discover recipes based on available ingredients, dietary preferences, and cooking constraints — all running locally with a clean web UI.
 
-📌 Overview
+---
 
-Smart Recipe Generator allows users to input ingredients manually, select them from categorized dropdowns, or upload food images.
+## 📌 Overview
+
+**Smart Recipe Generator** allows users to:
+- Input ingredients manually
+- Select ingredients from categorized dropdowns
+- Upload food images for ingredient detection
+
 The system matches ingredients against a curated recipe dataset and ranks recipes by relevance.
 
-This project focuses on core logic, UI usability, and extensibility, without relying on paid or third-party AI services.
+This project focuses on **core logic**, **UI usability**, and **extensibility**, without relying on paid or third-party AI services.
 
-✨ Key Features
-🧺 Ingredient Input
+---
 
-Text input (comma-separated)
+## ✨ Key Features
 
-Category-based dropdown selector
+### 🧺 Ingredient Input
+- Text input (comma-separated)
+- Category-based dropdown selector
+  - Vegetables
+  - Fruits
+  - Proteins
+  - Grains
+  - Dairy
+- Multiple selections supported
+- Selected ingredients sync automatically with the input field
 
-Vegetables
+---
 
-Fruits
+### 🧠 Recipe Matching Engine
+- Ingredient overlap scoring
+- Ranked recipe results
+- Match percentage shown for each recipe
+- Real-time updates when filters change
 
-Proteins
+---
 
-Grains
+### 🥗 Filters & Preferences
+- Dietary preferences
+  - Vegetarian
+  - Gluten-free
+- Cooking difficulty
+  - Easy
+  - Medium
+  - Hard
+- Maximum cooking time
+- Adjustable servings
 
-Dairy
+---
 
-Multiple selections supported
+### 🔁 Ingredient Substitutions
+- Built-in substitution suggestions for common ingredients  
+  *(e.g. milk → oat milk, soy milk)*
 
-🧠 Recipe Matching Engine
+---
 
-Ingredient overlap scoring
+### ⭐ Favorites & Ratings
+- Favorite recipes stored locally
+- Rating system (1–5)
+- Personalized suggestions based on ratings
 
-Ranked recipe results
+---
 
-Real-time updates when filters change
+## 🧱 Tech Stack
+- **Frontend:** HTML, CSS, Vanilla JavaScript
+- **Backend:** Node.js (lightweight HTTP server)
+- **Data:** Local JSON recipe database
+- **Storage:** Browser `localStorage`
+- **AI Integration:** Pluggable (currently stubbed / local)
 
-🥗 Filters & Preferences
+---
 
-Dietary preferences
+## 🚀 Quick Start
 
-Vegetarian
-
-Gluten-free
-
-Cooking difficulty
-
-Maximum cooking time
-
-Adjustable servings
-
-🔁 Ingredient Substitutions
-
-Built-in substitution suggestions for common ingredients
-(e.g. milk → oat milk, soy milk)
-
-⭐ Favorites & Ratings
-
-Favorite recipes stored locally
-
-Rating system for personalized suggestions
-
-🧱 Tech Stack
-
-Frontend: HTML, CSS, Vanilla JavaScript
-
-Backend: Node.js (lightweight HTTP server)
-
-Data: Local JSON recipe database
-
-Storage: Browser localStorage
-
-AI Integration: Pluggable (currently stubbed / local)
-
-🚀 Quick Start
+```bash
 npm install
 npm start
-
-
 Then open:
 
 http://localhost:3000
-
 📁 Project Structure
 .
 ├── data/
@@ -97,9 +98,7 @@ http://localhost:3000
 │
 ├── README.md
 └── package.json
-
 🧪 How Recipe Matching Works
-
 User ingredients are normalized
 
 Recipes are scored by ingredient overlap
@@ -111,21 +110,19 @@ Recipes are ranked by match percentage
 Top results are displayed instantly
 
 🛠 Extensibility
-
 This project is intentionally designed to be extended:
 
 Plug in a real image recognition API
 
 Add more recipe datasets
 
-Enhance UI with React / Vue
+Enhance UI with React or Vue
 
-Deploy to Vercel / Netlify
+Deploy to Vercel or Netlify
 
 Add user accounts and cloud storage
 
 📄 Notes
-
 No paid APIs required
 
 No external AI dependency
@@ -135,6 +132,5 @@ Fully functional offline logic
 Suitable for assessments and demos
 
 👩‍💻 Author
-
-Built as part of a software engineering / web development assessment
-with focus on clean architecture, usability, and extensibility.
+Built as part of a software engineering / web development assessment,
+with a focus on clean architecture, usability, and extensibility.
