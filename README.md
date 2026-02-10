@@ -80,9 +80,14 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
 ```bash
 npm install
 npm start
+```
 Then open:
 
+```
 http://localhost:3000
+
+```
+
 📁 Project Structure
 .
 ├── data/
