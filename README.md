@@ -28,7 +28,7 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
   - Grains
   - Dairy
 - Multiple selections supported
-- Selected ingredients sync automatically with the input field
+- Selected ingredients automatically sync with the input field
 
 ---
 
@@ -60,9 +60,9 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
 ---
 
 ### ⭐ Favorites & Ratings
-- Favorite recipes stored locally
+- Favorite recipes stored locally using `localStorage`
 - Rating system (1–5)
-- Personalized suggestions based on ratings
+- Personalized suggestions based on user ratings
 
 ---
 
@@ -71,7 +71,7 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
 - **Backend:** Node.js (lightweight HTTP server)
 - **Data:** Local JSON recipe database
 - **Storage:** Browser `localStorage`
-- **AI Integration:** Pluggable (currently stubbed / local)
+- **AI Integration:** Local / pluggable (no external services required)
 
 ---
 
@@ -83,55 +83,147 @@ npm start
 ```
 Then open:
 
-```
-http://localhost:3000
+```bash
+npm install
+npm start
 ```
 
-📁 Project Structure
+📦 Python Dependencies Installed
+
+For local image recognition, the following Python libraries were installed using pip:
+
+```bash
+pip install torch torchvision pillow numpy
+```
+
+## 📁 Project Structure
+
 ```
 .
 ├── data/
-│   └── recipes.json          # Recipe dataset
+│   └── recipes.json              # Recipe dataset (JSON)
 │
 ├── public/
-│   ├── index.html            # UI layout
-│   ├── styles.css            # App styling
-│   └── app.js                # Client-side logic
+│   ├── index.html                # UI layout
+│   ├── styles.css                # App styling
+│   └── app.js                    # Client-side logic
 │
 ├── src/
-│   └── server.js             # Local Node.js server
+│   ├── server.js                 # Local Node.js HTTP server
+│   ├── recipeEngine.js           # Recipe matching & scoring logic
+│   ├── ingredientRecognizer.js   # JS bridge for ingredient recognition
+│   └── index.js                  # Entry point
+│
+├── vision/
+│   ├── recognize.py              # Python image recognition script
+│   └── imagenet_classes.txt      # ImageNet class labels for mapping
+│
+├── docs/
+│   └── approach.md               # Design & approach explanation
 │
 ├── README.md
 └── package.json
 ```
 
-### 🧪 How Recipe Matching Works
-- User ingredients are normalized
-- Recipes are scored by ingredient overlap
-- Filters are applied (diet, difficulty, time)
-- Recipes are ranked by match percentage
-- Top results are displayed instantly
-  
----
+🧪 How Recipe Matching Works
+
+User ingredients are normalized
+
+Recipes are scored by ingredient overlap
+
+Filters are applied (diet, difficulty, time)
+
+Recipes are ranked by match percentage
+
+Top results are displayed instantly
+
+🐍 Python & Vision Integration
+
+This project does not rely on paid APIs or third-party AI services.
+Instead, it uses a local Python-based vision pipeline.
+
+🔍 Image Recognition Flow
+
+Images uploaded in the UI are sent to the Node.js server
+
+Node.js invokes a Python script (recognize.py)
+
+A pretrained ImageNet-based CNN model is used
+
+Predicted labels are mapped to food ingredients using:
+
+imagenet_classes.txt
+
+Curated ingredient lists in JavaScript
+
+📦 Python Libraries Used
+
+torch
+
+torchvision
+
+Pillow
+
+numpy
+
+These libraries are used to:
+
+Load a pretrained vision model
+
+Run image inference locally
+
+Convert predictions into usable ingredient names
+
+⚠️ Python setup is optional — the app works fully without image recognition.
+
+🧠 Ingredient Mapping Strategy
+
+Raw ImageNet labels are not used directly
+
+Labels are matched against:
+
+KNOWN_INGREDIENTS
+
+Category-based ingredient lists
+
+This avoids noisy outputs (e.g. non-food objects)
+
+Only food-relevant ingredients are extracted
+
+✅ Why This Architecture?
+
+❌ No Hugging Face
+
+❌ No Google Vision
+
+❌ No paid APIs
+
+✅ Fully local
+
+✅ Deterministic & reliable
+
+✅ Ideal for demos, assessments, and offline use
 
 ### 🛠 Extensibility
-- This project is intentionally designed to be extended:
+
+This project is intentionally designed to be extended:
 - Plug in a real image recognition API
 - Add more recipe datasets
-- Enhance UI with React or Vue
-- Deploy to Vercel or Netlify
+- Enhance the UI with React or Vue
 - Add user accounts and cloud storage
 
-  ---
+---
 
 ### 📄 Notes
+
 - No paid APIs required
 - No external AI dependency
 - Fully functional offline logic
 - Suitable for assessments and demos
 
-  ---
+--- 
 
 ### 👩‍💻 Author
+
 Built as part of a software engineering / web development assessment,
 with a focus on clean architecture, usability, and extensibility.
