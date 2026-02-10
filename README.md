@@ -191,6 +191,35 @@ This project is intentionally designed to be extended:
 
 ---
 
+### 🌐 Live Deployment
+
+The Smart Recipe Generator has been successfully deployed and is publicly accessible.
+
+Live URL:
+👉 https://smart-recipe-generator-h7wgfvarq-vinishaguptas-projects.vercel.app/
+
+---
+
+### 🚀 Deployment Details
+- Platform: Vercel
+- Frontend: Static build served via Vercel CDN
+- Backend: Local Node.js server (used during development)
+
+Python Vision Pipeline:
+- Runs locally only
+- Not required for the deployed version
+- Core app functionality works without it
+
+---
+
+### 📝 Notes on Deployment
+- The deployed version focuses on:
+- Ingredient input (text + dropdowns)
+- Recipe matching & filtering
+- Favorites and ratings (stored in browser localStorage)
+- Image recognition remains optional and local, as it depends on Python and PyTorch
+- No paid APIs or external AI services are used in production
+
 ### 📄 Notes
 
 - No paid APIs required
