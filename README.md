@@ -174,9 +174,7 @@ These libraries are used to:
 
 --- 
 
-### ✅ Why This Architecture?
-- ❌ No Hugging Face
-- ❌ No Google Vision
+### Why This Architecture?
 - ❌ No paid APIs
 - ✅ Fully local
 - ✅ Deterministic & reliable
