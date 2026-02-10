@@ -1,35 +1,140 @@
-# Smart Recipe Generator (Core Engine)
+🍳 Smart Recipe Generator
 
-This repository contains the core data and matching logic for the Smart Recipe Generator assessment.
-It focuses on the recipe database, matching algorithm, dietary filtering, serving-size adjustments,
-substitution suggestions, and a lightweight ingredient recognition stub.
+An AI-assisted cooking application that helps users discover recipes based on available ingredients, dietary preferences, and cooking constraints — all running locally with a clean web UI.
 
-## Highlights
-- **Recipe database** with 20 multi-cuisine recipes including steps and nutrition.
-- **Matching algorithm** that scores recipes based on ingredient overlap.
-- **Dietary and filter support** for vegetarian, gluten-free, difficulty, and cooking time.
-- **Serving size adjustments** with scaled nutrition values.
-- **Rating + favorite hooks** for personalized recommendations.
-- **Ingredient recognition stub** to wire into an ML service.
+📌 Overview
 
-## Quick Start
-```bash
+Smart Recipe Generator allows users to input ingredients manually, select them from categorized dropdowns, or upload food images.
+The system matches ingredients against a curated recipe dataset and ranks recipes by relevance.
+
+This project focuses on core logic, UI usability, and extensibility, without relying on paid or third-party AI services.
+
+✨ Key Features
+🧺 Ingredient Input
+
+Text input (comma-separated)
+
+Category-based dropdown selector
+
+Vegetables
+
+Fruits
+
+Proteins
+
+Grains
+
+Dairy
+
+Multiple selections supported
+
+🧠 Recipe Matching Engine
+
+Ingredient overlap scoring
+
+Ranked recipe results
+
+Real-time updates when filters change
+
+🥗 Filters & Preferences
+
+Dietary preferences
+
+Vegetarian
+
+Gluten-free
+
+Cooking difficulty
+
+Maximum cooking time
+
+Adjustable servings
+
+🔁 Ingredient Substitutions
+
+Built-in substitution suggestions for common ingredients
+(e.g. milk → oat milk, soy milk)
+
+⭐ Favorites & Ratings
+
+Favorite recipes stored locally
+
+Rating system for personalized suggestions
+
+🧱 Tech Stack
+
+Frontend: HTML, CSS, Vanilla JavaScript
+
+Backend: Node.js (lightweight HTTP server)
+
+Data: Local JSON recipe database
+
+Storage: Browser localStorage
+
+AI Integration: Pluggable (currently stubbed / local)
+
+🚀 Quick Start
 npm install
-export HF_TOKEN=your_hugging_face_token
 npm start
-```
 
-Open http://localhost:3000 to view the UI.
-Ingredient recognition uses the Hugging Face Inference API and requires `HF_TOKEN` to be set.
 
-## Files
-- `data/recipes.json` – recipe dataset.
-- `src/recipeEngine.js` – matching, filtering, ratings, substitutions.
-- `src/ingredientRecognizer.js` – placeholder image ingredient detection.
-- `src/server.js` – lightweight local server for the UI.
-- `public/` – static UI assets.
-- `docs/approach.md` – 200-word write-up of the approach.
+Then open:
 
-## Next Steps
-Connect the engine to a UI (React/Vue), add image inference via a free-tier vision API,
-and deploy to Vercel/Netlify for a live demo.
+http://localhost:3000
+
+📁 Project Structure
+.
+├── data/
+│   └── recipes.json          # Recipe dataset
+│
+├── public/
+│   ├── index.html            # UI layout
+│   ├── styles.css            # App styling
+│   └── app.js                # Client-side logic
+│
+├── src/
+│   └── server.js             # Local Node.js server
+│
+├── README.md
+└── package.json
+
+🧪 How Recipe Matching Works
+
+User ingredients are normalized
+
+Recipes are scored by ingredient overlap
+
+Filters are applied (diet, difficulty, time)
+
+Recipes are ranked by match percentage
+
+Top results are displayed instantly
+
+🛠 Extensibility
+
+This project is intentionally designed to be extended:
+
+Plug in a real image recognition API
+
+Add more recipe datasets
+
+Enhance UI with React / Vue
+
+Deploy to Vercel / Netlify
+
+Add user accounts and cloud storage
+
+📄 Notes
+
+No paid APIs required
+
+No external AI dependency
+
+Fully functional offline logic
+
+Suitable for assessments and demos
+
+👩‍💻 Author
+
+Built as part of a software engineering / web development assessment
+with focus on clean architecture, usability, and extensibility.
