@@ -16,10 +16,18 @@ const DEFAULT_SUBSTITUTIONS = {
   honey: ["maple syrup", "agave"]
 };
 
-const loadRecipes = () => {
-  const raw = fs.readFileSync(DATA_PATH, "utf-8");
-  return JSON.parse(raw);
+const loadRecipes = async () => {
+  try {
+    const res = await fetch("/api/recipes");
+    console.log("Reading recipes from:", DATA_PATH);
+
+    recipes = await res.json();
+    renderSuggestions();
+  } catch (err) {
+    console.error(err);
+  }
 };
+
 
 const normalize = (value) => value.trim().toLowerCase();
 
@@ -106,8 +114,7 @@ const matchRecipes = ({
       ...recipe,
       matchScore: scoreRecipe(recipe, availableIngredients)
     }))
-    .filter((recipe) => recipe.matchScore > 0)
-    .sort((a, b) => b.matchScore - a.matchScore);
+.filter((recipe) => recipe.matchScore >= 0)    .sort((a, b) => b.matchScore - a.matchScore);
 
   return candidates.map((recipe) => adjustServings(recipe, targetServings));
 };

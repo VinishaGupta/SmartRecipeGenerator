@@ -351,3 +351,73 @@ select {
 .dropdown.open .dropdown-content {
   display: block;
 }
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fav-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.fav-btn.active {
+  color: gold;
+}
+
+.rating {
+  margin: 6px 0;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 20px;
+  color: #ccc;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.fav-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.fav-btn.active {
+  color: red;
+}
+.fav-btn:hover {
+  transform: scale(1.1);
+}
+
+.dropdown {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.dropdown-header {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-content {
+  display: none;
+  padding: 10px 12px;
+}
+
+.dropdown.open .dropdown-content {
+  display: block;
+}
