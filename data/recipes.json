@@ -85,7 +85,7 @@
       "Top toast with avocado and a fried egg."
     ],
     "nutrition": { "calories": 360, "protein": 14, "carbs": 32, "fat": 18 },
-    "dietaryTags": []
+    "dietaryTags": ["vegetarian"]
   },
   {
     "id": "recipe-005",
@@ -131,6 +131,7 @@
     "nutrition": { "calories": 480, "protein": 40, "carbs": 8, "fat": 30 },
     "dietaryTags": ["gluten-free"]
   },
+
   {
     "id": "recipe-007",
     "name": "Tofu Teriyaki Bowl",
@@ -219,6 +220,7 @@
     "nutrition": { "calories": 560, "protein": 36, "carbs": 48, "fat": 24 },
     "dietaryTags": ["gluten-free"]
   },
+
   {
     "id": "recipe-011",
     "name": "Zucchini Noodles with Pesto",
@@ -263,6 +265,7 @@
     "nutrition": { "calories": 420, "protein": 28, "carbs": 38, "fat": 16 },
     "dietaryTags": []
   },
+
   {
     "id": "recipe-013",
     "name": "Mushroom Risotto",
@@ -328,6 +331,7 @@
     "nutrition": { "calories": 390, "protein": 18, "carbs": 58, "fat": 8 },
     "dietaryTags": ["vegetarian", "gluten-free"]
   },
+
   {
     "id": "recipe-016",
     "name": "Quinoa Kale Salad",
@@ -438,3 +442,171 @@
     "dietaryTags": ["vegetarian", "gluten-free"]
   }
 ]
+
+,
+{
+  "id": "recipe-021",
+  "name": "Fruit Salad with Honey Lime",
+  "cuisine": "International",
+  "difficulty": "Easy",
+  "timeMinutes": 10,
+  "servings": 2,
+  "ingredients": [
+    { "name": "apple", "quantity": 1, "unit": "pcs" },
+    { "name": "banana", "quantity": 1, "unit": "pcs" },
+    { "name": "orange", "quantity": 1, "unit": "pcs" },
+    { "name": "berries", "quantity": 0.5, "unit": "cup" },
+    { "name": "honey", "quantity": 1, "unit": "tbsp" },
+    { "name": "lime", "quantity": 0.5, "unit": "pcs" }
+  ],
+  "steps": [
+    "Chop all fruits into bite-sized pieces.",
+    "Mix honey with lime juice.",
+    "Toss fruits with dressing and serve chilled."
+  ],
+  "nutrition": { "calories": 220, "protein": 3, "carbs": 54, "fat": 1 },
+  "dietaryTags": ["vegetarian", "gluten-free"]
+},
+{
+  "id": "recipe-022",
+  "name": "Banana Berry Smoothie",
+  "cuisine": "American",
+  "difficulty": "Easy",
+  "timeMinutes": 5,
+  "servings": 1,
+  "ingredients": [
+    { "name": "banana", "quantity": 1, "unit": "pcs" },
+    { "name": "berries", "quantity": 0.75, "unit": "cup" },
+    { "name": "milk", "quantity": 1, "unit": "cup" },
+    { "name": "honey", "quantity": 1, "unit": "tsp" }
+  ],
+  "steps": [
+    "Add all ingredients to blender.",
+    "Blend until smooth.",
+    "Serve immediately."
+  ],
+  "nutrition": { "calories": 280, "protein": 8, "carbs": 48, "fat": 6 },
+  "dietaryTags": ["vegetarian", "gluten-free"]
+},
+{
+  "id": "recipe-023",
+  "name": "Avocado Mango Salad",
+  "cuisine": "Tropical",
+  "difficulty": "Easy",
+  "timeMinutes": 12,
+  "servings": 2,
+  "ingredients": [
+    { "name": "avocado", "quantity": 1, "unit": "pcs" },
+    { "name": "mango", "quantity": 1, "unit": "pcs" },
+    { "name": "onion", "quantity": 0.25, "unit": "pcs" },
+    { "name": "lime", "quantity": 0.5, "unit": "pcs" },
+    { "name": "olive oil", "quantity": 1, "unit": "tsp" }
+  ],
+  "steps": [
+    "Dice avocado and mango.",
+    "Slice onion thinly.",
+    "Toss with lime juice and olive oil."
+  ],
+  "nutrition": { "calories": 260, "protein": 4, "carbs": 32, "fat": 14 },
+  "dietaryTags": ["vegetarian", "gluten-free"]
+},
+{
+  "id": "recipe-024",
+  "name": "Apple Cinnamon Oatmeal",
+  "cuisine": "American",
+  "difficulty": "Easy",
+  "timeMinutes": 10,
+  "servings": 1,
+  "ingredients": [
+    { "name": "oats", "quantity": 0.5, "unit": "cup" },
+    { "name": "apple", "quantity": 1, "unit": "pcs" },
+    { "name": "milk", "quantity": 1, "unit": "cup" },
+    { "name": "cinnamon", "quantity": 0.5, "unit": "tsp" }
+  ],
+  "steps": [
+    "Cook oats with milk.",
+    "Add diced apple and cinnamon.",
+    "Simmer until soft."
+  ],
+  "nutrition": { "calories": 310, "protein": 9, "carbs": 52, "fat": 7 },
+  "dietaryTags": ["vegetarian"]
+},
+{
+  "id": "recipe-025",
+  "name": "Greek Yogurt with Fruits",
+  "cuisine": "Greek",
+  "difficulty": "Easy",
+  "timeMinutes": 5,
+  "servings": 1,
+  "ingredients": [
+    { "name": "greek yogurt", "quantity": 1, "unit": "cup" },
+    { "name": "berries", "quantity": 0.5, "unit": "cup" },
+    { "name": "honey", "quantity": 1, "unit": "tsp" }
+  ],
+  "steps": [
+    "Add yogurt to bowl.",
+    "Top with fruits and honey."
+  ],
+  "nutrition": { "calories": 240, "protein": 15, "carbs": 28, "fat": 6 },
+  "dietaryTags": ["vegetarian", "gluten-free"]
+},
+{
+  "id": "recipe-026",
+  "name": "Citrus Fruit Bowl",
+  "cuisine": "Mediterranean",
+  "difficulty": "Easy",
+  "timeMinutes": 8,
+  "servings": 2,
+  "ingredients": [
+    { "name": "orange", "quantity": 2, "unit": "pcs" },
+    { "name": "grapefruit", "quantity": 1, "unit": "pcs" },
+    { "name": "lemon", "quantity": 0.5, "unit": "pcs" },
+    { "name": "mint", "quantity": 5, "unit": "leaves" }
+  ],
+  "steps": [
+    "Peel and slice citrus fruits.",
+    "Sprinkle with lemon juice.",
+    "Garnish with mint."
+  ],
+  "nutrition": { "calories": 180, "protein": 3, "carbs": 42, "fat": 0 },
+  "dietaryTags": ["vegetarian", "gluten-free"]
+},
+{
+  "id": "recipe-027",
+  "name": "Peanut Butter Banana Toast",
+  "cuisine": "American",
+  "difficulty": "Easy",
+  "timeMinutes": 5,
+  "servings": 1,
+  "ingredients": [
+    { "name": "bread", "quantity": 2, "unit": "slices" },
+    { "name": "banana", "quantity": 1, "unit": "pcs" },
+    { "name": "peanut butter", "quantity": 2, "unit": "tbsp" }
+  ],
+  "steps": [
+    "Toast bread.",
+    "Spread peanut butter.",
+    "Top with sliced banana."
+  ],
+  "nutrition": { "calories": 360, "protein": 12, "carbs": 42, "fat": 16 },
+  "dietaryTags": ["vegetarian"]
+},
+{
+  "id": "recipe-028",
+  "name": "Mango Smoothie Bowl",
+  "cuisine": "Tropical",
+  "difficulty": "Easy",
+  "timeMinutes": 7,
+  "servings": 1,
+  "ingredients": [
+    { "name": "mango", "quantity": 1, "unit": "pcs" },
+    { "name": "banana", "quantity": 0.5, "unit": "pcs" },
+    { "name": "yogurt", "quantity": 0.5, "unit": "cup" }
+  ],
+  "steps": [
+    "Blend mango, banana, and yogurt.",
+    "Pour into bowl and serve."
+  ],
+  "nutrition": { "calories": 290, "protein": 8, "carbs": 48, "fat": 6 },
+  "dietaryTags": ["vegetarian", "gluten-free"]
+}

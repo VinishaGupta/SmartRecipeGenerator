@@ -1,20 +1,119 @@
 const KNOWN_INGREDIENTS = [
+  // Vegetables
   "tomato",
-  "basil",
-  "garlic",
   "onion",
+  "garlic",
+  "ginger",
   "spinach",
-  "chicken",
-  "tofu",
+  "lettuce",
+  "kale",
+  "cabbage",
+  "broccoli",
+  "cauliflower",
+  "carrot",
   "bell pepper",
+  "chili pepper",
+  "zucchini",
+  "cucumber",
+  "eggplant",
+  "peas",
+  "corn",
+  "mushroom",
+  "asparagus",
+  "celery",
+  "sweet potato",
+  "potato",
+
+  // Fruits
+  "apple",
+  "banana",
+  "lemon",
+  "lime",
+  "orange",
   "avocado",
+  "berries",
+  "strawberry",
+  "blueberry",
+  "grapes",
+  "pineapple",
+  "mango",
+
+  // Proteins
+  "chicken",
+  "beef",
+  "pork",
+  "turkey",
+  "fish",
   "salmon",
+  "tuna",
   "shrimp",
   "egg",
-  "mushroom",
-  "beef",
-  "zucchini"
+  "tofu",
+  "tempeh",
+  "lentils",
+  "chickpeas",
+  "beans",
+  "black beans",
+
+  // Grains & carbs
+  "rice",
+  "brown rice",
+  "quinoa",
+  "pasta",
+  "noodles",
+  "bread",
+  "tortilla",
+  "oats",
+
+  // Dairy & alternatives
+  "milk",
+  "cheese",
+  "mozzarella",
+  "parmesan",
+  "butter",
+  "yogurt",
+  "greek yogurt",
+  "cream",
+  "coconut milk",
+
+  // Herbs & spices
+  "basil",
+  "cilantro",
+  "parsley",
+  "mint",
+  "oregano",
+  "thyme",
+  "rosemary",
+  "pepper",
+  "salt",
+  "paprika",
+  "cumin",
+  "curry",
+  "chili powder",
+
+  // Oils & condiments
+  "olive oil",
+  "soy sauce",
+  "vinegar",
+  "balsamic",
+  "honey",
+  "maple syrup",
+  "mustard",
+
+  // Common dishes (vision models output these often)
+  "salad",
+  "soup",
+  "stir fry",
+  "noodles",
+  "ramen",
+  "pasta dish",
+  "curry",
+  "sandwich",
+  "burger",
+  "pizza",
+  "taco"
 ];
+
 
 const DEFAULT_SUBSTITUTIONS = {
   milk: ["oat milk", "soy milk", "almond milk"],
@@ -285,6 +384,7 @@ const renderSuggestions = () => {
     (a, b) => (ratings[b.id] || 0) - (ratings[a.id] || 0)
   );
 
+
   suggestionList.innerHTML = sorted
     .slice(0, 3)
     .map((recipe) =>
@@ -376,3 +476,19 @@ favoritesToggle.addEventListener("change", () => {
 
 updateSubstitutions();
 loadRecipes();
+
+const rerunMatchIfPossible = () => {
+  if (!recipes.length) return;
+  const results = matchRecipes();
+  renderRecipes(results);
+};
+
+// Re-run when dietary preferences change
+document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+  checkbox.addEventListener("change", rerunMatchIfPossible);
+});
+
+// Re-run when filters change
+difficultySelect.addEventListener("change", rerunMatchIfPossible);
+timeInput.addEventListener("input", rerunMatchIfPossible);
+servingsInput.addEventListener("input", rerunMatchIfPossible);

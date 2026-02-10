@@ -234,3 +234,26 @@ select {
     font-size: 28px;
   }
 }
+
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.center-card {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.input-card {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
