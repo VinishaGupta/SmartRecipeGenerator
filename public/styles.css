@@ -257,3 +257,97 @@ select {
 .full-width {
   width: 100%;
 }
+
+.ingredient-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.ingredient-category {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.ingredient-category h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.ingredient-category label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+
+
+
+.dropdown {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.dropdown-header {
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-header span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.dropdown-content {
+  display: none;
+  padding: 10px 14px;
+  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.dropdown.open .dropdown-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 6px;
+}
+
+.dropdown-content label {
+  font-size: 13px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+
+/* Ingredient selector grid */
+.ingredient-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  align-items: start; /* 🔑 IMPORTANT */
+}
+
+.dropdown {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.dropdown-content {
+  display: none;
+  padding: 12px;
+}
+
+.dropdown.open .dropdown-content {
+  display: block;
+}
