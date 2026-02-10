@@ -349,14 +349,26 @@ const attachRatingHandlers = () => {
 
 
 const renderSuggestions = () => {
-  suggestionList.innerHTML = recipes.slice(0,3)
-    .map(r => `
-      <article class="recipe-card">
-        <h3>${r.name}</h3>
-        <p>${r.cuisine} · ${r.timeMinutes} mins</p>
-      </article>
-    `).join("");
+  const favs = getFavorites();
+
+  // favorite recipes first
+  let suggested = recipes.filter(r => favs.includes(r.id));
+
+  // fallback if no favorites
+  if (!suggested.length) {
+    suggested = recipes.slice(0, 3);
+  } else {
+    suggested = suggested.slice(0, 3);
+  }
+
+  suggestionList.innerHTML = suggested.map(r => `
+    <article class="recipe-card">
+      <h3>${r.name}</h3>
+      <p>${r.cuisine} · ${r.timeMinutes} mins</p>
+    </article>
+  `).join("");
 };
+
 
 /*************************************************
  * IMAGE RECOGNITION
@@ -406,6 +418,24 @@ const rerunMatchIfPossible = () => {
 
 difficultySelect.addEventListener("change", rerunMatchIfPossible);
 timeInput.addEventListener("input", rerunMatchIfPossible);
+
+const viewFavoritesBtn = document.getElementById("viewFavoritesBtn");
+
+viewFavoritesBtn.addEventListener("click", () => {
+  const favs = getFavorites();
+
+  if (!favs.length) {
+    recipeList.innerHTML = "<p>No favorite recipes yet.</p>";
+    return;
+  }
+
+  const favRecipes = recipes.map(r => {
+    const score = scoreRecipe(r, ingredientInput.value.split(",").map(normalize));
+    return { ...r, ...score };
+  }).filter(r => favs.includes(r.id));
+
+  renderRecipes(favRecipes);
+});
 
 /*************************************************
  * INIT

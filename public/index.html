@@ -96,23 +96,27 @@
   </section>
 
   <!-- RESULTS -->
-  <section>
-    <div class="results-header">
-      <h2>Recipes</h2>
-      <label class="switch">
-        <input type="checkbox" id="favoritesToggle" />
-        Favorites only
-      </label>
-    </div>
 
-    <div id="recipeList" class="recipe-grid"></div>
-  </section>
 
   <!-- SUGGESTIONS -->
-  <section>
-    <h2>Suggested For You</h2>
-    <div id="suggestionList" class="recipe-grid"></div>
-  </section>
+<section class="recipes-section">
+  <div class="recipes-header">
+    <h2>Recipes</h2>
+
+    <button id="viewFavoritesBtn" class="favorites-view-btn">
+      ❤️ View Favorites
+    </button>
+
+    <label class="favorites-toggle">
+      <input type="checkbox" id="favoritesToggle">
+      Favorites only
+    </label>
+  </div>
+
+  <div id="recipeList"></div>
+</section>
+
+
 
 </main>
 
