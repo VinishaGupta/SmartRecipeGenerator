@@ -125,62 +125,48 @@ pip install torch torchvision pillow numpy
 └── package.json
 ```
 
-🧪 How Recipe Matching Works
+### 🧪 How Recipe Matching Works
+- User ingredients are normalized
+- Recipes are scored by ingredient overlap
+- Filters are applied (diet, difficulty, time)
+- Recipes are ranked by match percentage
+- Top results are displayed instantly
 
-User ingredients are normalized
+---
 
-Recipes are scored by ingredient overlap
-
-Filters are applied (diet, difficulty, time)
-
-Recipes are ranked by match percentage
-
-Top results are displayed instantly
-
-🐍 Python & Vision Integration
+### 🐍 Python & Vision Integration
 
 This project does not rely on paid APIs or third-party AI services.
 Instead, it uses a local Python-based vision pipeline.
 
-🔍 Image Recognition Flow
+---
 
-Images uploaded in the UI are sent to the Node.js server
+### 🔍 Image Recognition Flow
+- Images uploaded in the UI are sent to the Node.js server
+- Node.js invokes a Python script (recognize.py)
+- A pretrained ImageNet-based CNN model is used
+- Predicted labels are mapped to food ingredients using:
+- -imagenet_classes.txt
+- Curated ingredient lists in JavaScript
 
-Node.js invokes a Python script (recognize.py)
+---
 
-A pretrained ImageNet-based CNN model is used
-
-Predicted labels are mapped to food ingredients using:
-
-imagenet_classes.txt
-
-Curated ingredient lists in JavaScript
-
-📦 Python Libraries Used
-
-torch
-
-torchvision
-
-Pillow
-
-numpy
+### 📦 Python Libraries Used
+- torch
+- torchvision
+- Pillow
+- numpy
 
 These libraries are used to:
+- Load a pretrained vision model
+- Run image inference locally
+- Convert predictions into usable ingredient names
 
-Load a pretrained vision model
+---
 
-Run image inference locally
-
-Convert predictions into usable ingredient names
-
-⚠️ Python setup is optional — the app works fully without image recognition.
-
-🧠 Ingredient Mapping Strategy
-
-Raw ImageNet labels are not used directly
-
-Labels are matched against:
+### 🧠 Ingredient Mapping Strategy
+- Raw ImageNet labels are not used directly
+- Labels are matched against:
 
 KNOWN_INGREDIENTS
 
