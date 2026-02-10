@@ -85,10 +85,10 @@ Then open:
 
 ```
 http://localhost:3000
-
 ```
 
 📁 Project Structure
+```
 .
 ├── data/
 │   └── recipes.json          # Recipe dataset
@@ -103,38 +103,28 @@ http://localhost:3000
 │
 ├── README.md
 └── package.json
+```
+
 🧪 How Recipe Matching Works
-User ingredients are normalized
-
-Recipes are scored by ingredient overlap
-
-Filters are applied (diet, difficulty, time)
-
-Recipes are ranked by match percentage
-
-Top results are displayed instantly
+- User ingredients are normalized
+- Recipes are scored by ingredient overlap
+- Filters are applied (diet, difficulty, time)
+- Recipes are ranked by match percentage
+- Top results are displayed instantly
 
 🛠 Extensibility
-This project is intentionally designed to be extended:
-
-Plug in a real image recognition API
-
-Add more recipe datasets
-
-Enhance UI with React or Vue
-
-Deploy to Vercel or Netlify
-
-Add user accounts and cloud storage
+- This project is intentionally designed to be extended:
+- Plug in a real image recognition API
+- Add more recipe datasets
+- Enhance UI with React or Vue
+- Deploy to Vercel or Netlify
+- Add user accounts and cloud storage
 
 📄 Notes
-No paid APIs required
-
-No external AI dependency
-
-Fully functional offline logic
-
-Suitable for assessments and demos
+- No paid APIs required
+- No external AI dependency
+- Fully functional offline logic
+- Suitable for assessments and demos
 
 👩‍💻 Author
 Built as part of a software engineering / web development assessment,
