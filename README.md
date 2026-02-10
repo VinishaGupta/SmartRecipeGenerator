@@ -105,14 +105,16 @@ http://localhost:3000
 └── package.json
 ```
 
-🧪 How Recipe Matching Works
+###🧪 How Recipe Matching Works
 - User ingredients are normalized
 - Recipes are scored by ingredient overlap
 - Filters are applied (diet, difficulty, time)
 - Recipes are ranked by match percentage
 - Top results are displayed instantly
+  
+---
 
-🛠 Extensibility
+### 🛠 Extensibility
 - This project is intentionally designed to be extended:
 - Plug in a real image recognition API
 - Add more recipe datasets
@@ -120,12 +122,16 @@ http://localhost:3000
 - Deploy to Vercel or Netlify
 - Add user accounts and cloud storage
 
-📄 Notes
+  ---
+
+### 📄 Notes
 - No paid APIs required
 - No external AI dependency
 - Fully functional offline logic
 - Suitable for assessments and demos
 
-👩‍💻 Author
+  ---
+
+### 👩‍💻 Author
 Built as part of a software engineering / web development assessment,
 with a focus on clean architecture, usability, and extensibility.
