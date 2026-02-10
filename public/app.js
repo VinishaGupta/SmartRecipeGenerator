@@ -289,27 +289,31 @@ const renderRecipes = (results) => {
           `).join("")}
         </div>
 
-        <details>
-          <summary>View recipe steps</summary>
+        <button class="steps-toggle" data-id="${r.id}">
+  ▶ View recipe steps
+</button>
 
-          <h4>Ingredients</h4>
-          <ul>
-            ${r.ingredients.map(i =>
-              `<li>${i.quantity ?? ""} ${i.unit ?? ""} ${i.name}</li>`
-            ).join("")}
-          </ul>
+<div class="steps-content" data-id="${r.id}">
+  <h4>Ingredients</h4>
+  <ul>
+    ${r.ingredients.map(i =>
+      `<li>${i.quantity ?? ""} ${i.unit ?? ""} ${i.name}</li>`
+    ).join("")}
+  </ul>
 
-          <h4>Steps</h4>
-          <ol>
-            ${r.steps.map(step => `<li>${step}</li>`).join("")}
-          </ol>
-        </details>
+  <h4>Steps</h4>
+  <ol>
+    ${r.steps.map(step => `<li>${step}</li>`).join("")}
+  </ol>
+</div>
+
       </article>
     `;
   }).join("");
 
   attachFavoriteHandlers();
   attachRatingHandlers();
+   attachStepToggles(); 
 };
 
 const attachFavoriteHandlers = () => {
@@ -368,6 +372,38 @@ const renderSuggestions = () => {
     </article>
   `).join("");
 };
+
+const attachStepToggles = () => {
+  const toggles = document.querySelectorAll(".steps-toggle");
+
+  toggles.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+
+      // close all others
+      document.querySelectorAll(".steps-content").forEach(c => {
+        if (c.dataset.id !== id) {
+          c.classList.remove("open");
+        }
+      });
+
+      document.querySelectorAll(".steps-toggle").forEach(b => {
+        if (b.dataset.id !== id) {
+          b.textContent = "▶ View recipe steps";
+        }
+      });
+
+      // toggle current
+      const content = document.querySelector(`.steps-content[data-id="${id}"]`);
+      const isOpen = content.classList.toggle("open");
+
+      btn.textContent = isOpen
+        ? "▼ Hide recipe steps"
+        : "▶ View recipe steps";
+    });
+  });
+};
+
 
 
 /*************************************************
@@ -443,3 +479,4 @@ viewFavoritesBtn.addEventListener("click", () => {
 updateSubstitutions();
 renderIngredientSelector();
 loadRecipes();
+
