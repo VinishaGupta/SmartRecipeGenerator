@@ -1,20 +1,14 @@
 {
   "name": "smart-recipe-generator",
   "version": "0.1.0",
-  "description": "Core recipe matching engine and data for Smart Recipe Generator.",
-  "main": "src/server.js",
+  "main": "server.js",
   "type": "commonjs",
-
+  "scripts": {
+    "start": "node server.js"
+  },
   "engines": {
     "node": "24.x"
   },
-
-  "scripts": {
-    "start": "node src/server.js",
-    "lint": "node src/index.js --lint"
-  },
-
-  "license": "MIT",
   "dependencies": {
     "dotenv": "^17.2.4",
     "node-fetch": "^3.3.2"
