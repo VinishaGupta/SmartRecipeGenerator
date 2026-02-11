@@ -6,13 +6,14 @@
   "type": "commonjs",
 
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
 
   "scripts": {
     "start": "node src/server.js",
     "lint": "node src/index.js --lint"
   },
+
   "license": "MIT",
   "dependencies": {
     "dotenv": "^17.2.4",
