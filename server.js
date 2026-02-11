@@ -4,8 +4,8 @@ const path = require("path");
 const os = require("os");
 const { execFile } = require("child_process");
 
-const ROOT = path.join(__dirname, "..", "public");
-const DATA_PATH = path.join(__dirname, "..", "data", "recipes.json");
+const ROOT = path.join(__dirname, "public");
+const DATA_PATH = path.join(__dirname, "data", "recipes.json");
 
 const MIME_TYPES = {
   ".html": "text/html",
@@ -18,22 +18,25 @@ const MIME_TYPES = {
   ".svg": "image/svg+xml"
 };
 
-const readStaticFile = (filePath, res) => {
+function readStaticFile(filePath, res) {
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.writeHead(404);
       res.end("Not found");
       return;
     }
+
     const ext = path.extname(filePath);
     res.writeHead(200, {
       "Content-Type": MIME_TYPES[ext] || "application/octet-stream"
     });
+
     res.end(data);
   });
-};
+}
 
 const server = http.createServer((req, res) => {
+
   /* ---------- RECIPES ---------- */
   if (req.url === "/api/recipes" && req.method === "GET") {
     fs.readFile(DATA_PATH, "utf-8", (err, data) => {
@@ -54,6 +57,7 @@ const server = http.createServer((req, res) => {
     let body = "";
 
     req.on("data", chunk => body += chunk);
+
     req.on("end", () => {
       try {
         const { imageBase64 } = JSON.parse(body || "{}");
@@ -65,7 +69,7 @@ const server = http.createServer((req, res) => {
 
         execFile(
           "python",
-          ["-u", path.join(__dirname, "..", "vision", "recognize.py"), tempPath],
+          ["-u", path.join(__dirname, "vision", "recognize.py"), tempPath],
           { timeout: 15000 },
           (err, stdout) => {
             fs.unlinkSync(tempPath);
@@ -93,46 +97,44 @@ const server = http.createServer((req, res) => {
             }));
           }
         );
+
       } catch {
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ predictions: [] }));
       }
     });
+
     return;
   }
 
   /* ---------- STATIC ---------- */
- /* ---------- STATIC ---------- */
-let reqPath = req.url;
+  let reqPath = req.url;
 
-if (reqPath === "/") {
-  reqPath = "/index.html";
-}
+  if (reqPath === "/") {
+    reqPath = "/index.html";
+  }
 
-const filePath = path.join(ROOT, reqPath);
+  const filePath = path.join(ROOT, reqPath);
 
-// security check
-if (!filePath.startsWith(ROOT)) {
-  res.writeHead(400);
-  res.end("Bad request");
-  return;
-}
-
-fs.stat(filePath, (err, stat) => {
-  if (err || !stat.isFile()) {
-    // fallback to index.html instead of 404
-    readStaticFile(path.join(ROOT, "index.html"), res);
+  if (!filePath.startsWith(ROOT)) {
+    res.writeHead(400);
+    res.end("Bad request");
     return;
   }
 
-  readStaticFile(filePath, res);
-});
+  fs.stat(filePath, (err, stat) => {
+    if (err || !stat.isFile()) {
+      readStaticFile(path.join(ROOT, "index.html"), res);
+      return;
+    }
 
+    readStaticFile(filePath, res);
+  });
+
+});
 
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
