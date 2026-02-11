@@ -102,17 +102,32 @@ const server = http.createServer((req, res) => {
   }
 
   /* ---------- STATIC ---------- */
-  const reqPath = req.url === "/" ? "/index.html" : req.url;
-  const filePath = path.join(ROOT, reqPath);
+ /* ---------- STATIC ---------- */
+let reqPath = req.url;
 
-  if (!filePath.startsWith(ROOT)) {
-    res.writeHead(400);
-    res.end("Bad request");
+if (reqPath === "/") {
+  reqPath = "/index.html";
+}
+
+const filePath = path.join(ROOT, reqPath);
+
+// security check
+if (!filePath.startsWith(ROOT)) {
+  res.writeHead(400);
+  res.end("Bad request");
+  return;
+}
+
+fs.stat(filePath, (err, stat) => {
+  if (err || !stat.isFile()) {
+    // fallback to index.html instead of 404
+    readStaticFile(path.join(ROOT, "index.html"), res);
     return;
   }
 
   readStaticFile(filePath, res);
 });
+
 
 const PORT = process.env.PORT || 3000;
 
