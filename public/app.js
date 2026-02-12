@@ -190,10 +190,14 @@ const loadRecipes = async () => {
 };
 
 const scoreRecipe = (recipe, available) => {
-  const recipeIngredients = recipe.ingredients.map(i => normalize(i.name));
+  const recipeIngredients = recipe.ingredients.map(i =>
+    normalize(i.name)
+  );
 
   const matched = recipeIngredients.filter(ri =>
-    available.some(ai => ri.includes(ai) || ai.includes(ri))
+    available.some(ai =>
+      ri.includes(ai) || ai.includes(ri)
+    )
   );
 
   return {
@@ -201,6 +205,7 @@ const scoreRecipe = (recipe, available) => {
     total: recipeIngredients.length
   };
 };
+
 
 const matchRecipes = () => {
   const available = ingredientInput.value
@@ -213,29 +218,7 @@ const matchRecipes = () => {
     return [];
   }
 
-  const prefs = getDietaryPreferences();
-  const favs = getFavorites();
-
   const results = recipes
-    // dietary filter
-    .filter(r => !prefs.length || prefs.every(p =>
-      r.dietaryTags.map(normalize).includes(p)
-    ))
-
-    // ⭐ FAVORITES FILTER (THIS IS THE LINE YOU ASKED ABOUT)
-    .filter(r => !favoritesToggle.checked || favs.includes(r.id))
-
-    // difficulty filter
-    .filter(r => !difficultySelect.value ||
-      normalize(r.difficulty) === normalize(difficultySelect.value)
-    )
-
-    // time filter
-    .filter(r => !timeInput.value ||
-      r.timeMinutes <= Number(timeInput.value)
-    )
-
-    // scoring
     .map(r => {
       const score = scoreRecipe(r, available);
       return { ...r, ...score };
@@ -246,6 +229,7 @@ const matchRecipes = () => {
   statusEl.textContent = `${results.length} recipes matched.`;
   return results;
 };
+
 
 
 const renderRecipes = (results) => {
@@ -271,7 +255,8 @@ const renderRecipes = (results) => {
   data-id="${r.id}"
   title="Toggle favorite"
 >
-  ${isFav ? "❤️" : "🤍"}
+  <i data-lucide="heart"></i>
+
 </button>
 
         </div>
@@ -314,6 +299,8 @@ const renderRecipes = (results) => {
   attachFavoriteHandlers();
   attachRatingHandlers();
    attachStepToggles(); 
+   lucide.createIcons();
+
 };
 
 const attachFavoriteHandlers = () => {
@@ -441,16 +428,35 @@ imageInput.addEventListener("change", async (e) => {
     : "No ingredients detected.";
 });
 
+
 /*************************************************
  * EVENTS
  *************************************************/
+
 matchButton.addEventListener("click", () => {
-  renderRecipes(matchRecipes());
+  console.log("Button clicked");
+
+  const results = matchRecipes();
+  console.log("Matched results:", results);
+
+  renderRecipes(results);
 });
 
-const rerunMatchIfPossible = () => {
+
+ingredientInput.addEventListener("input", () => {
+  renderRecognized();
+  rerunMatchIfPossible();
+});
+
+difficultySelect.addEventListener("change", rerunMatchIfPossible);
+timeInput.addEventListener("input", rerunMatchIfPossible);
+favoritesToggle.addEventListener("change", rerunMatchIfPossible);
+
+function rerunMatchIfPossible() {
   if (recipes.length) renderRecipes(matchRecipes());
 };
+
+
 
 difficultySelect.addEventListener("change", rerunMatchIfPossible);
 timeInput.addEventListener("input", rerunMatchIfPossible);
@@ -468,7 +474,8 @@ viewFavoritesBtn.addEventListener("click", () => {
   const favRecipes = recipes.map(r => {
     const score = scoreRecipe(r, ingredientInput.value.split(",").map(normalize));
     return { ...r, ...score };
-  }).filter(r => favs.includes(r.id));
+  }).filter(r => favs.includes(String(r.id))
+);
 
   renderRecipes(favRecipes);
 });

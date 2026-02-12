@@ -13,21 +13,8 @@ body {
   margin: 0;
 }
 
-.page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px 64px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
 
-.hero {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  align-items: center;
-}
+
 
 .eyebrow {
   text-transform: uppercase;
@@ -63,6 +50,13 @@ h3 {
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .hero-card {
@@ -237,18 +231,27 @@ select {
 }
 
 .center-card {
-  display: flex;
-  justify-content: center;
+  display: block;
   margin-bottom: 48px;
 }
 
+.page {
+  width: 100%;
+  padding: 32px 40px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+
 .input-card {
   width: 100%;
-  max-width: 520px;
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
+
 
 .full-width {
   width: 100%;
@@ -282,12 +285,6 @@ select {
 
 
 
-.dropdown {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #f8fafc;
-  overflow: hidden;
-}
 
 .dropdown-header {
   padding: 10px 14px;
@@ -326,18 +323,14 @@ select {
 
 /* Ingredient selector grid */
 .ingredient-selector-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 16px;
-  align-items: start; /* 🔑 IMPORTANT */
+  flex-wrap: nowrap;
+  align-items: flex-start;
 }
 
-.dropdown {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #fff;
-  overflow: hidden;
-}
+
+
 
 .dropdown-content {
   display: none;
@@ -392,13 +385,15 @@ select {
 .fav-btn:hover {
   transform: scale(1.1);
 }
-
 .dropdown {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  background: #fff;
+  flex: 1;
+  min-width: 150px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
 }
+
 
 .dropdown-header {
   padding: 10px 12px;
@@ -482,8 +477,7 @@ details summary {
 
 .recipes-section {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: none;
 }
 
 
@@ -553,3 +547,61 @@ details summary {
   text-decoration: underline;
 }
 
+
+#viewFavoritesBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #2563eb;
+  color: white;
+  border: none;
+
+  padding: 8px 18px;
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+#viewFavoritesBtn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.favorites-view-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.favorites-view-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ef4444;
+}
+
+.favorites-view-btn:hover {
+  background: #fef2f2;
+}
+
+.fav-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: #94a3b8;
+}
+
+.fav-btn.active svg {
+  stroke: #ef4444;
+  fill: #ef4444;
+}

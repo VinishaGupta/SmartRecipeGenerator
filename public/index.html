@@ -5,6 +5,7 @@
   <title>Smart Recipe Generator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
@@ -32,10 +33,9 @@
       </div>
 
       <div class="card">
-  <h3>Select ingredients</h3>
-  <div id="ingredientSelector" class="ingredient-selector-grid"></div>
-
-</div>
+        <h3>Select ingredients</h3>
+        <div id="ingredientSelector" class="ingredient-selector-grid"></div>
+      </div>
 
       <div class="field">
         <label>Upload food image</label>
@@ -95,31 +95,30 @@
 
   </section>
 
-  <!-- RESULTS -->
+  <!-- RECIPES -->
+  <section class="recipes-section">
+    <div class="recipes-header">
+      <h2>Recipes</h2>
 
+      <button id="viewFavoritesBtn" class="favorites-view-btn">
+        <i data-lucide="heart"></i> View Favorites
+      </button>
 
-  <!-- SUGGESTIONS -->
-<section class="recipes-section">
-  <div class="recipes-header">
-    <h2>Recipes</h2>
+      <label class="favorites-toggle">
+        <input type="checkbox" id="favoritesToggle">
+        Favorites only
+      </label>
+    </div>
 
-    <button id="viewFavoritesBtn" class="favorites-view-btn">
-      ❤️ View Favorites
-    </button>
-
-    <label class="favorites-toggle">
-      <input type="checkbox" id="favoritesToggle">
-      Favorites only
-    </label>
-  </div>
-
-  <div id="recipeList"></div>
-</section>
-
-
+    <div id="recipeList"></div>
+  </section>
 
 </main>
 
 <script src="app.js"></script>
+<script>
+  lucide.createIcons();
+</script>
+
 </body>
 </html>
