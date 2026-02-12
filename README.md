@@ -196,7 +196,7 @@ This project is intentionally designed to be extended:
 The Smart Recipe Generator has been successfully deployed and is publicly accessible.
 
 Live URL:
-👉 https://smart-recipe-generator-h7wgfvarq-vinishaguptas-projects.vercel.app/
+👉 https://smartrecipegenerator-rbkj.onrender.com/
 
 ---
 
