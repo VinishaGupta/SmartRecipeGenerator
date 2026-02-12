@@ -185,7 +185,7 @@ const loadRecipes = async () => {
     statusEl.textContent = "";
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Failed to load recipes.";
+    statusEl.textContent = "";
   }
 };
 
