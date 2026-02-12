@@ -81,8 +81,9 @@ const setRatings = (ratings) =>
 const normalize = (v) => v.trim().toLowerCase();
 
 const getDietaryPreferences = () =>
-  Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
+  Array.from(document.querySelectorAll(".diet-checkbox:checked"))
     .map(i => i.value.toLowerCase());
+
 
 /*************************************************
  * INGREDIENT UI
@@ -218,17 +219,47 @@ const matchRecipes = () => {
     return [];
   }
 
+  const dietaryPrefs = getDietaryPreferences();
+  const selectedDifficulty = difficultySelect.value;
+  const maxTime = Number(timeInput.value);
+
   const results = recipes
+    // DIETARY FILTER
+    .filter(r => {
+      if (!dietaryPrefs.length) return true;
+      return dietaryPrefs.every(pref =>
+        (r.dietaryTags || []).map(normalize).includes(pref)
+      );
+    })
+
+    // DIFFICULTY FILTER
+    .filter(r => {
+      if (!selectedDifficulty) return true;
+      return normalize(r.difficulty) === normalize(selectedDifficulty);
+    })
+
+    // TIME FILTER
+    .filter(r => {
+      if (!maxTime) return true;
+      return r.timeMinutes <= maxTime;
+    })
+
+    // 🔥 ADD MATCH SCORE BACK
     .map(r => {
       const score = scoreRecipe(r, available);
       return { ...r, ...score };
     })
+
+    // ONLY SHOW RECIPES THAT MATCH AT LEAST 1 INGREDIENT
     .filter(r => r.matchedCount > 0)
+
     .sort((a, b) => b.matchedCount - a.matchedCount);
 
   statusEl.textContent = `${results.length} recipes matched.`;
   return results;
 };
+
+
 
 
 
@@ -245,55 +276,78 @@ const renderRecipes = (results) => {
     const isFav = favorites.includes(r.id);
     const rating = ratings[r.id] || 0;
 
-    return `
-      <article class="recipe-card">
-        <div class="recipe-header">
-          <h3>${r.name}</h3>
+   return `
+  <article class="recipe-card">
+    
+    <div class="recipe-header">
+      <h3>${r.name}</h3>
 
-          <button 
-  class="fav-btn ${isFav ? "active" : ""}" 
-  data-id="${r.id}"
-  title="Toggle favorite"
->
-  <i data-lucide="heart"></i>
+      <button 
+        class="fav-btn ${isFav ? "active" : ""}" 
+        data-id="${r.id}"
+        title="Toggle favorite"
+      >
+        <i data-lucide="heart"></i>
+      </button>
+    </div>
 
-</button>
+    <div class="recipe-meta">
+      <span><strong>Cuisine:</strong> ${r.cuisine || "N/A"}</span>
+      <span><strong>Difficulty:</strong> ${r.difficulty || "N/A"}</span>
+      <span><strong>Time:</strong> ${r.timeMinutes} mins</span>
+      <span><strong>Servings:</strong> ${r.servings}</span>
+    </div>
 
-        </div>
+    <p>
+      <strong>Matched:</strong> ${r.matchedCount} / ${r.total} ingredients
+    </p>
 
-        <p>
-          <strong>Matched:</strong> ${r.matchedCount} / ${r.total} ingredients
-        </p>
+    <div class="tags">
+      ${(r.dietaryTags || []).map(tag =>
+        `<span class="tag">${tag}</span>`
+      ).join("")}
+    </div>
 
-        <div class="rating" data-id="${r.id}">
-          ${[1,2,3,4,5].map(star => `
-            <span 
-              class="star ${star <= rating ? "filled" : ""}" 
-              data-star="${star}"
-            >★</span>
-          `).join("")}
-        </div>
+    <div class="rating" data-id="${r.id}">
+      ${[1,2,3,4,5].map(star => `
+        <span 
+          class="star ${star <= rating ? "filled" : ""}" 
+          data-star="${star}"
+        >★</span>
+      `).join("")}
+    </div>
 
-        <button class="steps-toggle" data-id="${r.id}">
-  ▶ View recipe steps
-</button>
+    <button class="steps-toggle" data-id="${r.id}">
+      ▶ View recipe steps
+    </button>
 
-<div class="steps-content" data-id="${r.id}">
-  <h4>Ingredients</h4>
-  <ul>
-    ${r.ingredients.map(i =>
-      `<li>${i.quantity ?? ""} ${i.unit ?? ""} ${i.name}</li>`
-    ).join("")}
-  </ul>
+    <div class="steps-content" data-id="${r.id}">
+      
+      <h4>Ingredients</h4>
+      <ul>
+        ${r.ingredients.map(i =>
+          `<li>${i.quantity ?? ""} ${i.unit ?? ""} ${i.name}</li>`
+        ).join("")}
+      </ul>
 
-  <h4>Steps</h4>
-  <ol>
-    ${r.steps.map(step => `<li>${step}</li>`).join("")}
-  </ol>
-</div>
+      <h4>Steps</h4>
+      <ol>
+        ${r.steps.map(step => `<li>${step}</li>`).join("")}
+      </ol>
 
-      </article>
-    `;
+      <h4>Nutrition</h4>
+      <ul>
+        <li>Calories: ${r.nutrition?.calories ?? 0}</li>
+        <li>Protein: ${r.nutrition?.protein ?? 0} g</li>
+        <li>Carbs: ${r.nutrition?.carbs ?? 0} g</li>
+        <li>Fat: ${r.nutrition?.fat ?? 0} g</li>
+      </ul>
+
+    </div>
+
+  </article>
+`;
+
   }).join("");
 
   attachFavoriteHandlers();
@@ -343,7 +397,8 @@ const renderSuggestions = () => {
   const favs = getFavorites();
 
   // favorite recipes first
-  let suggested = recipes.filter(r => favs.includes(r.id));
+  let suggested = recipes.filter(r => favs.includes(String(r.id))
+);
 
   // fallback if no favorites
   if (!suggested.length) {
@@ -452,14 +507,16 @@ difficultySelect.addEventListener("change", rerunMatchIfPossible);
 timeInput.addEventListener("input", rerunMatchIfPossible);
 favoritesToggle.addEventListener("change", rerunMatchIfPossible);
 
+document.querySelectorAll(".diet-checkbox").forEach(cb => {
+  cb.addEventListener("change", rerunMatchIfPossible);
+});
+
+
 function rerunMatchIfPossible() {
   if (recipes.length) renderRecipes(matchRecipes());
 };
 
 
-
-difficultySelect.addEventListener("change", rerunMatchIfPossible);
-timeInput.addEventListener("input", rerunMatchIfPossible);
 
 const viewFavoritesBtn = document.getElementById("viewFavoritesBtn");
 
