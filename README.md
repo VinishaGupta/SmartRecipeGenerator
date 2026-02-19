@@ -201,8 +201,8 @@ Live URL:
 ---
 
 ### 🚀 Deployment Details
-- Platform: Vercel
-- Frontend: Static build served via Vercel CDN
+- Platform: Render
+- Frontend: Static build served via Render
 - Backend: Local Node.js server (used during development)
 
 Python Vision Pipeline:
