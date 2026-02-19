@@ -81,12 +81,6 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
 npm install
 npm start
 ```
-Then open:
-
-```bash
-npm install
-npm start
-```
 
 📦 Python Dependencies Installed
 
