@@ -18,6 +18,27 @@ const MIME_TYPES = {
   ".svg": "image/svg+xml"
 };
 
+async function pingMongoIfConnected() {
+  try {
+    // This project does not currently depend on Mongoose, so we load it only
+    // if it exists. That keeps the route safe for the current codebase and
+    // makes it ready for a future Mongoose connection.
+    const mongoose = require("mongoose");
+
+    if (mongoose.connection.readyState !== 1 || !mongoose.connection.db) {
+      return;
+    }
+
+    await mongoose.connection.db.admin().ping();
+  } catch (error) {
+    // Ignore missing Mongoose in this project. Re-throw real ping failures so
+    // the health route can report them properly when MongoDB is expected.
+    if (error.code !== "MODULE_NOT_FOUND") {
+      throw error;
+    }
+  }
+}
+
 function readStaticFile(filePath, res) {
   fs.readFile(filePath, (err, data) => {
     if (err) {
@@ -37,7 +58,28 @@ function readStaticFile(filePath, res) {
 
 const server = http.createServer((req, res) => {
 
+  /* ---------- HEALTH CHECK ---------- */
+  if (req.url === "/health" && req.method === "GET") {
+    (async () => {
+      try {
+        // This route is meant for external uptime monitors such as
+        // UptimeRobot or Cron-job.org. Those services can call /health
+        // periodically to reduce cold starts on Render.
+        await pingMongoIfConnected();
+
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("OK");
+      } catch (error) {
+        console.error("Health check failed:", error);
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Health check failed" }));
+      }
+    })();
+    return;
+  }
+
   /* ---------- RECIPES ---------- */
+    /* ---------- RECIPES ---------- */
   if (req.url === "/api/recipes" && req.method === "GET") {
     fs.readFile(DATA_PATH, "utf-8", (err, data) => {
       if (err) {
@@ -46,7 +88,7 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      res.writeHead(200, { "Content-Type": "application/json" });
+      res.writeHead(200, { "Content-Type": "application/json" }); 
       res.end(data);
     });
     return;

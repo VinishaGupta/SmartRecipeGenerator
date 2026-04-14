@@ -81,12 +81,6 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
 npm install
 npm start
 ```
-Then open:
-
-```bash
-npm install
-npm start
-```
 
 📦 Python Dependencies Installed
 
@@ -201,8 +195,8 @@ Live URL:
 ---
 
 ### 🚀 Deployment Details
-- Platform: Vercel
-- Frontend: Static build served via Vercel CDN
+- Platform: Render
+- Frontend: Static build served via Render
 - Backend: Local Node.js server (used during development)
 
 Python Vision Pipeline:
@@ -229,6 +223,9 @@ Python Vision Pipeline:
 
 --- 
 
+### 👩‍💻 Author
+
+### 👩‍💻 Author
 ### 👩‍💻 Author
 
 Built as part of a software engineering / web development assessment,
