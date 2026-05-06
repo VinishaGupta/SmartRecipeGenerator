@@ -21,6 +21,21 @@ model.eval()
 LABELS_URL = "https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt"
 labels = [line.strip() for line in open(__file__.replace("recognize.py", "imagenet_classes.txt"))]
 
+MIN_CONFIDENCE = 0.35
+SUPPORTED_INGREDIENT_LABELS = {
+    "cucumber",
+    "zucchini",
+    "bell pepper",
+    "banana",
+    "orange",
+    "lemon",
+    "pineapple",
+    "strawberry",
+    "broccoli",
+    "cauliflower",
+    "mushroom",
+}
+
 # Image path passed from Node
 image_path = sys.argv[1]
 
@@ -42,12 +57,14 @@ with torch.no_grad():
     outputs = model(input_tensor)
     probs = torch.nn.functional.softmax(outputs[0], dim=0)
 
-# Get top 5 predictions
+# Get top predictions and keep only confident ingredient labels.
 top_probs, top_idxs = probs.topk(5)
 
 results = []
-for idx in top_idxs:
-    results.append(labels[idx])
+for prob, idx in zip(top_probs, top_idxs):
+    label = labels[idx]
+    if label in SUPPORTED_INGREDIENT_LABELS and float(prob) >= MIN_CONFIDENCE:
+        results.append(label)
 
 # Return JSON to Node
 sys.stdout.write(json.dumps(results))

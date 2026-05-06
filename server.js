@@ -131,13 +131,7 @@ const server = http.createServer((req, res) => {
 
             if (err) {
               res.writeHead(200, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({
-                predictions: [
-                  { label: "cucumber" },
-                  { label: "zucchini" },
-                  { label: "bell pepper" }
-                ]
-              }));
+              res.end(JSON.stringify({ predictions: [] }));
               return;
             }
 

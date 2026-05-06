@@ -160,6 +160,20 @@ const syncSelectedIngredients = () => {
   renderRecognized();
 };
 
+const clearImageIngredients = () => {
+  const previousRecognized = new Set(recognizedIngredients.map(normalize));
+
+  ingredientInput.value = ingredientInput.value
+    .split(",")
+    .map(normalize)
+    .filter(Boolean)
+    .filter(item => !previousRecognized.has(item))
+    .join(", ");
+
+  recognizedIngredients = [];
+  renderRecognized();
+};
+
 /*************************************************
  * INGREDIENT SELECTOR
  *************************************************/
@@ -516,12 +530,21 @@ imageInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
+  clearImageIngredients();
   imageHint.textContent = "Analyzing image...";
-  recognizedIngredients = await recognizeIngredientsFromImage(file);
-  syncSelectedIngredients();
-  imageHint.textContent = recognizedIngredients.length
-    ? "Ingredients detected from image."
-    : "No ingredients detected.";
+
+  try {
+    recognizedIngredients = await recognizeIngredientsFromImage(file);
+    syncSelectedIngredients();
+    imageHint.textContent = recognizedIngredients.length
+      ? "Ingredients detected from image."
+      : "No ingredients detected.";
+  } catch (error) {
+    console.error(error);
+    recognizedIngredients = [];
+    renderRecognized();
+    imageHint.textContent = "Could not analyze image.";
+  }
 });
 
 
