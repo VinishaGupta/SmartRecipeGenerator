@@ -188,8 +188,25 @@ const server = http.createServer((req, res) => {
 
 });
 
-const PORT = process.env.PORT || 3000;
+const HOST = "0.0.0.0";
+const DEFAULT_PORT = Number(process.env.PORT) || 3000;
 
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+function startServer(port) {
+  server.listen(port, HOST, () => {
+    const address = server.address();
+    console.log(`Server running at http://localhost:${address.port}`);
+  });
+}
+
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE" && !process.env.PORT) {
+    const nextPort = Number(error.port) + 1;
+    console.log(`Port ${error.port} is busy. Trying ${nextPort}...`);
+    startServer(nextPort);
+    return;
+  }
+
+  throw error;
 });
+
+startServer(DEFAULT_PORT);
