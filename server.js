@@ -18,6 +18,12 @@ const MIME_TYPES = {
   ".svg": "image/svg+xml"
 };
 
+function setCorsHeaders(res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 async function pingMongoIfConnected() {
   try {
     // This project does not currently depend on Mongoose, so we load it only
@@ -57,6 +63,13 @@ function readStaticFile(filePath, res) {
 }
 
 const server = http.createServer((req, res) => {
+  setCorsHeaders(res);
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
 
   /* ---------- HEALTH CHECK ---------- */
   if (req.url === "/health" && req.method === "GET") {

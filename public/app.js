@@ -37,6 +37,47 @@ const DEFAULT_SUBSTITUTIONS = {
 };
 
 /*************************************************
+ * BACKEND
+ *************************************************/
+const RENDER_BACKEND_URL = "https://smartrecipegenerator-rbkj.onrender.com";
+const KEEP_ALIVE_INTERVAL_MS = 4 * 60 * 1000;
+
+const getBackendBaseUrl = () => {
+  const host = window.location.hostname;
+
+  if (host.includes("vercel.app")) {
+    return RENDER_BACKEND_URL;
+  }
+
+  return "";
+};
+
+const BACKEND_BASE_URL = getBackendBaseUrl();
+const apiUrl = (path) => `${BACKEND_BASE_URL}${path}`;
+
+const pingBackend = async () => {
+  try {
+    await fetch(apiUrl("/health"), {
+      cache: "no-store",
+      mode: BACKEND_BASE_URL ? "cors" : "same-origin"
+    });
+  } catch (error) {
+    console.debug("Backend ping failed:", error);
+  }
+};
+
+const startBackendAutoPing = () => {
+  pingBackend();
+  setInterval(pingBackend, KEEP_ALIVE_INTERVAL_MS);
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      pingBackend();
+    }
+  });
+};
+
+/*************************************************
  * DOM ELEMENTS
  *************************************************/
 const ingredientInput = document.getElementById("ingredientInput");
@@ -180,7 +221,7 @@ const updateSubstitutions = () => {
  *************************************************/
 const loadRecipes = async () => {
   try {
-    const res = await fetch("/api/recipes");
+    const res = await fetch(apiUrl("/api/recipes"));
     recipes = await res.json();
     renderSuggestions();
     statusEl.textContent = "";
@@ -459,7 +500,7 @@ const recognizeIngredientsFromImage = async (file) => {
     reader.readAsDataURL(file);
   });
 
-  const res = await fetch("/api/recognize", {
+  const res = await fetch(apiUrl("/api/recognize"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ imageBase64: base64 })
@@ -540,6 +581,7 @@ viewFavoritesBtn.addEventListener("click", () => {
 /*************************************************
  * INIT
  *************************************************/
+startBackendAutoPing();
 updateSubstitutions();
 renderIngredientSelector();
 loadRecipes();
