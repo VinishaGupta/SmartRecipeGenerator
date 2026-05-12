@@ -45,11 +45,15 @@ const KEEP_ALIVE_INTERVAL_MS = 4 * 60 * 1000;
 const getBackendBaseUrl = () => {
   const host = window.location.hostname;
 
-  if (host.includes("vercel.app")) {
-    return RENDER_BACKEND_URL;
+  if (
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host.endsWith(".onrender.com")
+  ) {
+    return "";
   }
 
-  return "";
+  return RENDER_BACKEND_URL;
 };
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
@@ -57,10 +61,12 @@ const apiUrl = (path) => `${BACKEND_BASE_URL}${path}`;
 
 const pingBackend = async () => {
   try {
-    await fetch(apiUrl("/health"), {
+    const response = await fetch(apiUrl("/health"), {
       cache: "no-store",
       mode: BACKEND_BASE_URL ? "cors" : "same-origin"
     });
+
+    console.debug("Backend keepalive ping:", response.status);
   } catch (error) {
     console.debug("Backend ping failed:", error);
   }
@@ -506,6 +512,77 @@ const attachStepToggles = () => {
 /*************************************************
  * IMAGE RECOGNITION
  *************************************************/
+const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.08;
+
+const IMAGE_LABEL_TO_INGREDIENT = {
+  "bell pepper": "bell pepper",
+  broccoli: "broccoli",
+  cauliflower: "cauliflower",
+  cucumber: "cucumber",
+  zucchini: "zucchini",
+  courgette: "zucchini",
+  mushroom: "mushroom",
+  banana: "banana",
+  lemon: "lemon",
+  orange: "orange",
+  pineapple: "pineapple",
+  strawberry: "strawberry"
+};
+
+let browserIngredientModel;
+
+const getBrowserIngredientModel = async () => {
+  if (!window.mobilenet) {
+    return null;
+  }
+
+  if (!browserIngredientModel) {
+    browserIngredientModel = await window.mobilenet.load();
+  }
+
+  return browserIngredientModel;
+};
+
+const fileToImageElement = (file) => new Promise((resolve, reject) => {
+  const image = new Image();
+  const objectUrl = URL.createObjectURL(file);
+
+  image.onload = () => {
+    URL.revokeObjectURL(objectUrl);
+    resolve(image);
+  };
+
+  image.onerror = () => {
+    URL.revokeObjectURL(objectUrl);
+    reject(new Error("Image could not be loaded"));
+  };
+
+  image.src = objectUrl;
+});
+
+const ingredientsFromImageLabels = (predictions) => {
+  const ingredients = predictions
+    .filter(prediction => prediction.probability >= BROWSER_RECOGNITION_MIN_CONFIDENCE)
+    .flatMap(prediction => prediction.className.split(","))
+    .map(label => label.trim().toLowerCase())
+    .map(label => IMAGE_LABEL_TO_INGREDIENT[label])
+    .filter(Boolean);
+
+  return Array.from(new Set(ingredients));
+};
+
+const recognizeIngredientsInBrowser = async (file) => {
+  const model = await getBrowserIngredientModel();
+
+  if (!model) {
+    return [];
+  }
+
+  const image = await fileToImageElement(file);
+  const predictions = await model.classify(image, 10);
+  return ingredientsFromImageLabels(predictions);
+};
+
 const recognizeIngredientsFromImage = async (file) => {
   const reader = new FileReader();
   const base64 = await new Promise((res, rej) => {
@@ -514,16 +591,26 @@ const recognizeIngredientsFromImage = async (file) => {
     reader.readAsDataURL(file);
   });
 
-  const res = await fetch(apiUrl("/api/recognize"), {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ imageBase64: base64 })
-  });
+  try {
+    const res = await fetch(apiUrl("/api/recognize"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imageBase64: base64 })
+    });
 
-  const data = await res.json();
-  return (data.predictions || [])
-    .map(p => normalize(p.label))
-    .filter(l => KNOWN_INGREDIENTS.includes(l));
+    const data = await res.json();
+    const serverIngredients = (data.predictions || [])
+      .map(p => normalize(p.label))
+      .filter(l => KNOWN_INGREDIENTS.includes(l));
+
+    if (serverIngredients.length) {
+      return serverIngredients;
+    }
+  } catch (error) {
+    console.debug("Backend image recognition failed:", error);
+  }
+
+  return recognizeIngredientsInBrowser(file);
 };
 
 imageInput.addEventListener("change", async (e) => {
