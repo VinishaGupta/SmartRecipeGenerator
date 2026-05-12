@@ -512,7 +512,8 @@ const attachStepToggles = () => {
 /*************************************************
  * IMAGE RECOGNITION
  *************************************************/
-const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.08;
+const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.35;
+const STALE_FALLBACK_INGREDIENT_KEY = "bell pepper|cucumber|zucchini";
 
 const IMAGE_LABEL_TO_INGREDIENT = {
   "bell pepper": "bell pepper",
@@ -530,6 +531,19 @@ const IMAGE_LABEL_TO_INGREDIENT = {
 };
 
 let browserIngredientModel;
+
+const ingredientKey = (ingredients) =>
+  ingredients.map(normalize).sort().join("|");
+
+const removeStaleFallbackIngredients = (ingredients) => {
+  const uniqueIngredients = Array.from(new Set(ingredients));
+
+  if (ingredientKey(uniqueIngredients) === STALE_FALLBACK_INGREDIENT_KEY) {
+    return [];
+  }
+
+  return uniqueIngredients;
+};
 
 const getBrowserIngredientModel = async () => {
   if (!window.mobilenet) {
@@ -568,7 +582,7 @@ const ingredientsFromImageLabels = (predictions) => {
     .map(label => IMAGE_LABEL_TO_INGREDIENT[label])
     .filter(Boolean);
 
-  return Array.from(new Set(ingredients));
+  return removeStaleFallbackIngredients(ingredients);
 };
 
 const recognizeIngredientsInBrowser = async (file) => {
@@ -603,8 +617,10 @@ const recognizeIngredientsFromImage = async (file) => {
       .map(p => normalize(p.label))
       .filter(l => KNOWN_INGREDIENTS.includes(l));
 
-    if (serverIngredients.length) {
-      return serverIngredients;
+    const cleanedServerIngredients = removeStaleFallbackIngredients(serverIngredients);
+
+    if (cleanedServerIngredients.length) {
+      return cleanedServerIngredients;
     }
   } catch (error) {
     console.debug("Backend image recognition failed:", error);
