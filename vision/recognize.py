@@ -21,10 +21,31 @@ model.eval()
 LABELS_URL = "https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt"
 labels = [line.strip() for line in open(__file__.replace("recognize.py", "imagenet_classes.txt"))]
 
-MIN_CONFIDENCE = 0.35
+MIN_CONFIDENCE = 0.08
+IMAGENET_TO_INGREDIENT = {
+    "head cabbage": "cabbage",
+    "broccoli": "broccoli",
+    "cauliflower": "cauliflower",
+    "zucchini": "zucchini",
+    "spaghetti squash": "zucchini",
+    "acorn squash": "zucchini",
+    "butternut squash": "zucchini",
+    "cucumber": "cucumber",
+    "bell pepper": "bell pepper",
+    "mushroom": "mushroom",
+    "banana": "banana",
+    "orange": "orange",
+    "lemon": "lemon",
+    "pineapple": "pineapple",
+    "strawberry": "strawberry",
+}
 SUPPORTED_INGREDIENT_LABELS = {
+    "head cabbage",
     "cucumber",
     "zucchini",
+    "spaghetti squash",
+    "acorn squash",
+    "butternut squash",
     "bell pepper",
     "banana",
     "orange",
@@ -64,7 +85,9 @@ results = []
 for prob, idx in zip(top_probs, top_idxs):
     label = labels[idx]
     if label in SUPPORTED_INGREDIENT_LABELS and float(prob) >= MIN_CONFIDENCE:
-        results.append(label)
+        ingredient = IMAGENET_TO_INGREDIENT.get(label, label)
+        if ingredient not in results:
+            results.append(ingredient)
 
 # Return JSON to Node
 sys.stdout.write(json.dumps(results))

@@ -93,6 +93,8 @@ const recognizedPills = document.getElementById("recognizedPills");
 const matchButton = document.getElementById("matchButton");
 const statusEl = document.getElementById("status");
 const imageHint = document.getElementById("imageHint");
+const imagePreviewWrap = document.getElementById("imagePreviewWrap");
+const imagePreview = document.getElementById("imagePreview");
 const recipeList = document.getElementById("recipeList");
 const suggestionList = document.getElementById("suggestionList");
 const substitutionList = document.getElementById("substitutionList");
@@ -105,6 +107,7 @@ const favoritesToggle = document.getElementById("favoritesToggle");
  *************************************************/
 let recipes = [];
 let recognizedIngredients = [];
+let imagePreviewUrl = "";
 
 const FAVORITES_KEY = "favoriteRecipes";
 const RATINGS_KEY = "recipeRatings";
@@ -178,6 +181,23 @@ const clearImageIngredients = () => {
 
   recognizedIngredients = [];
   renderRecognized();
+};
+
+const clearImagePreview = () => {
+  if (imagePreviewUrl) {
+    URL.revokeObjectURL(imagePreviewUrl);
+    imagePreviewUrl = "";
+  }
+
+  imagePreview.removeAttribute("src");
+  imagePreviewWrap.hidden = true;
+};
+
+const showImagePreview = (file) => {
+  clearImagePreview();
+  imagePreviewUrl = URL.createObjectURL(file);
+  imagePreview.src = imagePreviewUrl;
+  imagePreviewWrap.hidden = false;
 };
 
 /*************************************************
@@ -512,15 +532,20 @@ const attachStepToggles = () => {
 /*************************************************
  * IMAGE RECOGNITION
  *************************************************/
-const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.35;
+const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.08;
 const STALE_FALLBACK_INGREDIENT_KEY = "bell pepper|cucumber|zucchini";
 
 const IMAGE_LABEL_TO_INGREDIENT = {
   "bell pepper": "bell pepper",
+  "head cabbage": "cabbage",
   broccoli: "broccoli",
   cauliflower: "cauliflower",
   cucumber: "cucumber",
   zucchini: "zucchini",
+  "spaghetti squash": "zucchini",
+  "acorn squash": "zucchini",
+  "butternut squash": "zucchini",
+  artichoke: "asparagus",
   courgette: "zucchini",
   mushroom: "mushroom",
   banana: "banana",
@@ -594,6 +619,7 @@ const recognizeIngredientsInBrowser = async (file) => {
 
   const image = await fileToImageElement(file);
   const predictions = await model.classify(image, 10);
+  console.debug("Browser image predictions:", predictions);
   return ingredientsFromImageLabels(predictions);
 };
 
@@ -631,9 +657,13 @@ const recognizeIngredientsFromImage = async (file) => {
 
 imageInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
-  if (!file) return;
+  if (!file) {
+    clearImagePreview();
+    return;
+  }
 
   clearImageIngredients();
+  showImagePreview(file);
   imageHint.textContent = "Analyzing image...";
 
   try {

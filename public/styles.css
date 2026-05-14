@@ -112,6 +112,21 @@ select {
   color: #475569;
 }
 
+.image-preview-wrap {
+  width: min(100%, 360px);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.image-preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
 .checkbox-grid {
   display: flex;
   flex-direction: column;
