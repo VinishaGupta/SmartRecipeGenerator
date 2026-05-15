@@ -110,6 +110,7 @@ button {
 
 .page {
   width: 100%;
+  margin-top: -50px;
 }
 
 .hero {
@@ -176,13 +177,41 @@ button {
 
 .primary,
 .upload-button {
-  min-height: 48px;
+  display: inline-block;
+  min-height: 56px;
   border: 0;
-  border-radius: 10px;
-  padding: 0 28px;
+  border-radius: 24px;
+  padding: 0 32px;
   background: var(--accent);
   color: #1b1208;
   font-weight: 800;
+  font-size: 17px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.upload-button{
+  padding-top: 17px;
+}
+
+.primary:hover,
+.upload-button:hover {
+  background: #ff8700;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(255, 145, 0, 0.25);
+}
+
+.primary:active,
+.upload-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(255, 145, 0, 0.15);
+}
+
+.primary:focus,
+.upload-button:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 
 .upload-panel {
