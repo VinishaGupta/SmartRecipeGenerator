@@ -596,7 +596,13 @@ const renderRecipes = (results) => {
     const displayRating = rating || "4.8";
 
     return `
-      <article class="recipe-card">
+      <article
+        class="recipe-card"
+        data-recipe-url="${getRecipeUrl(r)}"
+        role="link"
+        tabindex="0"
+        po
+      >
         <div class="recipe-image-wrap">
           ${recipeImageMarkup(r)}
           <div class="recipe-badges">
@@ -643,6 +649,7 @@ const renderRecipes = (results) => {
 
   attachFavoriteHandlers();
   attachRatingHandlers();
+  attachRecipeCardNavigationHandlers();
   attachRecipeImageFallbacks(recipeList);
   recipeList.querySelectorAll(".recipe-link").forEach(link => {
     link.addEventListener("click", saveSearchState);
@@ -681,6 +688,39 @@ const attachRatingHandlers = () => {
         setRatings(ratings);
         renderRecipes(matchRecipes());
       });
+    });
+  });
+};
+
+const attachRecipeCardNavigationHandlers = () => {
+  document.querySelectorAll(".recipe-card[data-recipe-url]").forEach(card => {
+    const recipeUrl = card.dataset.recipeUrl;
+    if (!recipeUrl) {
+      return;
+    }
+
+    const navigateToRecipe = () => {
+      saveSearchState();
+      window.location.href = recipeUrl;
+    };
+
+    card.addEventListener("click", (event) => {
+      const interactiveTarget = event.target.closest(
+        "a, button, input, label, select, textarea, .rating, .star"
+      );
+
+      if (interactiveTarget) {
+        return;
+      }
+
+      navigateToRecipe();
+    });
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        navigateToRecipe();
+      }
     });
   });
 };
