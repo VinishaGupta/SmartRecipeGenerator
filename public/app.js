@@ -1092,22 +1092,24 @@ function rerunMatchIfPossible() {
 
 const viewFavoritesBtn = document.getElementById("viewFavoritesBtn");
 
-viewFavoritesBtn.addEventListener("click", () => {
-  const favs = getFavorites();
+if (viewFavoritesBtn) {
+  viewFavoritesBtn.addEventListener("click", () => {
+    const favs = getFavorites();
 
-  if (!favs.length) {
-    recipeList.innerHTML = "<p>No favorite recipes yet.</p>";
-    return;
-  }
+    if (!favs.length) {
+      recipeList.innerHTML = "<p>No favorite recipes yet.</p>";
+      return;
+    }
 
-  const favRecipes = recipes.map(r => {
-    const score = scoreRecipe(r, ingredientInput.value.split(",").map(normalize));
-    return { ...r, ...score };
-  }).filter(r => favs.includes(String(r.id))
-);
+    const favRecipes = recipes.map(r => {
+      const score = scoreRecipe(r, ingredientInput.value.split(",").map(normalize));
+      return { ...r, ...score };
+    }).filter(r => favs.includes(String(r.id))
+  );
 
-  renderRecipes(favRecipes);
-});
+    renderRecipes(favRecipes);
+  });
+}
 
 /*************************************************
  * INIT
