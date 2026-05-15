@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Smart Recipe Generator</title>
+  <title>Culinary Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -10,115 +10,134 @@
 </head>
 <body>
 
+<header class="site-header">
+  <a class="brand" href="index.html">Culinary Intelligence</a>
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a class="active" href="#home">Home</a>
+    <a href="#discover">Discover</a>
+    <button id="viewFavoritesBtn" class="nav-icon-btn" type="button" title="Saved recipes">
+      <i data-lucide="heart"></i>
+    </button>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" type="button" title="Saved">
+      <i data-lucide="heart"></i>
+    </button>
+    <button class="icon-btn" type="button" title="Profile">
+      <i data-lucide="circle-user-round"></i>
+    </button>
+  </div>
+</header>
+
 <main class="page">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div>
-      <p class="eyebrow">AI-Powered Cooking Assistant</p>
-      <h1>Smart Recipe Generator</h1>
-      <p class="lede">
+  <section id="home" class="hero">
+    <div class="hero-copy">
+      <h1>Cook Smarter<br><span>With AI</span></h1>
+      <p>
         Upload ingredients or food images and instantly discover recipes
-        tailored to your preferences.
+        tailored to your taste. Your professional sous-chef is always ready.
       </p>
-    </div>
-  </section>
 
-  <!-- MAIN INPUT -->
-  <section class="center-card">
-    <div class="card input-card">
-
-      <div class="field">
-        <label>Ingredients (comma separated)</label>
-        <input id="ingredientInput" placeholder="tomato, garlic, basil" />
-      </div>
-
-      <div class="card">
-        <h3>Select ingredients</h3>
-        <div id="ingredientSelector" class="ingredient-selector-grid"></div>
-      </div>
-
-      <div class="field">
-        <label>Upload food image</label>
-        <input type="file" id="imageInput" accept="image/*" />
-        <div id="imagePreviewWrap" class="image-preview-wrap" hidden>
-          <img id="imagePreview" class="image-preview" alt="Uploaded food preview" />
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <i data-lucide="search"></i>
+          <input id="ingredientInput" placeholder="Add ingredients (e.g. Salmon, Asparagus...)" />
         </div>
-        <p id="imageHint" class="helper"></p>
+        <button id="matchButton" class="primary" type="button">Generate</button>
       </div>
 
       <div id="recognizedPills" class="pill-group"></div>
-
-      <button id="matchButton" class="primary full-width">
-        Generate Recipes
-      </button>
-
       <p id="status" class="helper">Ready to generate recipes.</p>
-
     </div>
+
+    <section class="upload-panel" aria-labelledby="uploadTitle">
+      <div class="upload-icon">
+        <i data-lucide="camera"></i>
+      </div>
+      <h2 id="uploadTitle">Identify Ingredients</h2>
+      <p>Drag and drop an image of your fridge or pantry to let AI identify items for you.</p>
+      <label class="upload-button" for="imageInput">Upload Image</label>
+      <input type="file" id="imageInput" accept="image/*" />
+      <div id="imagePreviewWrap" class="image-preview-wrap" hidden>
+        <img id="imagePreview" class="image-preview" alt="Uploaded food preview" />
+      </div>
+      <p id="imageHint" class="helper"></p>
+    </section>
   </section>
 
-  <!-- FILTERS -->
-  <section class="grid">
+  <section id="discover" class="discover-layout">
+    <aside class="filter-sidebar" aria-label="Recipe filters">
+      <section class="filter-card">
+        <h3>Dietary Preferences</h3>
+        <label class="toggle-row">
+          <span>Vegetarian Only</span>
+          <input type="checkbox" class="diet-checkbox" value="vegetarian" />
+        </label>
+        <label class="toggle-row">
+          <span>Gluten-free</span>
+          <input type="checkbox" class="diet-checkbox" value="gluten-free" />
+        </label>
+      </section>
 
-    <div class="card">
-      <h3>Dietary Preferences</h3>
-      <div class="checkbox-grid">
-       <label><input type="checkbox" class="diet-checkbox" value="vegetarian" /> Vegetarian</label>
-<label><input type="checkbox" class="diet-checkbox" value="gluten-free" /> Gluten-free</label>
+      <section class="filter-card">
+        <h3>Ingredients</h3>
+        <div id="ingredientSelector" class="ingredient-selector-grid"></div>
+      </section>
 
-
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Filters</h3>
-      <div class="field">
-        <label>Difficulty</label>
+      <section class="filter-card">
+        <h3>Difficulty</h3>
         <select id="difficultySelect">
-          <option value="">Any</option>
+          <option value="">Any difficulty</option>
           <option>Easy</option>
           <option>Medium</option>
           <option>Hard</option>
         </select>
+      </section>
+
+      <section class="filter-card">
+        <h3>Cooking Time</h3>
+        <label class="range-label" for="timeInput">
+          <span>Max time</span>
+          <strong>Under <span id="timeValue">30</span> min</strong>
+        </label>
+        <input id="timeInput" type="range" min="5" max="120" value="30" />
+        <div class="range-scale">
+          <span>5 min</span>
+          <span>2+ hrs</span>
+        </div>
+      </section>
+
+      <section class="filter-card">
+        <h3>Servings</h3>
+        <input id="servingsInput" type="number" min="1" value="2" />
+      </section>
+
+      <section class="filter-card substitutions">
+        <h3>Substitutions</h3>
+        <ul id="substitutionList"></ul>
+      </section>
+    </aside>
+
+    <section class="recipes-section">
+      <div class="recipes-header">
+        <div>
+          <h2>Discovery Results</h2>
+          <p id="resultSummary" class="helper">Recipes found</p>
+        </div>
+        <div class="view-actions">
+          <button class="icon-btn active" type="button" title="Grid view">
+            <i data-lucide="layout-grid"></i>
+          </button>
+          <label class="favorites-toggle">
+            <input type="checkbox" id="favoritesToggle">
+            Saved only
+          </label>
+        </div>
       </div>
 
-      <div class="field">
-        <label>Max cooking time (minutes)</label>
-        <input id="timeInput" type="number" value="30" />
-      </div>
-
-      <div class="field">
-        <label>Servings</label>
-        <input id="servingsInput" type="number" value="2" />
-      </div>
-    </div>
-
-    <div class="card substitutions">
-      <h3>Substitutions</h3>
-      <ul id="substitutionList"></ul>
-    </div>
-
+      <div id="recipeList"></div>
+    </section>
   </section>
-
-  <!-- RECIPES -->
-  <section class="recipes-section">
-    <div class="recipes-header">
-      <h2>Recipes</h2>
-
-      <button id="viewFavoritesBtn" class="favorites-view-btn">
-        <i data-lucide="heart"></i> View Favorites
-      </button>
-
-      <label class="favorites-toggle">
-        <input type="checkbox" id="favoritesToggle">
-        Favorites only
-      </label>
-    </div>
-
-    <div id="recipeList"></div>
-  </section>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>

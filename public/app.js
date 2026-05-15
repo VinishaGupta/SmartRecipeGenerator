@@ -100,10 +100,13 @@ const imageHint = document.getElementById("imageHint");
 const imagePreviewWrap = document.getElementById("imagePreviewWrap");
 const imagePreview = document.getElementById("imagePreview");
 const recipeList = document.getElementById("recipeList");
+const resultSummary = document.getElementById("resultSummary");
 const suggestionList = document.getElementById("suggestionList");
 const substitutionList = document.getElementById("substitutionList");
 const difficultySelect = document.getElementById("difficultySelect");
 const timeInput = document.getElementById("timeInput");
+const timeValue = document.getElementById("timeValue");
+const servingsInput = document.getElementById("servingsInput");
 const favoritesToggle = document.getElementById("favoritesToggle");
 
 /*************************************************
@@ -129,6 +132,8 @@ const getRatings = () =>
 
 const setRatings = (ratings) =>
   localStorage.setItem(RATINGS_KEY, JSON.stringify(ratings));
+
+const getRating = (recipeId) => Number(getRatings()[recipeId] || 0);
 
 
 /*************************************************
@@ -162,6 +167,16 @@ const getDietaryPreferences = () =>
   Array.from(document.querySelectorAll(".diet-checkbox:checked"))
     .map(i => i.value.toLowerCase());
 
+const getRecipeTags = (recipe) => {
+  const tags = [...(recipe.dietaryTags || [])];
+
+  if ((recipe.nutrition?.protein || 0) >= 25) {
+    tags.unshift("High Protein");
+  }
+
+  return tags.slice(0, 2);
+};
+
 const readSearchState = () => {
   try {
     return JSON.parse(sessionStorage.getItem(SEARCH_STATE_KEY) || "{}");
@@ -179,6 +194,7 @@ const saveSearchState = () => {
     imageHint: imageHint.textContent,
     difficulty: difficultySelect.value,
     time: timeInput.value,
+    servings: servingsInput?.value || "",
     favoritesOnly: favoritesToggle.checked,
     dietaryPreferences: getDietaryPreferences(),
     selectedIngredients: Array.from(
@@ -212,6 +228,12 @@ const restoreSearchState = () => {
 
   difficultySelect.value = state.difficulty || "";
   timeInput.value = state.time ?? timeInput.value;
+  if (servingsInput) {
+    servingsInput.value = state.servings || servingsInput.value;
+  }
+  if (timeValue) {
+    timeValue.textContent = timeInput.value;
+  }
   favoritesToggle.checked = Boolean(state.favoritesOnly);
 
   const dietaryPreferences = new Set(
@@ -372,11 +394,7 @@ const loadRecipes = async () => {
     const res = await fetch(apiUrl("/api/recipes"));
     recipes = await res.json();
     renderSuggestions();
-    if (ingredientInput.value.trim()) {
-      renderRecipes(matchRecipes());
-    } else {
-      statusEl.textContent = "";
-    }
+    renderRecipes(ingredientInput.value.trim() ? matchRecipes() : getFilteredRecipes());
   } catch (err) {
     console.error(err);
     statusEl.textContent = "";
@@ -400,6 +418,29 @@ const scoreRecipe = (recipe, available) => {
   };
 };
 
+const getFilteredRecipes = () => {
+  const dietaryPrefs = getDietaryPreferences();
+  const selectedDifficulty = difficultySelect.value;
+  const maxTime = Number(timeInput.value);
+
+  return recipes
+    .filter(r => {
+      if (!dietaryPrefs.length) return true;
+      return dietaryPrefs.every(pref =>
+        (r.dietaryTags || []).map(normalize).includes(pref)
+      );
+    })
+    .filter(r => {
+      if (!selectedDifficulty) return true;
+      return normalize(r.difficulty) === normalize(selectedDifficulty);
+    })
+    .filter(r => {
+      if (!maxTime) return true;
+      return r.timeMinutes <= maxTime;
+    })
+    .map(r => ({ ...r, matchedCount: 0, total: r.ingredients?.length || 0 }));
+};
+
 
 const matchRecipes = () => {
   const available = ingredientInput.value
@@ -408,8 +449,9 @@ const matchRecipes = () => {
     .filter(Boolean);
 
   if (!available.length) {
-    statusEl.textContent = "Please add ingredients.";
-    return [];
+    const filteredRecipes = getFilteredRecipes();
+    statusEl.textContent = `${filteredRecipes.length} recipes found.`;
+    return filteredRecipes;
   }
 
   const dietaryPrefs = getDietaryPreferences();
@@ -456,7 +498,7 @@ const matchRecipes = () => {
 
 
 
-const renderRecipes = (results) => {
+const renderRecipesOld = (results) => {
   const favorites = getFavorites();
   const ratings = getRatings();
 
@@ -530,6 +572,83 @@ const renderRecipes = (results) => {
   lucide.createIcons();
   saveSearchState();
 
+};
+
+const renderRecipes = (results) => {
+  const favorites = getFavorites();
+  const ratings = getRatings();
+
+  if (!results.length) {
+    recipeList.innerHTML = "<p class=\"empty-state\">No recipes found.</p>";
+    if (resultSummary) resultSummary.textContent = "0 recipes found";
+    saveSearchState();
+    return;
+  }
+
+  if (resultSummary) {
+    resultSummary.textContent = `${results.length} recipes found`;
+  }
+
+  recipeList.innerHTML = results.map(r => {
+    const isFav = favorites.includes(r.id);
+    const rating = ratings[r.id] || 0;
+    const matchPercent = r.total ? Math.round((r.matchedCount / r.total) * 100) : 0;
+    const displayRating = rating || "4.8";
+
+    return `
+      <article class="recipe-card">
+        <div class="recipe-image-wrap">
+          ${recipeImageMarkup(r)}
+          <div class="recipe-badges">
+            ${getRecipeTags(r).map(tag => `<span class="tag">${tag}</span>`).join("")}
+            ${matchPercent ? `<span class="match-badge">${matchPercent}% Match</span>` : ""}
+          </div>
+          <button
+            class="fav-btn ${isFav ? "active" : ""}"
+            data-id="${r.id}"
+            title="Toggle favorite"
+          >
+            <i data-lucide="heart"></i>
+          </button>
+        </div>
+
+        <div class="recipe-card-body">
+          <div class="recipe-title-row">
+            <h3>${r.name}</h3>
+            <span class="rating-score"><i data-lucide="star"></i> ${displayRating}</span>
+          </div>
+          <p class="recipe-cuisine">${r.cuisine || "Recipe"} Cuisine</p>
+
+          <div class="recipe-meta">
+            <span><i data-lucide="clock-3"></i>${r.timeMinutes} mins</span>
+            <span><i data-lucide="utensils"></i>${r.servings} servings</span>
+          </div>
+
+          ${r.matchedCount ? `<p class="match-copy">Matched ${r.matchedCount} / ${r.total} ingredients</p>` : ""}
+
+          <div class="rating" data-id="${r.id}">
+            ${[1,2,3,4,5].map(star => `
+              <span
+                class="star ${star <= rating ? "filled" : ""}"
+                data-star="${star}"
+              >&#9733;</span>
+            `).join("")}
+          </div>
+
+          <a class="recipe-link" href="${getRecipeUrl(r)}">View Recipe</a>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  attachFavoriteHandlers();
+  attachRatingHandlers();
+  attachRecipeImageFallbacks(recipeList);
+  recipeList.querySelectorAll(".recipe-link").forEach(link => {
+    link.addEventListener("click", saveSearchState);
+  });
+  lucide.createIcons();
+  saveSearchState();
 };
 
 const attachFavoriteHandlers = () => {
@@ -941,9 +1060,16 @@ difficultySelect.addEventListener("change", () => {
 });
 
 timeInput.addEventListener("input", () => {
+  if (timeValue) {
+    timeValue.textContent = timeInput.value;
+  }
   saveSearchState();
   rerunMatchIfPossible();
 });
+
+if (servingsInput) {
+  servingsInput.addEventListener("input", saveSearchState);
+}
 
 favoritesToggle.addEventListener("change", () => {
   saveSearchState();
