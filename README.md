@@ -82,6 +82,18 @@ npm install
 npm start
 ```
 
+### 🔐 Environment Variables
+
+Create a local `.env` file from `.env.example` and fill in your own values for:
+- `MONGODB_URI`
+- `MONGODB_DB`
+- `MONGODB_USERS_COLLECTION`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_CALLBACK_URL`
+- `SESSION_SECRET`
+- `JWT_SECRET`
+
 📦 Python Dependencies Installed
 
 For local image recognition, the following Python libraries were installed using pip:

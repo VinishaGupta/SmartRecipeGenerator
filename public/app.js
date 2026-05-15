@@ -108,6 +108,169 @@ const timeInput = document.getElementById("timeInput");
 const timeValue = document.getElementById("timeValue");
 const servingsInput = document.getElementById("servingsInput");
 const favoritesToggle = document.getElementById("favoritesToggle");
+const authBtn = document.getElementById("authBtn");
+
+const parseJsonSafely = async (res) => {
+  try {
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
+};
+
+const getCurrentUser = async () => {
+  try {
+    const res = await fetch(apiUrl('/api/auth/me'), { credentials: 'same-origin' });
+    if (!res.ok) return null;
+    return await parseJsonSafely(res);
+  } catch (err) {
+    return null;
+  }
+};
+
+const initAuthUI = async () => {
+  if (!authBtn) return;
+  const user = await getCurrentUser();
+
+  if (user && user.email) {
+    authBtn.textContent = user.displayName || user.email.split('@')[0] || 'Account';
+    authBtn.href = '/api/auth/logout';
+    authBtn.title = 'Sign out';
+  } else {
+    authBtn.textContent = 'Sign in';
+    authBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAuthModal();
+    });
+    authBtn.href = '#';
+    authBtn.title = 'Sign in';
+  }
+};
+
+/*************************************************
+ * AUTH MODAL
+ *************************************************/
+const authModal = document.getElementById("authModal");
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const loginTab = document.getElementById("loginTab");
+const signupTab = document.getElementById("signupTab");
+const closeAuthModal = document.getElementById("closeAuthModal");
+const loginError = document.getElementById("loginError");
+const signupError = document.getElementById("signupError");
+
+const openAuthModal = () => {
+  if (authModal) {
+    authModal.removeAttribute("hidden");
+    loginForm?.classList.add("active");
+    signupForm?.classList.remove("active");
+    loginTab?.classList.add("active");
+    signupTab?.classList.remove("active");
+  }
+};
+
+const closeModal = () => {
+  if (authModal) {
+    authModal.setAttribute("hidden", "");
+    loginError.textContent = "";
+    signupError.textContent = "";
+  }
+};
+
+if (closeAuthModal) {
+  closeAuthModal.addEventListener("click", closeModal);
+}
+
+if (authModal) {
+  authModal.addEventListener("click", (e) => {
+    if (e.target === authModal) closeModal();
+  });
+}
+
+if (loginTab) {
+  loginTab.addEventListener("click", () => {
+    loginTab.classList.add("active");
+    signupTab.classList.remove("active");
+    loginForm.classList.add("active");
+    signupForm.classList.remove("active");
+    loginError.textContent = "";
+  });
+}
+
+if (signupTab) {
+  signupTab.addEventListener("click", () => {
+    signupTab.classList.add("active");
+    loginTab.classList.remove("active");
+    signupForm.classList.add("active");
+    loginForm.classList.remove("active");
+    signupError.textContent = "";
+  });
+}
+
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    try {
+      loginError.textContent = "";
+      const res = await fetch(apiUrl("/api/auth/login"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        loginError.textContent = data.error === "invalid_credentials" ? "Invalid email or password" : "Login failed";
+        return;
+      }
+
+      closeModal();
+      loginForm.reset();
+      initAuthUI();
+      loadRecipes();
+    } catch (err) {
+      console.error("Login error:", err);
+      loginError.textContent = "Login failed";
+    }
+  });
+}
+
+if (signupForm) {
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+    const displayName = document.getElementById("signupName").value;
+
+    try {
+      signupError.textContent = "";
+      const res = await fetch(apiUrl("/api/auth/signup"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ email, password, displayName })
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        signupError.textContent = data.error === "user_exists" ? "Email already exists" : "Signup failed";
+        return;
+      }
+
+      closeModal();
+      signupForm.reset();
+      initAuthUI();
+      loadRecipes();
+    } catch (err) {
+      console.error("Signup error:", err);
+      signupError.textContent = "Signup failed";
+    }
+  });
+}
 
 /*************************************************
  * STATE
@@ -1170,5 +1333,6 @@ startBackendAutoPing();
 updateSubstitutions();
 renderIngredientSelector();
 restoreSearchState();
+initAuthUI();
 loadRecipes();
 
