@@ -17,13 +17,13 @@ const getBackendBaseUrl = () => {
 const apiUrl = (path) => `${getBackendBaseUrl()}${path}`;
 const recipeDetail = document.getElementById("recipeDetail");
 const CLOUDINARY_CLOUD_NAME = "djsenbil3";
-const RECIPE_IMAGE_FOLDER = "recipe-images";
+const RECIPE_IMAGE_FOLDER = "";
 const FALLBACK_RECIPE_IMAGE =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 360'%3E%3Crect width='640' height='360' fill='%23f1f5f9'/%3E%3Cpath d='M184 244h272c18 0 28-20 18-35l-42-64c-9-14-28-15-38-2l-30 39-18-22c-10-13-30-12-39 2l-42 63-21-25c-10-12-29-10-36 4l-35 40c-7 14 3 30 21 30z' fill='%23cbd5e1'/%3E%3Ccircle cx='220' cy='118' r='34' fill='%23cbd5e1'/%3E%3C/svg%3E";
 
 const getImageUrl = (imageName) =>
   imageName
-    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${RECIPE_IMAGE_FOLDER}/${imageName}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}`
     : FALLBACK_RECIPE_IMAGE;
 
 const formatIngredient = (ingredient) =>
