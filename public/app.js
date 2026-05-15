@@ -750,6 +750,11 @@ const renderRecipesOld = (results) => {
 };
 
 const renderRecipes = (results) => {
+  if (!recipeList) {
+    console.warn("Recipe list element not found");
+    return;
+  }
+
   const favorites = getFavorites();
   const ratings = getRatings();
 
