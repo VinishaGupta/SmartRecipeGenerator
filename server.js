@@ -3,9 +3,12 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const { execFile } = require("child_process");
+require("dotenv").config();
+
+const { getRecipes } = require("./lib/recipes");
+const { pingMongo } = require("./lib/mongodb");
 
 const ROOT = path.join(__dirname, "public");
-const DATA_PATH = path.join(__dirname, "data", "recipes.json");
 
 const MIME_TYPES = {
   ".html": "text/html",
@@ -25,24 +28,7 @@ function setCorsHeaders(res) {
 }
 
 async function pingMongoIfConnected() {
-  try {
-    // This project does not currently depend on Mongoose, so we load it only
-    // if it exists. That keeps the route safe for the current codebase and
-    // makes it ready for a future Mongoose connection.
-    const mongoose = require("mongoose");
-
-    if (mongoose.connection.readyState !== 1 || !mongoose.connection.db) {
-      return;
-    }
-
-    await mongoose.connection.db.admin().ping();
-  } catch (error) {
-    // Ignore missing Mongoose in this project. Re-throw real ping failures so
-    // the health route can report them properly when MongoDB is expected.
-    if (error.code !== "MODULE_NOT_FOUND") {
-      throw error;
-    }
-  }
+  await pingMongo();
 }
 
 function readStaticFile(filePath, res) {
@@ -64,6 +50,8 @@ function readStaticFile(filePath, res) {
 
 const server = http.createServer((req, res) => {
   setCorsHeaders(res);
+  const requestUrl = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+  const requestPath = requestUrl.pathname;
 
   if (req.method === "OPTIONS") {
     res.writeHead(204);
@@ -72,7 +60,7 @@ const server = http.createServer((req, res) => {
   }
 
   /* ---------- HEALTH CHECK ---------- */
-  if (req.url === "/health" && req.method === "GET") {
+  if (requestPath === "/health" && req.method === "GET") {
     (async () => {
       try {
         // This route is meant for external uptime monitors such as
@@ -92,23 +80,23 @@ const server = http.createServer((req, res) => {
   }
 
   /* ---------- RECIPES ---------- */
-    /* ---------- RECIPES ---------- */
-  if (req.url === "/api/recipes" && req.method === "GET") {
-    fs.readFile(DATA_PATH, "utf-8", (err, data) => {
-      if (err) {
+  if (requestPath === "/api/recipes" && req.method === "GET") {
+    (async () => {
+      try {
+        const recipes = await getRecipes();
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(recipes));
+      } catch (error) {
+        console.error("Failed to load recipes:", error);
         res.writeHead(500, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "Failed to load recipes" }));
-        return;
       }
-
-      res.writeHead(200, { "Content-Type": "application/json" }); 
-      res.end(data);
-    });
+    })();
     return;
   }
 
   /* ---------- IMAGE RECOGNITION ---------- */
-  if (req.url === "/api/recognize" && req.method === "POST") {
+  if (requestPath === "/api/recognize" && req.method === "POST") {
     let body = "";
 
     req.on("data", chunk => body += chunk);
@@ -157,7 +145,7 @@ const server = http.createServer((req, res) => {
   }
 
   /* ---------- STATIC ---------- */
-  let reqPath = req.url;
+  let reqPath = requestPath;
 
   if (reqPath === "/") {
     reqPath = "/index.html";

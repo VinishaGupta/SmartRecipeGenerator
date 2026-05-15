@@ -108,9 +108,11 @@ const favoritesToggle = document.getElementById("favoritesToggle");
 let recipes = [];
 let recognizedIngredients = [];
 let imagePreviewUrl = "";
+let imagePreviewDataUrl = "";
 
 const FAVORITES_KEY = "favoriteRecipes";
 const RATINGS_KEY = "recipeRatings";
+const SEARCH_STATE_KEY = "recipeSearchState";
 
 const getFavorites = () =>
   JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
@@ -129,10 +131,89 @@ const setRatings = (ratings) =>
  * HELPERS
  *************************************************/
 const normalize = (v) => v.trim().toLowerCase();
+const getRecipeUrl = (recipe) => `recipe.html?id=${encodeURIComponent(recipe.id)}`;
 
 const getDietaryPreferences = () =>
   Array.from(document.querySelectorAll(".diet-checkbox:checked"))
     .map(i => i.value.toLowerCase());
+
+const readSearchState = () => {
+  try {
+    return JSON.parse(sessionStorage.getItem(SEARCH_STATE_KEY) || "{}");
+  } catch (error) {
+    console.debug("Saved recipe search state could not be read:", error);
+    return {};
+  }
+};
+
+const saveSearchState = () => {
+  const state = {
+    ingredients: ingredientInput.value,
+    recognizedIngredients,
+    imagePreviewDataUrl,
+    imageHint: imageHint.textContent,
+    difficulty: difficultySelect.value,
+    time: timeInput.value,
+    favoritesOnly: favoritesToggle.checked,
+    dietaryPreferences: getDietaryPreferences(),
+    selectedIngredients: Array.from(
+      document.querySelectorAll(".ingredient-checkbox:checked")
+    ).map(cb => cb.value)
+  };
+
+  try {
+    sessionStorage.setItem(SEARCH_STATE_KEY, JSON.stringify(state));
+  } catch (error) {
+    console.debug("Recipe search state could not be saved:", error);
+
+    try {
+      sessionStorage.setItem(
+        SEARCH_STATE_KEY,
+        JSON.stringify({ ...state, imagePreviewDataUrl: "" })
+      );
+    } catch (fallbackError) {
+      console.debug("Recipe search state fallback could not be saved:", fallbackError);
+    }
+  }
+};
+
+const restoreSearchState = () => {
+  const state = readSearchState();
+
+  ingredientInput.value = state.ingredients || "";
+  recognizedIngredients = Array.isArray(state.recognizedIngredients)
+    ? state.recognizedIngredients.map(normalize).filter(Boolean)
+    : [];
+
+  difficultySelect.value = state.difficulty || "";
+  timeInput.value = state.time ?? timeInput.value;
+  favoritesToggle.checked = Boolean(state.favoritesOnly);
+
+  const dietaryPreferences = new Set(
+    (state.dietaryPreferences || []).map(normalize)
+  );
+
+  document.querySelectorAll(".diet-checkbox").forEach(cb => {
+    cb.checked = dietaryPreferences.has(normalize(cb.value));
+  });
+
+  const selectedIngredients = new Set(
+    (state.selectedIngredients || []).map(normalize)
+  );
+
+  document.querySelectorAll(".ingredient-checkbox").forEach(cb => {
+    cb.checked = selectedIngredients.has(normalize(cb.value));
+  });
+
+  if (state.imagePreviewDataUrl) {
+    imagePreviewDataUrl = state.imagePreviewDataUrl;
+    imagePreview.src = imagePreviewDataUrl;
+    imagePreviewWrap.hidden = false;
+  }
+
+  imageHint.textContent = state.imageHint || "";
+  renderRecognized();
+};
 
 
 /*************************************************
@@ -189,6 +270,7 @@ const clearImagePreview = () => {
     imagePreviewUrl = "";
   }
 
+  imagePreviewDataUrl = "";
   imagePreview.removeAttribute("src");
   imagePreviewWrap.hidden = true;
 };
@@ -240,6 +322,7 @@ const renderIngredientSelector = () => {
   document.querySelectorAll(".ingredient-checkbox").forEach(cb => {
     cb.addEventListener("change", () => {
       syncSelectedIngredients();
+      saveSearchState();
       rerunMatchIfPossible();
     });
   });
@@ -264,7 +347,11 @@ const loadRecipes = async () => {
     const res = await fetch(apiUrl("/api/recipes"));
     recipes = await res.json();
     renderSuggestions();
-    statusEl.textContent = "";
+    if (ingredientInput.value.trim()) {
+      renderRecipes(matchRecipes());
+    } else {
+      statusEl.textContent = "";
+    }
   } catch (err) {
     console.error(err);
     statusEl.textContent = "";
@@ -350,6 +437,7 @@ const renderRecipes = (results) => {
 
   if (!results.length) {
     recipeList.innerHTML = "<p>No recipes found.</p>";
+    saveSearchState();
     return;
   }
 
@@ -398,33 +486,9 @@ const renderRecipes = (results) => {
       `).join("")}
     </div>
 
-    <button class="steps-toggle" data-id="${r.id}">
-      ▶ View recipe steps
-    </button>
-
-    <div class="steps-content" data-id="${r.id}">
-      
-      <h4>Ingredients</h4>
-      <ul>
-        ${r.ingredients.map(i =>
-          `<li>${i.quantity ?? ""} ${i.unit ?? ""} ${i.name}</li>`
-        ).join("")}
-      </ul>
-
-      <h4>Steps</h4>
-      <ol>
-        ${r.steps.map(step => `<li>${step}</li>`).join("")}
-      </ol>
-
-      <h4>Nutrition</h4>
-      <ul>
-        <li>Calories: ${r.nutrition?.calories ?? 0}</li>
-        <li>Protein: ${r.nutrition?.protein ?? 0} g</li>
-        <li>Carbs: ${r.nutrition?.carbs ?? 0} g</li>
-        <li>Fat: ${r.nutrition?.fat ?? 0} g</li>
-      </ul>
-
-    </div>
+    <a class="recipe-link" href="${getRecipeUrl(r)}">
+      View Recipe
+    </a>
 
   </article>
 `;
@@ -433,8 +497,11 @@ const renderRecipes = (results) => {
 
   attachFavoriteHandlers();
   attachRatingHandlers();
-   attachStepToggles(); 
-   lucide.createIcons();
+  recipeList.querySelectorAll(".recipe-link").forEach(link => {
+    link.addEventListener("click", saveSearchState);
+  });
+  lucide.createIcons();
+  saveSearchState();
 
 };
 
@@ -475,6 +542,10 @@ const attachRatingHandlers = () => {
 
 
 const renderSuggestions = () => {
+  if (!suggestionList) {
+    return;
+  }
+
   const favs = getFavorites();
 
   // favorite recipes first
@@ -496,63 +567,44 @@ const renderSuggestions = () => {
   `).join("");
 };
 
-const attachStepToggles = () => {
-  const toggles = document.querySelectorAll(".steps-toggle");
-
-  toggles.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-
-      // close all others
-      document.querySelectorAll(".steps-content").forEach(c => {
-        if (c.dataset.id !== id) {
-          c.classList.remove("open");
-        }
-      });
-
-      document.querySelectorAll(".steps-toggle").forEach(b => {
-        if (b.dataset.id !== id) {
-          b.textContent = "▶ View recipe steps";
-        }
-      });
-
-      // toggle current
-      const content = document.querySelector(`.steps-content[data-id="${id}"]`);
-      const isOpen = content.classList.toggle("open");
-
-      btn.textContent = isOpen
-        ? "▼ Hide recipe steps"
-        : "▶ View recipe steps";
-    });
-  });
-};
-
-
-
 /*************************************************
  * IMAGE RECOGNITION
  *************************************************/
-const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.08;
+const BROWSER_RECOGNITION_MIN_CONFIDENCE = 0.05;
 const STALE_FALLBACK_INGREDIENT_KEY = "bell pepper|cucumber|zucchini";
+const IMAGE_CROP_REGIONS = [
+  [0, 0, 1, 1],
+  [0, 0, 0.5, 0.5],
+  [0.5, 0, 0.5, 0.5],
+  [0, 0.5, 0.5, 0.5],
+  [0.5, 0.5, 0.5, 0.5],
+  [0.2, 0.2, 0.6, 0.6]
+];
 
 const IMAGE_LABEL_TO_INGREDIENT = {
+  acorn: "zucchini",
+  artichoke: "asparagus",
+  banana: "banana",
   "bell pepper": "bell pepper",
-  "head cabbage": "cabbage",
   broccoli: "broccoli",
   cauliflower: "cauliflower",
-  cucumber: "cucumber",
-  zucchini: "zucchini",
-  "spaghetti squash": "zucchini",
-  "acorn squash": "zucchini",
-  "butternut squash": "zucchini",
-  artichoke: "asparagus",
+  corn: "corn",
   courgette: "zucchini",
-  mushroom: "mushroom",
-  banana: "banana",
+  cucumber: "cucumber",
+  eggplant: "eggplant",
+  fig: "berries",
+  "granny smith": "apple",
+  "head cabbage": "cabbage",
   lemon: "lemon",
+  mushroom: "mushroom",
   orange: "orange",
   pineapple: "pineapple",
-  strawberry: "strawberry"
+  pomegranate: "berries",
+  "red cabbage": "cabbage",
+  "spaghetti squash": "zucchini",
+  strawberry: "strawberry",
+  "butternut squash": "zucchini",
+  zucchini: "zucchini"
 };
 
 let browserIngredientModel;
@@ -569,6 +621,16 @@ const removeStaleFallbackIngredients = (ingredients) => {
 
   return uniqueIngredients;
 };
+
+const mergeImageIngredients = (...ingredientGroups) =>
+  removeStaleFallbackIngredients(
+    Array.from(new Set(
+      ingredientGroups
+        .flat()
+        .map(normalize)
+        .filter(ingredient => KNOWN_INGREDIENTS.includes(ingredient))
+    ))
+  );
 
 const getBrowserIngredientModel = async () => {
   if (!window.mobilenet) {
@@ -599,6 +661,137 @@ const fileToImageElement = (file) => new Promise((resolve, reject) => {
   image.src = objectUrl;
 });
 
+const createStoredPreviewDataUrl = async (file) => {
+  const image = await fileToImageElement(file);
+  const canvas = document.createElement("canvas");
+  const maxSide = 720;
+  const scale = Math.min(maxSide / image.naturalWidth, maxSide / image.naturalHeight, 1);
+
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  return canvas.toDataURL("image/jpeg", 0.82);
+};
+
+const cropImageElement = (image, region) => {
+  const [xRatio, yRatio, widthRatio, heightRatio] = region;
+  const canvas = document.createElement("canvas");
+  canvas.width = 224;
+  canvas.height = 224;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(
+    image,
+    image.naturalWidth * xRatio,
+    image.naturalHeight * yRatio,
+    image.naturalWidth * widthRatio,
+    image.naturalHeight * heightRatio,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  return canvas;
+};
+
+const rgbToHsl = (red, green, blue) => {
+  const r = red / 255;
+  const g = green / 255;
+  const b = blue / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const lightness = (max + min) / 2;
+
+  if (max === min) {
+    return [0, 0, lightness];
+  }
+
+  const delta = max - min;
+  const saturation = lightness > 0.5
+    ? delta / (2 - max - min)
+    : delta / (max + min);
+
+  let hue;
+  if (max === r) {
+    hue = ((g - b) / delta + (g < b ? 6 : 0)) * 60;
+  } else if (max === g) {
+    hue = ((b - r) / delta + 2) * 60;
+  } else {
+    hue = ((r - g) / delta + 4) * 60;
+  }
+
+  return [hue, saturation, lightness];
+};
+
+const inferProduceFromColors = (image) => {
+  const canvas = document.createElement("canvas");
+  const maxSide = 180;
+  const scale = Math.min(maxSide / image.naturalWidth, maxSide / image.naturalHeight, 1);
+
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const counts = {
+    red: 0,
+    orange: 0,
+    yellow: 0,
+    green: 0,
+    darkGreen: 0,
+    purple: 0,
+    brown: 0
+  };
+  let coloredPixels = 0;
+
+  for (let i = 0; i < data.length; i += 16) {
+    const [hue, saturation, lightness] = rgbToHsl(data[i], data[i + 1], data[i + 2]);
+
+    if (saturation < 0.22 || lightness < 0.08 || lightness > 0.94) {
+      continue;
+    }
+
+    coloredPixels += 1;
+
+    if (hue >= 20 && hue < 55 && lightness < 0.45) counts.brown += 1;
+
+    if (hue < 18 || hue >= 345) counts.red += 1;
+    else if (hue < 45) counts.orange += 1;
+    else if (hue < 70) counts.yellow += 1;
+    else if (hue < 165) {
+      counts.green += 1;
+      if (lightness < 0.42) counts.darkGreen += 1;
+    } else if (hue >= 250 && hue < 330) counts.purple += 1;
+  }
+
+  if (!coloredPixels) {
+    return [];
+  }
+
+  const ratio = (color) => counts[color] / coloredPixels;
+  const inferred = [];
+
+  if (ratio("red") > 0.045) inferred.push("tomato");
+  if (ratio("orange") > 0.045) inferred.push("carrot");
+  if (ratio("yellow") > 0.06) inferred.push("corn");
+  if (ratio("green") > 0.08) inferred.push("cucumber", "zucchini");
+  if (ratio("darkGreen") > 0.035) inferred.push("broccoli");
+  if (ratio("purple") > 0.025) inferred.push("eggplant");
+  if (ratio("brown") > 0.08) inferred.push("potato");
+
+  if (ratio("red") > 0.025 && ratio("green") > 0.025) {
+    inferred.push("bell pepper");
+  }
+
+  return mergeImageIngredients(inferred);
+};
+
 const ingredientsFromImageLabels = (predictions) => {
   const ingredients = predictions
     .filter(prediction => prediction.probability >= BROWSER_RECOGNITION_MIN_CONFIDENCE)
@@ -611,16 +804,21 @@ const ingredientsFromImageLabels = (predictions) => {
 };
 
 const recognizeIngredientsInBrowser = async (file) => {
+  const image = await fileToImageElement(file);
+  const colorIngredients = inferProduceFromColors(image);
   const model = await getBrowserIngredientModel();
 
   if (!model) {
-    return [];
+    return colorIngredients;
   }
 
-  const image = await fileToImageElement(file);
-  const predictions = await model.classify(image, 10);
+  const predictionsByRegion = await Promise.all(
+    IMAGE_CROP_REGIONS.map(region => model.classify(cropImageElement(image, region), 8))
+  );
+  const predictions = predictionsByRegion.flat();
+
   console.debug("Browser image predictions:", predictions);
-  return ingredientsFromImageLabels(predictions);
+  return mergeImageIngredients(ingredientsFromImageLabels(predictions), colorIngredients);
 };
 
 const recognizeIngredientsFromImage = async (file) => {
@@ -643,11 +841,8 @@ const recognizeIngredientsFromImage = async (file) => {
       .map(p => normalize(p.label))
       .filter(l => KNOWN_INGREDIENTS.includes(l));
 
-    const cleanedServerIngredients = removeStaleFallbackIngredients(serverIngredients);
-
-    if (cleanedServerIngredients.length) {
-      return cleanedServerIngredients;
-    }
+    const browserIngredients = await recognizeIngredientsInBrowser(file);
+    return mergeImageIngredients(serverIngredients, browserIngredients);
   } catch (error) {
     console.debug("Backend image recognition failed:", error);
   }
@@ -659,6 +854,7 @@ imageInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) {
     clearImagePreview();
+    saveSearchState();
     return;
   }
 
@@ -667,16 +863,24 @@ imageInput.addEventListener("change", async (e) => {
   imageHint.textContent = "Analyzing image...";
 
   try {
-    recognizedIngredients = await recognizeIngredientsFromImage(file);
+    const [storedPreview, ingredients] = await Promise.all([
+      createStoredPreviewDataUrl(file),
+      recognizeIngredientsFromImage(file)
+    ]);
+
+    imagePreviewDataUrl = storedPreview;
+    recognizedIngredients = ingredients;
     syncSelectedIngredients();
     imageHint.textContent = recognizedIngredients.length
       ? "Ingredients detected from image."
       : "No ingredients detected.";
+    saveSearchState();
   } catch (error) {
     console.error(error);
     recognizedIngredients = [];
     renderRecognized();
     imageHint.textContent = "Could not analyze image.";
+    saveSearchState();
   }
 });
 
@@ -692,20 +896,36 @@ matchButton.addEventListener("click", () => {
   console.log("Matched results:", results);
 
   renderRecipes(results);
+  saveSearchState();
 });
 
 
 ingredientInput.addEventListener("input", () => {
   renderRecognized();
+  saveSearchState();
   rerunMatchIfPossible();
 });
 
-difficultySelect.addEventListener("change", rerunMatchIfPossible);
-timeInput.addEventListener("input", rerunMatchIfPossible);
-favoritesToggle.addEventListener("change", rerunMatchIfPossible);
+difficultySelect.addEventListener("change", () => {
+  saveSearchState();
+  rerunMatchIfPossible();
+});
+
+timeInput.addEventListener("input", () => {
+  saveSearchState();
+  rerunMatchIfPossible();
+});
+
+favoritesToggle.addEventListener("change", () => {
+  saveSearchState();
+  rerunMatchIfPossible();
+});
 
 document.querySelectorAll(".diet-checkbox").forEach(cb => {
-  cb.addEventListener("change", rerunMatchIfPossible);
+  cb.addEventListener("change", () => {
+    saveSearchState();
+    rerunMatchIfPossible();
+  });
 });
 
 
@@ -740,5 +960,6 @@ viewFavoritesBtn.addEventListener("click", () => {
 startBackendAutoPing();
 updateSubstitutions();
 renderIngredientSelector();
+restoreSearchState();
 loadRecipes();
 
