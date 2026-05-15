@@ -7,19 +7,47 @@
     "timeMinutes": 25,
     "servings": 2,
     "ingredients": [
-      { "name": "pasta", "quantity": 200, "unit": "g" },
-      { "name": "tomato", "quantity": 2, "unit": "pcs" },
-      { "name": "garlic", "quantity": 2, "unit": "cloves" },
-      { "name": "basil", "quantity": 6, "unit": "leaves" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" }
+      {
+        "name": "pasta",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "tomato",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "garlic",
+        "quantity": 2,
+        "unit": "cloves"
+      },
+      {
+        "name": "basil",
+        "quantity": 6,
+        "unit": "leaves"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Cook pasta until al dente.",
       "Sauté garlic in olive oil, add chopped tomatoes.",
       "Toss pasta with sauce and basil."
     ],
-    "nutrition": { "calories": 520, "protein": 18, "carbs": 82, "fat": 12 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 520,
+      "protein": 18,
+      "carbs": 82,
+      "fat": 12
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "Mediterranean-Tomato-Pasta123"
   },
   {
     "id": "recipe-002",
@@ -29,19 +57,47 @@
     "timeMinutes": 30,
     "servings": 2,
     "ingredients": [
-      { "name": "chicken", "quantity": 300, "unit": "g" },
-      { "name": "lemon", "quantity": 1, "unit": "pcs" },
-      { "name": "spinach", "quantity": 2, "unit": "cups" },
-      { "name": "garlic", "quantity": 1, "unit": "clove" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" }
+      {
+        "name": "chicken",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "lemon",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "spinach",
+        "quantity": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "garlic",
+        "quantity": 1,
+        "unit": "clove"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Marinate chicken with lemon juice, garlic, and herbs.",
       "Pan-sear chicken until cooked through.",
       "Serve over spinach with pan juices."
     ],
-    "nutrition": { "calories": 430, "protein": 42, "carbs": 8, "fat": 20 },
-    "dietaryTags": ["gluten-free"]
+    "nutrition": {
+      "calories": 430,
+      "protein": 42,
+      "carbs": 8,
+      "fat": 20
+    },
+    "dietaryTags": [
+      "gluten-free"
+    ],
+    "image": "Lemon-Herb-Chicken-Bowl_aqwmsr"
   },
   {
     "id": "recipe-003",
@@ -51,21 +107,48 @@
     "timeMinutes": 20,
     "servings": 2,
     "ingredients": [
-      { "name": "broccoli", "quantity": 1, "unit": "cup" },
-      { "name": "bell pepper", "quantity": 1, "unit": "pcs" },
-      { "name": "carrot", "quantity": 1, "unit": "pcs" },
-      { "name": "soy sauce", "quantity": 2, "unit": "tbsp" },
-      { "name": "garlic", "quantity": 1, "unit": "clove" }
+      {
+        "name": "broccoli",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "bell pepper",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "carrot",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "soy sauce",
+        "quantity": 2,
+        "unit": "tbsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": 1,
+        "unit": "clove"
+      }
     ],
     "steps": [
       "Stir-fry vegetables in a hot pan.",
       "Add soy sauce and garlic.",
       "Cook until tender-crisp."
     ],
-    "nutrition": { "calories": 280, "protein": 10, "carbs": 34, "fat": 10 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 280,
+      "protein": 10,
+      "carbs": 34,
+      "fat": 10
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "pexels-skyler-ewing-266953-10695966_q4occ6"
   },
-
   {
     "id": "recipe-004",
     "name": "Avocado Toast with Egg",
@@ -74,21 +157,48 @@
     "timeMinutes": 10,
     "servings": 1,
     "ingredients": [
-      { "name": "bread", "quantity": 2, "unit": "slices" },
-      { "name": "avocado", "quantity": 0.5, "unit": "pcs" },
-      { "name": "egg", "quantity": 1, "unit": "pcs" },
-      { "name": "lemon", "quantity": 0.5, "unit": "pcs" },
-      { "name": "salt", "quantity": 1, "unit": "pinch" }
+      {
+        "name": "bread",
+        "quantity": 2,
+        "unit": "slices"
+      },
+      {
+        "name": "avocado",
+        "quantity": 0.5,
+        "unit": "pcs"
+      },
+      {
+        "name": "egg",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "lemon",
+        "quantity": 0.5,
+        "unit": "pcs"
+      },
+      {
+        "name": "salt",
+        "quantity": 1,
+        "unit": "pinch"
+      }
     ],
     "steps": [
       "Toast bread.",
       "Mash avocado with lemon and salt.",
       "Top toast with avocado and a fried egg."
     ],
-    "nutrition": { "calories": 360, "protein": 14, "carbs": 32, "fat": 18 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 360,
+      "protein": 14,
+      "carbs": 32,
+      "fat": 18
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "Avocado-Egg-Breakfast-Toast-FI-Thumbnail-1200X1200_v03rsd"
   },
-
   {
     "id": "recipe-005",
     "name": "Chickpea Curry",
@@ -97,21 +207,49 @@
     "timeMinutes": 35,
     "servings": 3,
     "ingredients": [
-      { "name": "chickpeas", "quantity": 2, "unit": "cups" },
-      { "name": "tomato", "quantity": 2, "unit": "pcs" },
-      { "name": "onion", "quantity": 1, "unit": "pcs" },
-      { "name": "coconut milk", "quantity": 1, "unit": "cup" },
-      { "name": "curry powder", "quantity": 1, "unit": "tbsp" }
+      {
+        "name": "chickpeas",
+        "quantity": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "tomato",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "onion",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "coconut milk",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "curry powder",
+        "quantity": 1,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Sauté onion and spices.",
       "Add tomatoes, chickpeas, and coconut milk.",
       "Simmer until thickened."
     ],
-    "nutrition": { "calories": 410, "protein": 16, "carbs": 52, "fat": 16 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 410,
+      "protein": 16,
+      "carbs": 52,
+      "fat": 16
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Screenshot_2026-05-15_142710_ngznpf"
   },
-
   {
     "id": "recipe-006",
     "name": "Grilled Salmon with Asparagus",
@@ -120,21 +258,48 @@
     "timeMinutes": 25,
     "servings": 2,
     "ingredients": [
-      { "name": "salmon", "quantity": 2, "unit": "fillets" },
-      { "name": "asparagus", "quantity": 1, "unit": "bunch" },
-      { "name": "lemon", "quantity": 1, "unit": "pcs" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
-      { "name": "garlic", "quantity": 1, "unit": "clove" }
+      {
+        "name": "salmon",
+        "quantity": 2,
+        "unit": "fillets"
+      },
+      {
+        "name": "asparagus",
+        "quantity": 1,
+        "unit": "bunch"
+      },
+      {
+        "name": "lemon",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": 1,
+        "unit": "clove"
+      }
     ],
     "steps": [
       "Season salmon and asparagus with oil, garlic, and lemon.",
       "Grill until salmon is flaky.",
       "Serve with extra lemon."
     ],
-    "nutrition": { "calories": 480, "protein": 40, "carbs": 8, "fat": 30 },
-    "dietaryTags": ["gluten-free"]
+    "nutrition": {
+      "calories": 480,
+      "protein": 40,
+      "carbs": 8,
+      "fat": 30
+    },
+    "dietaryTags": [
+      "gluten-free"
+    ],
+    "image": "Teriyaki-Salmon-In-Bowls-4-683x1024_gs4c4k"
   },
-
   {
     "id": "recipe-007",
     "name": "Tofu Teriyaki Bowl",
@@ -143,21 +308,48 @@
     "timeMinutes": 25,
     "servings": 2,
     "ingredients": [
-      { "name": "tofu", "quantity": 250, "unit": "g" },
-      { "name": "soy sauce", "quantity": 2, "unit": "tbsp" },
-      { "name": "brown rice", "quantity": 1, "unit": "cup" },
-      { "name": "broccoli", "quantity": 1, "unit": "cup" },
-      { "name": "ginger", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "tofu",
+        "quantity": 250,
+        "unit": "g"
+      },
+      {
+        "name": "soy sauce",
+        "quantity": 2,
+        "unit": "tbsp"
+      },
+      {
+        "name": "brown rice",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "broccoli",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "ginger",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Cook rice and steam broccoli.",
       "Sear tofu and glaze with soy sauce and ginger.",
       "Serve tofu over rice with broccoli."
     ],
-    "nutrition": { "calories": 520, "protein": 22, "carbs": 62, "fat": 18 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 520,
+      "protein": 22,
+      "carbs": 62,
+      "fat": 18
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "teriyaki-tofu-l_s_pwbnex"
   },
-
   {
     "id": "recipe-008",
     "name": "Turkey Lettuce Wraps",
@@ -166,21 +358,48 @@
     "timeMinutes": 20,
     "servings": 2,
     "ingredients": [
-      { "name": "ground turkey", "quantity": 300, "unit": "g" },
-      { "name": "lettuce", "quantity": 6, "unit": "leaves" },
-      { "name": "carrot", "quantity": 1, "unit": "pcs" },
-      { "name": "soy sauce", "quantity": 1, "unit": "tbsp" },
-      { "name": "garlic", "quantity": 1, "unit": "clove" }
+      {
+        "name": "ground turkey",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "lettuce",
+        "quantity": 6,
+        "unit": "leaves"
+      },
+      {
+        "name": "carrot",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "soy sauce",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": 1,
+        "unit": "clove"
+      }
     ],
     "steps": [
       "Cook turkey with garlic and soy sauce.",
       "Fill lettuce leaves with turkey and shredded carrot.",
       "Serve immediately."
     ],
-    "nutrition": { "calories": 330, "protein": 32, "carbs": 12, "fat": 16 },
-    "dietaryTags": ["gluten-free"]
+    "nutrition": {
+      "calories": 330,
+      "protein": 32,
+      "carbs": 12,
+      "fat": 16
+    },
+    "dietaryTags": [
+      "gluten-free"
+    ],
+    "image": "images_4_aki3fv"
   },
-
   {
     "id": "recipe-009",
     "name": "Caprese Salad",
@@ -189,21 +408,49 @@
     "timeMinutes": 10,
     "servings": 2,
     "ingredients": [
-      { "name": "tomato", "quantity": 2, "unit": "pcs" },
-      { "name": "mozzarella", "quantity": 150, "unit": "g" },
-      { "name": "basil", "quantity": 6, "unit": "leaves" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
-      { "name": "balsamic", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "tomato",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "mozzarella",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "basil",
+        "quantity": 6,
+        "unit": "leaves"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "balsamic",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Slice tomatoes and mozzarella.",
       "Layer with basil.",
       "Drizzle with olive oil and balsamic."
     ],
-    "nutrition": { "calories": 310, "protein": 18, "carbs": 10, "fat": 22 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 310,
+      "protein": 18,
+      "carbs": 10,
+      "fat": 22
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "classic-caprese-salad-recipe-hero-05_1-9ce2f9b0601c45279e07320f9548fa66_ixt2sc"
   },
-
   {
     "id": "recipe-010",
     "name": "Beef and Quinoa Bowl",
@@ -212,21 +459,48 @@
     "timeMinutes": 35,
     "servings": 3,
     "ingredients": [
-      { "name": "beef", "quantity": 300, "unit": "g" },
-      { "name": "quinoa", "quantity": 1, "unit": "cup" },
-      { "name": "bell pepper", "quantity": 1, "unit": "pcs" },
-      { "name": "onion", "quantity": 1, "unit": "pcs" },
-      { "name": "cumin", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "beef",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "quinoa",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "bell pepper",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "onion",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "cumin",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Cook quinoa.",
       "Brown beef with spices and vegetables.",
       "Serve beef over quinoa."
     ],
-    "nutrition": { "calories": 560, "protein": 36, "carbs": 48, "fat": 24 },
-    "dietaryTags": ["gluten-free"]
+    "nutrition": {
+      "calories": 560,
+      "protein": 36,
+      "carbs": 48,
+      "fat": 24
+    },
+    "dietaryTags": [
+      "gluten-free"
+    ],
+    "image": "Taco-Quinoa-Bowl-POST-OH-CU-vert_f3enh3"
   },
-
   {
     "id": "recipe-011",
     "name": "Zucchini Noodles with Pesto",
@@ -235,21 +509,49 @@
     "timeMinutes": 15,
     "servings": 2,
     "ingredients": [
-      { "name": "zucchini", "quantity": 2, "unit": "pcs" },
-      { "name": "pesto", "quantity": 2, "unit": "tbsp" },
-      { "name": "parmesan", "quantity": 2, "unit": "tbsp" },
-      { "name": "olive oil", "quantity": 1, "unit": "tsp" },
-      { "name": "garlic", "quantity": 1, "unit": "clove" }
+      {
+        "name": "zucchini",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "pesto",
+        "quantity": 2,
+        "unit": "tbsp"
+      },
+      {
+        "name": "parmesan",
+        "quantity": 2,
+        "unit": "tbsp"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": 1,
+        "unit": "clove"
+      }
     ],
     "steps": [
       "Spiralize zucchini.",
       "Warm garlic in olive oil.",
       "Toss zucchini with pesto and parmesan."
     ],
-    "nutrition": { "calories": 260, "protein": 10, "carbs": 14, "fat": 18 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 260,
+      "protein": 10,
+      "carbs": 14,
+      "fat": 18
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Zucchini-Noodles-with-Pesto_mma5q0"
   },
-
   {
     "id": "recipe-012",
     "name": "Shrimp Tacos",
@@ -258,21 +560,46 @@
     "timeMinutes": 20,
     "servings": 2,
     "ingredients": [
-      { "name": "shrimp", "quantity": 250, "unit": "g" },
-      { "name": "tortillas", "quantity": 4, "unit": "pcs" },
-      { "name": "cabbage", "quantity": 1, "unit": "cup" },
-      { "name": "lime", "quantity": 1, "unit": "pcs" },
-      { "name": "avocado", "quantity": 0.5, "unit": "pcs" }
+      {
+        "name": "shrimp",
+        "quantity": 250,
+        "unit": "g"
+      },
+      {
+        "name": "tortillas",
+        "quantity": 4,
+        "unit": "pcs"
+      },
+      {
+        "name": "cabbage",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "lime",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "avocado",
+        "quantity": 0.5,
+        "unit": "pcs"
+      }
     ],
     "steps": [
       "Season and sauté shrimp.",
       "Warm tortillas.",
       "Assemble tacos with cabbage, avocado, and lime."
     ],
-    "nutrition": { "calories": 420, "protein": 28, "carbs": 38, "fat": 16 },
-    "dietaryTags": []
+    "nutrition": {
+      "calories": 420,
+      "protein": 28,
+      "carbs": 38,
+      "fat": 16
+    },
+    "dietaryTags": [],
+    "image": "Shrimp-Taco_wwxh7j"
   },
-
   {
     "id": "recipe-013",
     "name": "Mushroom Risotto",
@@ -281,21 +608,48 @@
     "timeMinutes": 45,
     "servings": 4,
     "ingredients": [
-      { "name": "arborio rice", "quantity": 1.5, "unit": "cups" },
-      { "name": "mushroom", "quantity": 2, "unit": "cups" },
-      { "name": "onion", "quantity": 1, "unit": "pcs" },
-      { "name": "vegetable broth", "quantity": 4, "unit": "cups" },
-      { "name": "parmesan", "quantity": 0.5, "unit": "cup" }
+      {
+        "name": "arborio rice",
+        "quantity": 1.5,
+        "unit": "cups"
+      },
+      {
+        "name": "mushroom",
+        "quantity": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "onion",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "vegetable broth",
+        "quantity": 4,
+        "unit": "cups"
+      },
+      {
+        "name": "parmesan",
+        "quantity": 0.5,
+        "unit": "cup"
+      }
     ],
     "steps": [
       "Sauté onion and mushrooms.",
       "Add rice and gradually stir in broth.",
       "Finish with parmesan."
     ],
-    "nutrition": { "calories": 510, "protein": 16, "carbs": 72, "fat": 18 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 510,
+      "protein": 16,
+      "carbs": 72,
+      "fat": 18
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "Mushroom-Risotto_fpndvd"
   },
-
   {
     "id": "recipe-014",
     "name": "Greek Yogurt Parfait",
@@ -304,20 +658,47 @@
     "timeMinutes": 5,
     "servings": 1,
     "ingredients": [
-      { "name": "greek yogurt", "quantity": 1, "unit": "cup" },
-      { "name": "berries", "quantity": 0.5, "unit": "cup" },
-      { "name": "granola", "quantity": 0.25, "unit": "cup" },
-      { "name": "honey", "quantity": 1, "unit": "tsp" },
-      { "name": "almonds", "quantity": 1, "unit": "tbsp" }
+      {
+        "name": "greek yogurt",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "berries",
+        "quantity": 0.5,
+        "unit": "cup"
+      },
+      {
+        "name": "granola",
+        "quantity": 0.25,
+        "unit": "cup"
+      },
+      {
+        "name": "honey",
+        "quantity": 1,
+        "unit": "tsp"
+      },
+      {
+        "name": "almonds",
+        "quantity": 1,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Layer yogurt, berries, and granola.",
       "Drizzle with honey and top with almonds."
     ],
-    "nutrition": { "calories": 320, "protein": 18, "carbs": 38, "fat": 10 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 320,
+      "protein": 18,
+      "carbs": 38,
+      "fat": 10
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "Greek-Yogurt-Parfait_gh0fix"
   },
-
   {
     "id": "recipe-015",
     "name": "Black Bean Chili",
@@ -326,21 +707,49 @@
     "timeMinutes": 40,
     "servings": 4,
     "ingredients": [
-      { "name": "black beans", "quantity": 2, "unit": "cups" },
-      { "name": "tomato", "quantity": 2, "unit": "pcs" },
-      { "name": "onion", "quantity": 1, "unit": "pcs" },
-      { "name": "bell pepper", "quantity": 1, "unit": "pcs" },
-      { "name": "chili powder", "quantity": 1, "unit": "tbsp" }
+      {
+        "name": "black beans",
+        "quantity": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "tomato",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "onion",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "bell pepper",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "chili powder",
+        "quantity": 1,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Sauté onion and pepper.",
       "Add beans, tomatoes, and spices.",
       "Simmer until thickened."
     ],
-    "nutrition": { "calories": 390, "protein": 18, "carbs": 58, "fat": 8 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 390,
+      "protein": 18,
+      "carbs": 58,
+      "fat": 8
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Black-Bean-Chili_xchgdo"
   },
-
   {
     "id": "recipe-016",
     "name": "Quinoa Kale Salad",
@@ -349,21 +758,49 @@
     "timeMinutes": 15,
     "servings": 2,
     "ingredients": [
-      { "name": "quinoa", "quantity": 1, "unit": "cup" },
-      { "name": "kale", "quantity": 2, "unit": "cups" },
-      { "name": "cucumber", "quantity": 0.5, "unit": "pcs" },
-      { "name": "feta", "quantity": 0.25, "unit": "cup" },
-      { "name": "lemon", "quantity": 0.5, "unit": "pcs" }
+      {
+        "name": "quinoa",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "kale",
+        "quantity": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "cucumber",
+        "quantity": 0.5,
+        "unit": "pcs"
+      },
+      {
+        "name": "feta",
+        "quantity": 0.25,
+        "unit": "cup"
+      },
+      {
+        "name": "lemon",
+        "quantity": 0.5,
+        "unit": "pcs"
+      }
     ],
     "steps": [
       "Cook quinoa and let cool.",
       "Massage kale with lemon.",
       "Toss with quinoa, cucumber, and feta."
     ],
-    "nutrition": { "calories": 340, "protein": 12, "carbs": 40, "fat": 14 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 340,
+      "protein": 12,
+      "carbs": 40,
+      "fat": 14
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Quinoa-Kale-Salad_exfmps"
   },
-
   {
     "id": "recipe-017",
     "name": "Spicy Ramen with Egg",
@@ -372,21 +809,46 @@
     "timeMinutes": 25,
     "servings": 2,
     "ingredients": [
-      { "name": "ramen noodles", "quantity": 2, "unit": "packs" },
-      { "name": "egg", "quantity": 2, "unit": "pcs" },
-      { "name": "spinach", "quantity": 1, "unit": "cup" },
-      { "name": "miso", "quantity": 1, "unit": "tbsp" },
-      { "name": "chili paste", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "ramen noodles",
+        "quantity": 2,
+        "unit": "packs"
+      },
+      {
+        "name": "egg",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "spinach",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "miso",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "chili paste",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Cook noodles and prepare broth with miso and chili paste.",
       "Soft-boil eggs.",
       "Serve ramen with spinach and egg."
     ],
-    "nutrition": { "calories": 560, "protein": 22, "carbs": 72, "fat": 18 },
-    "dietaryTags": []
+    "nutrition": {
+      "calories": 560,
+      "protein": 22,
+      "carbs": 72,
+      "fat": 18
+    },
+    "dietaryTags": [],
+    "image": "Spicy-Ramen-with-Egg_olro99"
   },
-
   {
     "id": "recipe-018",
     "name": "Baked Sweet Potato",
@@ -395,20 +857,48 @@
     "timeMinutes": 45,
     "servings": 2,
     "ingredients": [
-      { "name": "sweet potato", "quantity": 2, "unit": "pcs" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
-      { "name": "paprika", "quantity": 1, "unit": "tsp" },
-      { "name": "yogurt", "quantity": 2, "unit": "tbsp" },
-      { "name": "chives", "quantity": 1, "unit": "tbsp" }
+      {
+        "name": "sweet potato",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "paprika",
+        "quantity": 1,
+        "unit": "tsp"
+      },
+      {
+        "name": "yogurt",
+        "quantity": 2,
+        "unit": "tbsp"
+      },
+      {
+        "name": "chives",
+        "quantity": 1,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Bake sweet potatoes until tender.",
       "Top with yogurt, paprika, and chives."
     ],
-    "nutrition": { "calories": 280, "protein": 6, "carbs": 50, "fat": 6 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 280,
+      "protein": 6,
+      "carbs": 50,
+      "fat": 6
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "269177-loaded-twice-baked-sweet-potatoes-VAT-Beauty-4x3-c7ca5e3f865647ad8ab063c09a987cdd_i5eak6"
   },
-
   {
     "id": "recipe-019",
     "name": "Veggie Fried Rice",
@@ -417,21 +907,48 @@
     "timeMinutes": 20,
     "servings": 3,
     "ingredients": [
-      { "name": "rice", "quantity": 2, "unit": "cups" },
-      { "name": "egg", "quantity": 2, "unit": "pcs" },
-      { "name": "peas", "quantity": 0.5, "unit": "cup" },
-      { "name": "carrot", "quantity": 1, "unit": "pcs" },
-      { "name": "soy sauce", "quantity": 2, "unit": "tbsp" }
+      {
+        "name": "rice",
+        "quantity": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "egg",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "peas",
+        "quantity": 0.5,
+        "unit": "cup"
+      },
+      {
+        "name": "carrot",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "soy sauce",
+        "quantity": 2,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Scramble eggs and set aside.",
       "Stir-fry veggies and rice with soy sauce.",
       "Stir in eggs to finish."
     ],
-    "nutrition": { "calories": 470, "protein": 14, "carbs": 76, "fat": 12 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 470,
+      "protein": 14,
+      "carbs": 76,
+      "fat": 12
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "79543-Easy-Fried-Rice-DDMFS-4x3-426f1d764c354b7880a5a9a9f0a52a90_cj9frf"
   },
-
   {
     "id": "recipe-020",
     "name": "Herbed Lentil Soup",
@@ -440,21 +957,49 @@
     "timeMinutes": 35,
     "servings": 4,
     "ingredients": [
-      { "name": "lentils", "quantity": 1.5, "unit": "cups" },
-      { "name": "carrot", "quantity": 2, "unit": "pcs" },
-      { "name": "celery", "quantity": 2, "unit": "stalks" },
-      { "name": "onion", "quantity": 1, "unit": "pcs" },
-      { "name": "vegetable broth", "quantity": 4, "unit": "cups" }
+      {
+        "name": "lentils",
+        "quantity": 1.5,
+        "unit": "cups"
+      },
+      {
+        "name": "carrot",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "celery",
+        "quantity": 2,
+        "unit": "stalks"
+      },
+      {
+        "name": "onion",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "vegetable broth",
+        "quantity": 4,
+        "unit": "cups"
+      }
     ],
     "steps": [
       "Sauté onion, carrot, and celery.",
       "Add lentils and broth.",
       "Simmer until lentils are tender."
     ],
-    "nutrition": { "calories": 360, "protein": 20, "carbs": 52, "fat": 6 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 360,
+      "protein": 20,
+      "carbs": 52,
+      "fat": 6
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "lentil-soup-recipe-2-677c54158ad10_m4stzs"
   },
-
   {
     "id": "recipe-021",
     "name": "Fruit Salad with Honey Lime",
@@ -463,22 +1008,54 @@
     "timeMinutes": 10,
     "servings": 2,
     "ingredients": [
-      { "name": "apple", "quantity": 1, "unit": "pcs" },
-      { "name": "banana", "quantity": 1, "unit": "pcs" },
-      { "name": "orange", "quantity": 1, "unit": "pcs" },
-      { "name": "berries", "quantity": 0.5, "unit": "cup" },
-      { "name": "honey", "quantity": 1, "unit": "tbsp" },
-      { "name": "lime", "quantity": 0.5, "unit": "pcs" }
+      {
+        "name": "apple",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "banana",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "orange",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "berries",
+        "quantity": 0.5,
+        "unit": "cup"
+      },
+      {
+        "name": "honey",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "lime",
+        "quantity": 0.5,
+        "unit": "pcs"
+      }
     ],
     "steps": [
       "Chop all fruits into bite-sized pieces.",
       "Mix honey with lime juice.",
       "Toss fruits with dressing and serve chilled."
     ],
-    "nutrition": { "calories": 220, "protein": 3, "carbs": 54, "fat": 1 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 220,
+      "protein": 3,
+      "carbs": 54,
+      "fat": 1
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Easy-Fruit-Salad_ckxjsl"
   },
-
   {
     "id": "recipe-022",
     "name": "Banana Berry Smoothie",
@@ -487,20 +1064,44 @@
     "timeMinutes": 5,
     "servings": 1,
     "ingredients": [
-      { "name": "banana", "quantity": 1, "unit": "pcs" },
-      { "name": "berries", "quantity": 0.75, "unit": "cup" },
-      { "name": "milk", "quantity": 1, "unit": "cup" },
-      { "name": "honey", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "banana",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "berries",
+        "quantity": 0.75,
+        "unit": "cup"
+      },
+      {
+        "name": "milk",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "honey",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Add all ingredients to blender.",
       "Blend until smooth.",
       "Serve immediately."
     ],
-    "nutrition": { "calories": 280, "protein": 8, "carbs": 48, "fat": 6 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 280,
+      "protein": 8,
+      "carbs": 48,
+      "fat": 6
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Blueberry-Banana-Smoothie-Dairy-Free-Healthy-Delicious-Double-Size-1_dwsixi"
   },
-
   {
     "id": "recipe-023",
     "name": "Avocado Mango Salad",
@@ -509,21 +1110,49 @@
     "timeMinutes": 12,
     "servings": 2,
     "ingredients": [
-      { "name": "avocado", "quantity": 1, "unit": "pcs" },
-      { "name": "mango", "quantity": 1, "unit": "pcs" },
-      { "name": "onion", "quantity": 0.25, "unit": "pcs" },
-      { "name": "lime", "quantity": 0.5, "unit": "pcs" },
-      { "name": "olive oil", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "avocado",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "mango",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "onion",
+        "quantity": 0.25,
+        "unit": "pcs"
+      },
+      {
+        "name": "lime",
+        "quantity": 0.5,
+        "unit": "pcs"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Dice avocado and mango.",
       "Slice onion thinly.",
       "Toss with lime juice and olive oil."
     ],
-    "nutrition": { "calories": 260, "protein": 4, "carbs": 32, "fat": 14 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 260,
+      "protein": 4,
+      "carbs": 32,
+      "fat": 14
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "images_5_d3qzx4"
   },
-
   {
     "id": "recipe-024",
     "name": "Apple Cinnamon Oatmeal",
@@ -532,20 +1161,43 @@
     "timeMinutes": 10,
     "servings": 1,
     "ingredients": [
-      { "name": "oats", "quantity": 0.5, "unit": "cup" },
-      { "name": "apple", "quantity": 1, "unit": "pcs" },
-      { "name": "milk", "quantity": 1, "unit": "cup" },
-      { "name": "cinnamon", "quantity": 0.5, "unit": "tsp" }
+      {
+        "name": "oats",
+        "quantity": 0.5,
+        "unit": "cup"
+      },
+      {
+        "name": "apple",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "milk",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": 0.5,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Cook oats with milk.",
       "Add diced apple and cinnamon.",
       "Simmer until soft."
     ],
-    "nutrition": { "calories": 310, "protein": 9, "carbs": 52, "fat": 7 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 310,
+      "protein": 9,
+      "carbs": 52,
+      "fat": 7
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "apple-cinnamon-oatmeal-hero_jld3aj"
   },
-
   {
     "id": "recipe-025",
     "name": "Greek Yogurt with Fruits",
@@ -554,18 +1206,38 @@
     "timeMinutes": 5,
     "servings": 1,
     "ingredients": [
-      { "name": "greek yogurt", "quantity": 1, "unit": "cup" },
-      { "name": "berries", "quantity": 0.5, "unit": "cup" },
-      { "name": "honey", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "greek yogurt",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "berries",
+        "quantity": 0.5,
+        "unit": "cup"
+      },
+      {
+        "name": "honey",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Add yogurt to bowl.",
       "Top with fruits and honey."
     ],
-    "nutrition": { "calories": 240, "protein": 15, "carbs": 28, "fat": 6 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 240,
+      "protein": 15,
+      "carbs": 28,
+      "fat": 6
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Fruit-Yogurt-Nut-Plate-3_kzaywh"
   },
-
   {
     "id": "recipe-026",
     "name": "Citrus Fruit Bowl",
@@ -574,20 +1246,44 @@
     "timeMinutes": 8,
     "servings": 2,
     "ingredients": [
-      { "name": "orange", "quantity": 2, "unit": "pcs" },
-      { "name": "grapefruit", "quantity": 1, "unit": "pcs" },
-      { "name": "lemon", "quantity": 0.5, "unit": "pcs" },
-      { "name": "mint", "quantity": 5, "unit": "leaves" }
+      {
+        "name": "orange",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "grapefruit",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "lemon",
+        "quantity": 0.5,
+        "unit": "pcs"
+      },
+      {
+        "name": "mint",
+        "quantity": 5,
+        "unit": "leaves"
+      }
     ],
     "steps": [
       "Peel and slice citrus fruits.",
       "Sprinkle with lemon juice.",
       "Garnish with mint."
     ],
-    "nutrition": { "calories": 180, "protein": 3, "carbs": 42, "fat": 0 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 180,
+      "protein": 3,
+      "carbs": 42,
+      "fat": 0
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "citrus-fruit-salad-recipe_alrt4m"
   },
-
   {
     "id": "recipe-027",
     "name": "Peanut Butter Banana Toast",
@@ -596,19 +1292,38 @@
     "timeMinutes": 5,
     "servings": 1,
     "ingredients": [
-      { "name": "bread", "quantity": 2, "unit": "slices" },
-      { "name": "banana", "quantity": 1, "unit": "pcs" },
-      { "name": "peanut butter", "quantity": 2, "unit": "tbsp" }
+      {
+        "name": "bread",
+        "quantity": 2,
+        "unit": "slices"
+      },
+      {
+        "name": "banana",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "peanut butter",
+        "quantity": 2,
+        "unit": "tbsp"
+      }
     ],
     "steps": [
       "Toast bread.",
       "Spread peanut butter.",
       "Top with sliced banana."
     ],
-    "nutrition": { "calories": 360, "protein": 12, "carbs": 42, "fat": 16 },
-    "dietaryTags": ["vegetarian"]
+    "nutrition": {
+      "calories": 360,
+      "protein": 12,
+      "carbs": 42,
+      "fat": 16
+    },
+    "dietaryTags": [
+      "vegetarian"
+    ],
+    "image": "images_6_u8u7ez"
   },
-
   {
     "id": "recipe-028",
     "name": "Mango Smoothie Bowl",
@@ -617,18 +1332,38 @@
     "timeMinutes": 7,
     "servings": 1,
     "ingredients": [
-      { "name": "mango", "quantity": 1, "unit": "pcs" },
-      { "name": "banana", "quantity": 0.5, "unit": "pcs" },
-      { "name": "yogurt", "quantity": 0.5, "unit": "cup" }
+      {
+        "name": "mango",
+        "quantity": 1,
+        "unit": "pcs"
+      },
+      {
+        "name": "banana",
+        "quantity": 0.5,
+        "unit": "pcs"
+      },
+      {
+        "name": "yogurt",
+        "quantity": 0.5,
+        "unit": "cup"
+      }
     ],
     "steps": [
       "Blend mango, banana, and yogurt.",
       "Pour into bowl and serve."
     ],
-    "nutrition": { "calories": 290, "protein": 8, "carbs": 48, "fat": 6 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 290,
+      "protein": 8,
+      "carbs": 48,
+      "fat": 6
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "211112_Mango-Smoothie-Bowl-3-660x988_e6vliw"
   },
-
   {
     "id": "recipe-029",
     "name": "Zucchini Garlic Sauté",
@@ -637,18 +1372,32 @@
     "timeMinutes": 10,
     "servings": 2,
     "ingredients": [
-      { "name": "zucchini", "quantity": 2, "unit": "pcs" },
-      { "name": "garlic", "quantity": 2, "unit": "cloves" }
+      {
+        "name": "zucchini",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "garlic",
+        "quantity": 2,
+        "unit": "cloves"
+      }
     ],
     "steps": [
       "Slice zucchini into rounds.",
       "Sauté garlic in olive oil until fragrant.",
       "Add zucchini and cook until tender."
     ],
-    "nutrition": { "calories": 120, "protein": 3 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 120,
+      "protein": 3
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Easy-Sauteed-Zucchini-recipe_m6qxwo"
   },
-
   {
     "id": "recipe-030",
     "name": "Fresh Cucumber Salad",
@@ -657,17 +1406,31 @@
     "timeMinutes": 5,
     "servings": 2,
     "ingredients": [
-      { "name": "cucumber", "quantity": 1, "unit": "large" },
-      { "name": "salt", "quantity": 0.5, "unit": "tsp" }
+      {
+        "name": "cucumber",
+        "quantity": 1,
+        "unit": "large"
+      },
+      {
+        "name": "salt",
+        "quantity": 0.5,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Slice cucumber thinly.",
       "Season lightly with salt and serve fresh."
     ],
-    "nutrition": { "calories": 40, "protein": 1 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 40,
+      "protein": 1
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Easy-Sauteed-Zucchini-recipe_m6qxwo"
   },
-
   {
     "id": "recipe-031",
     "name": "Bell Pepper Stir Fry",
@@ -676,19 +1439,37 @@
     "timeMinutes": 10,
     "servings": 2,
     "ingredients": [
-      { "name": "bell pepper", "quantity": 2, "unit": "pcs" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
-      { "name": "salt", "quantity": 0.5, "unit": "tsp" }
+      {
+        "name": "bell pepper",
+        "quantity": 2,
+        "unit": "pcs"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "quantity": 0.5,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Slice bell peppers into strips.",
       "Heat oil in a pan.",
       "Stir fry peppers until slightly soft."
     ],
-    "nutrition": { "calories": 90, "protein": 2 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 90,
+      "protein": 2
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "images_7_f4xw7x"
   },
-
   {
     "id": "recipe-032",
     "name": "Roasted Cauliflower",
@@ -697,19 +1478,37 @@
     "timeMinutes": 25,
     "servings": 2,
     "ingredients": [
-      { "name": "cauliflower", "quantity": 1, "unit": "small" },
-      { "name": "olive oil", "quantity": 1, "unit": "tbsp" },
-      { "name": "salt", "quantity": 0.5, "unit": "tsp" }
+      {
+        "name": "cauliflower",
+        "quantity": 1,
+        "unit": "small"
+      },
+      {
+        "name": "olive oil",
+        "quantity": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "quantity": 0.5,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Cut cauliflower into florets.",
       "Toss with oil and salt.",
       "Roast at 200°C until golden."
     ],
-    "nutrition": { "calories": 150, "protein": 4 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 150,
+      "protein": 4
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "Roasted-cauliflower-5d46e99_gimrus"
   },
-
   {
     "id": "recipe-033",
     "name": "Strawberry Fruit Bowl",
@@ -718,14 +1517,29 @@
     "timeMinutes": 5,
     "servings": 1,
     "ingredients": [
-      { "name": "strawberry", "quantity": 1, "unit": "cup" },
-      { "name": "honey", "quantity": 1, "unit": "tsp" }
+      {
+        "name": "strawberry",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "honey",
+        "quantity": 1,
+        "unit": "tsp"
+      }
     ],
     "steps": [
       "Wash and slice strawberries.",
       "Drizzle with honey and serve."
     ],
-    "nutrition": { "calories": 80, "protein": 1 },
-    "dietaryTags": ["vegetarian", "gluten-free"]
+    "nutrition": {
+      "calories": 80,
+      "protein": 1
+    },
+    "dietaryTags": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "image": "images_8_jfnben"
   }
 ]

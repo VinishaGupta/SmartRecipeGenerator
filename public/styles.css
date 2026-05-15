@@ -541,6 +541,14 @@ details summary {
   align-self: flex-start;
 }
 
+.recipe-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f1f5f9;
+}
+
 #viewFavoritesBtn {
   display: inline-flex;
   align-items: center;
@@ -617,6 +625,15 @@ details summary {
   align-items: flex-start;
   padding-bottom: 24px;
   border-bottom: 1px solid #e2e8f0;
+}
+
+.recipe-detail-image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #f1f5f9;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
 }
 
 .recipe-detail-meta {

@@ -5,7 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "seed:recipes": "node scripts/seedRecipes.js"
+    "seed:recipes": "node scripts/seedRecipes.js",
+    "update:recipe-images": "node scripts/updateRecipeImages.js"
   },
   "engines": {
     "node": "24.x"
@@ -13,6 +14,7 @@
   "dependencies": {
     "dotenv": "^17.2.4",
     "mongodb": "^7.2.0",
+    "mongoose": "^9.6.2",
     "node-fetch": "^3.3.2"
   }
 }
