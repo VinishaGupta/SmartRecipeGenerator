@@ -658,10 +658,11 @@ input[type="range"] {
 }
 
 .recipe-detail-page .back-link {
-  position: sticky;
+  position: fixed;
   top: 94px;
+  left: clamp(8px, 2vw, 24px);
   z-index: 24;
-  margin: 16px 0 0 clamp(10px, 2.5vw, 30px);
+  margin: 0;
   width: max-content;
   color: #fff;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
@@ -962,6 +963,11 @@ input[type="range"] {
 
   .recipe-content-pane h1 {
     font-size: 40px;
+  }
+
+  .recipe-detail-page .back-link {
+    top: 82px;
+    left: 10px;
   }
 
   .article1{
