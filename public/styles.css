@@ -634,7 +634,10 @@ input[type="range"] {
   color: var(--brand);
   text-decoration: none;
   font-weight: 800;
+  
 }
+
+
 
 .recipe-link {
   margin-top: auto;
@@ -655,9 +658,11 @@ input[type="range"] {
 }
 
 .recipe-detail-page .back-link {
-  position: absolute;
-  z-index: 4;
-  margin: 24px clamp(20px, 5vw, 80px);
+  position: sticky;
+  top: 94px;
+  z-index: 24;
+  margin: 16px 0 0 clamp(10px, 2.5vw, 30px);
+  width: max-content;
   color: #fff;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
