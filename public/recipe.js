@@ -96,10 +96,6 @@ const renderRecipe = (recipe) => {
       </article>
     </div>
 
-    <button class="meal-plan-action" type="button">
-      <i data-lucide="calendar-plus"></i>
-      Add to Meal Plan
-    </button>
   `;
 };
 

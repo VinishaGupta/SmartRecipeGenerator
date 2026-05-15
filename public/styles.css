@@ -945,4 +945,9 @@ input[type="range"] {
   .recipe-content-pane h1 {
     font-size: 40px;
   }
+
+  .article1{
+    cursor: pointer;
+  }
 }
+

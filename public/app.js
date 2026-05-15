@@ -601,7 +601,7 @@ const renderRecipes = (results) => {
         data-recipe-url="${getRecipeUrl(r)}"
         role="link"
         tabindex="0"
-        po
+        style="cursor:pointer;"
       >
         <div class="recipe-image-wrap">
           ${recipeImageMarkup(r)}
