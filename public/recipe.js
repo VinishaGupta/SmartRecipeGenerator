@@ -83,7 +83,14 @@ const renderRecipe = (recipe) => {
         </div>
         <ul class="ingredient-list">
           ${(recipe.ingredients || []).map(ingredient => `
-            <li><span></span>${formatIngredient(ingredient)}</li>
+            <li>
+              <input
+                class="ingredient-check"
+                type="checkbox"
+                aria-label="Mark ingredient as ready: ${formatIngredient(ingredient)}"
+              />
+              ${formatIngredient(ingredient)}
+            </li>
           `).join("")}
         </ul>
 

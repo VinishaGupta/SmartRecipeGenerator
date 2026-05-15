@@ -813,12 +813,25 @@ input[type="range"] {
   font-size: 20px;
 }
 
-.ingredient-list li span {
+.ingredient-list .ingredient-check {
+  appearance: none;
+  -webkit-appearance: none;
   width: 26px;
   height: 26px;
   flex: 0 0 auto;
   border: 1px solid #d9a982;
   border-radius: 9px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.ingredient-list .ingredient-check:checked {
+  background-color: #d9a982;
+  border-color: #d9a982;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
 }
 
 .steps-panel {
