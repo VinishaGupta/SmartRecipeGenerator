@@ -422,8 +422,14 @@ const getFilteredRecipes = () => {
   const dietaryPrefs = getDietaryPreferences();
   const selectedDifficulty = difficultySelect.value;
   const maxTime = Number(timeInput.value);
+  const favoritesOnly = favoritesToggle.checked;
+  const favoriteIds = new Set(getFavorites().map(String));
 
   return recipes
+    .filter(r => {
+      if (!favoritesOnly) return true;
+      return favoriteIds.has(String(r.id));
+    })
     .filter(r => {
       if (!dietaryPrefs.length) return true;
       return dietaryPrefs.every(pref =>
@@ -457,8 +463,14 @@ const matchRecipes = () => {
   const dietaryPrefs = getDietaryPreferences();
   const selectedDifficulty = difficultySelect.value;
   const maxTime = Number(timeInput.value);
+  const favoritesOnly = favoritesToggle.checked;
+  const favoriteIds = new Set(getFavorites().map(String));
 
   const results = recipes
+    .filter(r => {
+      if (!favoritesOnly) return true;
+      return favoriteIds.has(String(r.id));
+    })
     // DIETARY FILTER
     .filter(r => {
       if (!dietaryPrefs.length) return true;
