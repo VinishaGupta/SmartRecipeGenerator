@@ -798,6 +798,126 @@ input[type="range"] {
   line-height: 1.5;
 }
 
+/* Auth Modal styles */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 6, 5, 0.45);
+  z-index: 80;
+}
+
+.modal-content {
+  width: min(980px, 94%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px rgba(20, 12, 8, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+
+.auth-container {
+  display: block;
+}
+
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 560px;
+}
+
+.auth-visual {
+  background-image: url('assets/sigin_login_image.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.auth-forms {
+  padding: clamp(28px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.tab-button {
+  background: transparent;
+  border: 0;
+  padding: 10px 16px;
+  font-weight: 800;
+  color: var(--muted);
+  border-radius: 10px;
+}
+
+.tab-button.active {
+  color: var(--brand);
+  background: #fff6f0;
+}
+
+.auth-form {
+  display: none;
+  width: 100%;
+}
+
+.auth-form.active {
+  display: block;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.form-group input {
+  min-height: 50px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #efe6e0;
+  background: #fff;
+}
+
+.google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid #eee;
+}
+
+@media (max-width: 900px) {
+  .auth-split {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-visual {
+    min-height: 220px;
+    background-position: center 30%;
+  }
+}
+
 .detail-eyebrow {
   margin: 0 0 28px;
   color: var(--brand);

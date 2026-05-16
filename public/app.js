@@ -137,11 +137,8 @@ const initAuthUI = async () => {
     authBtn.title = 'Sign out';
   } else {
     authBtn.textContent = 'Sign in';
-    authBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openAuthModal();
-    });
-    authBtn.href = '#';
+    // Navigate to dedicated sign-in page instead of opening modal
+    authBtn.href = '/signin.html';
     authBtn.title = 'Sign in';
   }
 };
