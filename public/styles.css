@@ -478,8 +478,8 @@ input[type="range"] {
 
 #recipeList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 34px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
 }
 
 .recipe-card {
@@ -505,7 +505,7 @@ input[type="range"] {
   position: absolute;
   top: 18px;
   left: 18px;
-  right: 74px;
+    right: 50px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -516,10 +516,11 @@ input[type="range"] {
 .detail-tag {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
+  min-height: 22px;
   border-radius: 999px;
-  padding: 0 16px;
-  font-weight: 800;
+  padding: 0 8px;
+  font-weight: 700;
+  font-size: 10px;
 }
 
 .tag,
@@ -537,8 +538,8 @@ input[type="range"] {
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 56px;
-  height: 56px;
+    width: 36px;
+    height: 36px;
   display: grid;
   place-items: center;
   border: 0;
@@ -560,7 +561,7 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 30px;
+    padding: 12px;
 }
 
 .recipe-title-row {
@@ -572,7 +573,7 @@ input[type="range"] {
 
 .recipe-title-row h3 {
   margin: 0;
-  font-size: clamp(26px, 2.4vw, 38px);
+    font-size: 14px;
   line-height: 1.18;
   letter-spacing: 0;
 }
@@ -595,7 +596,7 @@ input[type="range"] {
 .recipe-cuisine {
   margin: 0;
   color: #4e3728;
-  font-size: 18px;
+    font-size: 11px;
 }
 
 .recipe-meta {
@@ -611,11 +612,12 @@ input[type="range"] {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+    font-size: 11px;
 }
 
 .recipe-meta svg {
-  width: 20px;
-  height: 20px;
+    width: 14px;
+    height: 14px;
 }
 
 .match-copy {

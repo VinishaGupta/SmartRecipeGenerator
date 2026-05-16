@@ -119,10 +119,12 @@ const normalize = (str) =>
  * RECIPE UTILITIES
  *************************************************/
 const recipeImageMarkup = (r) => {
-  const cloudinaryUrl = (id) =>
-    `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_400,h_400,c_fill,q_auto,f_auto/recipe_images/${RECIPE_IMAGE_FOLDER}${id}.jpg`;
+  const cloudinaryUrl = (imageName) => {
+    if (!imageName) return FALLBACK_RECIPE_IMAGE;
+    return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_300,h_300,c_fill,q_auto,f_auto/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}`;
+  };
 
-  return `<img class="recipe-card-image" src="${cloudinaryUrl(r.id)}" alt="${r.name}" onerror="this.src='${FALLBACK_RECIPE_IMAGE}'">`;
+  return `<img class="recipe-card-image" src="${cloudinaryUrl(r.image)}" alt="${r.name}" onerror="this.src='${FALLBACK_RECIPE_IMAGE}'">`;
 };
 
 const getRecipeTags = (recipe) => {
