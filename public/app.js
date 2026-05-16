@@ -210,7 +210,7 @@ if (loginForm) {
     const password = document.getElementById("loginPassword").value;
 
     try {
-      loginError.textContent = "";
+      if (loginError) loginError.textContent = "";
       const res = await fetch(apiUrl("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -220,17 +220,26 @@ if (loginForm) {
 
       if (!res.ok) {
         const data = await res.json();
-        loginError.textContent = data.error === "invalid_credentials" ? "Invalid email or password" : "Login failed";
+        if (loginError) loginError.textContent = data.error === "invalid_credentials"
+          ? "Invalid email or password. If you do not have an account, choose Join the Kitchen."
+          : "Login failed";
         return;
       }
 
-      closeModal();
       loginForm.reset();
-      initAuthUI();
-      loadRecipes();
+      
+      // If on signin page, redirect to home
+      if (window.location.pathname.includes("signin")) {
+        window.location.href = "/index.html";
+      } else {
+        // Otherwise close modal (for home page)
+        closeModal();
+        initAuthUI();
+        loadRecipes();
+      }
     } catch (err) {
       console.error("Login error:", err);
-      loginError.textContent = "Login failed";
+      if (loginError) loginError.textContent = "Login failed";
     }
   });
 }
@@ -243,7 +252,7 @@ if (signupForm) {
     const displayName = document.getElementById("signupName").value;
 
     try {
-      signupError.textContent = "";
+      if (signupError) signupError.textContent = "";
       const res = await fetch(apiUrl("/api/auth/signup"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -253,17 +262,24 @@ if (signupForm) {
 
       if (!res.ok) {
         const data = await res.json();
-        signupError.textContent = data.error === "user_exists" ? "Email already exists" : "Signup failed";
+        if (signupError) signupError.textContent = data.error === "user_exists" ? "Email already exists" : "Signup failed";
         return;
       }
 
-      closeModal();
       signupForm.reset();
-      initAuthUI();
-      loadRecipes();
+      
+      // If on signin page, redirect to home
+      if (window.location.pathname.includes("signin")) {
+        window.location.href = "/index.html";
+      } else {
+        // Otherwise close modal (for home page)
+        closeModal();
+        initAuthUI();
+        loadRecipes();
+      }
     } catch (err) {
       console.error("Signup error:", err);
-      signupError.textContent = "Signup failed";
+      if (signupError) signupError.textContent = "Signup failed";
     }
   });
 }

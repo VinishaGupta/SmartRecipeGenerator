@@ -205,6 +205,12 @@
     .error-message.show {
       display: block;
     }
+    .auth-panel {
+      display: none;
+    }
+    .auth-panel.active {
+      display: block;
+    }
     @media (max-width: 768px) {
       .signin-container {
         grid-template-columns: 1fr;
@@ -236,8 +242,8 @@
         <span>Culinary Intelligence</span>
       </div>
       
-      <h2 class="signin-title">Welcome Back</h2>
-      <p class="signin-subtitle">Your personal sous-chef is ready to assist.</p>
+      <h2 id="authTitle" class="signin-title">Welcome Back</h2>
+      <p id="authSubtitle" class="signin-subtitle">Your personal sous-chef is ready to assist.</p>
       
       <div class="signin-buttons-group">
         <button type="button" class="signin-btn google" onclick="window.location.href='/api/auth/google'">
@@ -250,7 +256,7 @@
       
       <div style="text-align: center; color: #d1d5db; margin-bottom: 24px; font-size: 12px;">OR EMAIL</div>
       
-      <form id="loginForm">
+      <form id="loginForm" class="auth-panel active">
         <div class="signin-form-group">
           <label for="loginEmail">Email Address</label>
           <input type="email" id="loginEmail" placeholder="" required />
@@ -273,9 +279,34 @@
         
         <button type="submit" class="signin-submit">Sign In</button>
       </form>
+
+      <form id="signupForm" class="auth-panel">
+        <div class="signin-form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" placeholder="" required />
+        </div>
+
+        <div class="signin-form-group">
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" placeholder="" required />
+        </div>
+        
+        <div class="signin-form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" placeholder="" required />
+        </div>
+        
+        <div id="signupError" class="error-message"></div>
+        
+        <button type="submit" class="signin-submit">Create Account</button>
+      </form>
       
       <div class="signin-footer">
-        Don't have an account? <a href="#">Join the Kitchen</a>
+        Don't have an account? <a href="#" id="switchToSignup">Join the Kitchen</a>
+      </div>
+
+      <div class="signin-footer" id="backToLoginWrap" style="display:none; margin-top: 12px;">
+        Already have an account? <a href="#" id="switchToLogin">Sign in</a>
       </div>
       
       <div class="signin-links">
@@ -290,6 +321,46 @@
   <script src="app.js"></script>
   <script>
     lucide.createIcons();
+    
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const switchToSignup = document.getElementById('switchToSignup');
+    const switchToLogin = document.getElementById('switchToLogin');
+    const authTitle = document.getElementById('authTitle');
+    const authSubtitle = document.getElementById('authSubtitle');
+    const backToLoginWrap = document.getElementById('backToLoginWrap');
+
+    const showLogin = () => {
+      if (loginForm) loginForm.classList.add('active');
+      if (signupForm) signupForm.classList.remove('active');
+      if (authTitle) authTitle.textContent = 'Welcome Back';
+      if (authSubtitle) authSubtitle.textContent = 'Your personal sous-chef is ready to assist.';
+      if (switchToSignup?.closest('.signin-footer')) switchToSignup.closest('.signin-footer').style.display = 'block';
+      if (backToLoginWrap) backToLoginWrap.style.display = 'none';
+    };
+
+    const showSignup = () => {
+      if (loginForm) loginForm.classList.remove('active');
+      if (signupForm) signupForm.classList.add('active');
+      if (authTitle) authTitle.textContent = 'Join the Kitchen';
+      if (authSubtitle) authSubtitle.textContent = 'Create your account to save and personalize recipes.';
+      if (switchToSignup?.closest('.signin-footer')) switchToSignup.closest('.signin-footer').style.display = 'none';
+      if (backToLoginWrap) backToLoginWrap.style.display = 'block';
+    };
+    
+    if (switchToSignup) {
+      switchToSignup.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSignup();
+      });
+    }
+
+    if (switchToLogin) {
+      switchToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        showLogin();
+      });
+    }
   </script>
 </body>
 </html>
