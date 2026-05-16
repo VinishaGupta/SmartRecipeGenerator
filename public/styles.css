@@ -310,7 +310,7 @@ button {
 
 .discover-layout {
   display: grid;
-  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 42px;
   padding: 34px clamp(24px, 5vw, 80px) 80px;
 }

@@ -355,10 +355,10 @@ const saveSearchState = () => {
     recognizedIngredients,
     imagePreviewDataUrl,
     imageHint: imageHint.textContent,
-    difficulty: difficultySelect.value,
-    time: timeInput.value,
+    difficulty: difficultySelect?.value || "",
+    time: timeInput?.value || "",
     servings: servingsInput?.value || "",
-    favoritesOnly: favoritesToggle.checked,
+    favoritesOnly: favoritesToggle?.checked || false,
     dietaryPreferences: getDietaryPreferences(),
     selectedIngredients: Array.from(
       document.querySelectorAll(".ingredient-checkbox:checked")
@@ -389,15 +389,21 @@ const restoreSearchState = () => {
     ? state.recognizedIngredients.map(normalize).filter(Boolean)
     : [];
 
-  difficultySelect.value = state.difficulty || "";
-  timeInput.value = state.time ?? timeInput.value;
+  if (difficultySelect) {
+    difficultySelect.value = state.difficulty || "";
+  }
+  if (timeInput) {
+    timeInput.value = state.time ?? timeInput.value;
+  }
   if (servingsInput) {
     servingsInput.value = state.servings || servingsInput.value;
   }
-  if (timeValue) {
+  if (timeValue && timeInput) {
     timeValue.textContent = timeInput.value;
   }
-  favoritesToggle.checked = Boolean(state.favoritesOnly);
+  if (favoritesToggle) {
+    favoritesToggle.checked = Boolean(state.favoritesOnly);
+  }
 
   const dietaryPreferences = new Set(
     (state.dietaryPreferences || []).map(normalize)
@@ -496,6 +502,8 @@ const showImagePreview = (file) => {
  * INGREDIENT SELECTOR
  *************************************************/
 const renderIngredientSelector = () => {
+  if (!ingredientSelector) return; // Exit if element doesn't exist
+  
   ingredientSelector.innerHTML = Object.entries(INGREDIENT_CATEGORIES)
     .map(([category, items]) => `
       <div class="dropdown">
@@ -543,6 +551,8 @@ const renderIngredientSelector = () => {
  * SUBSTITUTIONS
  *************************************************/
 const updateSubstitutions = () => {
+  if (!substitutionList) return; // Exit if element doesn't exist
+  
   substitutionList.innerHTML = Object.entries(DEFAULT_SUBSTITUTIONS)
     .slice(0,4)
     .map(([k,v]) => `<li><strong>${k}:</strong> ${v.join(", ")}</li>`)
@@ -583,9 +593,9 @@ const scoreRecipe = (recipe, available) => {
 
 const getFilteredRecipes = () => {
   const dietaryPrefs = getDietaryPreferences();
-  const selectedDifficulty = difficultySelect.value;
-  const maxTime = Number(timeInput.value);
-  const favoritesOnly = favoritesToggle.checked;
+  const selectedDifficulty = difficultySelect?.value || "";
+  const maxTime = Number(timeInput?.value || 0);
+  const favoritesOnly = favoritesToggle?.checked || false;
   const favoriteIds = new Set(getFavorites().map(String));
 
   return recipes
@@ -624,9 +634,9 @@ const matchRecipes = () => {
   }
 
   const dietaryPrefs = getDietaryPreferences();
-  const selectedDifficulty = difficultySelect.value;
-  const maxTime = Number(timeInput.value);
-  const favoritesOnly = favoritesToggle.checked;
+  const selectedDifficulty = difficultySelect?.value || "";
+  const maxTime = Number(timeInput?.value || 0);
+  const favoritesOnly = favoritesToggle?.checked || false;
   const favoriteIds = new Set(getFavorites().map(String));
 
   const results = recipes
@@ -1274,27 +1284,33 @@ ingredientInput.addEventListener("input", () => {
   rerunMatchIfPossible();
 });
 
-difficultySelect.addEventListener("change", () => {
-  saveSearchState();
-  rerunMatchIfPossible();
-});
+if (difficultySelect) {
+  difficultySelect.addEventListener("change", () => {
+    saveSearchState();
+    rerunMatchIfPossible();
+  });
+}
 
-timeInput.addEventListener("input", () => {
-  if (timeValue) {
-    timeValue.textContent = timeInput.value;
-  }
-  saveSearchState();
-  rerunMatchIfPossible();
-});
+if (timeInput) {
+  timeInput.addEventListener("input", () => {
+    if (timeValue) {
+      timeValue.textContent = timeInput.value;
+    }
+    saveSearchState();
+    rerunMatchIfPossible();
+  });
+}
 
 if (servingsInput) {
   servingsInput.addEventListener("input", saveSearchState);
 }
 
-favoritesToggle.addEventListener("change", () => {
-  saveSearchState();
-  rerunMatchIfPossible();
-});
+if (favoritesToggle) {
+  favoritesToggle.addEventListener("change", () => {
+    saveSearchState();
+    rerunMatchIfPossible();
+  });
+}
 
 document.querySelectorAll(".diet-checkbox").forEach(cb => {
   cb.addEventListener("change", () => {
