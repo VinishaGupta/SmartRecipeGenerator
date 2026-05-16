@@ -23,7 +23,7 @@ const FALLBACK_RECIPE_IMAGE =
 
 const getImageUrl = (imageName) =>
   imageName
-    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}`
+    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}?v=${Date.now()}`
     : FALLBACK_RECIPE_IMAGE;
 
 const getRecipeTags = (recipe) => {
