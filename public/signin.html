@@ -4,23 +4,27 @@
   <meta charset="UTF-8" />
   <title>Sign In - Culinary Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="stylesheet" href="styles.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="icon" href="data:," />
+
   <style>
     body.signin-page {
       background: #fff;
       margin: 0;
       padding: 0;
+      font-family: Inter, sans-serif;
     }
+
     .signin-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
       height: 100vh;
       background: #fff;
     }
+
     .signin-visual {
-      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
       background-image: url('assets/sigin_login_image.png');
       background-size: cover;
       background-position: center;
@@ -29,19 +33,42 @@
       justify-content: flex-end;
       padding: 60px;
       color: white;
+      position: relative;
     }
+
+    .signin-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.1),
+        rgba(0,0,0,0.5)
+      );
+    }
+
+    .signin-visual h1,
+    .signin-visual p {
+      position: relative;
+      z-index: 2;
+    }
+
     .signin-visual h1 {
-      font-size: 36px;
+      font-size: 42px;
       font-weight: 700;
       margin: 0 0 20px 0;
       line-height: 1.2;
+      max-width: 500px;
     }
+
     .signin-visual p {
       font-size: 16px;
       margin: 0;
-      opacity: 0.9;
-      line-height: 1.5;
+      opacity: 0.95;
+      line-height: 1.6;
+      max-width: 500px;
     }
+
     .signin-form-section {
       display: flex;
       flex-direction: column;
@@ -49,6 +76,7 @@
       padding: 60px;
       background: #fff;
     }
+
     .signin-header {
       display: flex;
       align-items: center;
@@ -57,22 +85,27 @@
       font-size: 14px;
       color: #666;
     }
+
     .signin-header-icon {
       width: 24px;
       height: 24px;
       object-fit: contain;
     }
+
     .signin-title {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 700;
       margin: 0 0 10px 0;
-      color: #000;
+      color: #111827;
     }
+
     .signin-subtitle {
       font-size: 14px;
       color: #666;
       margin: 0 0 30px 0;
+      line-height: 1.5;
     }
+
     .signin-buttons-group {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -80,39 +113,98 @@
       margin-bottom: 30px;
       align-items: center;
     }
-    .signin-btn {
-      padding: 12px 24px;
-      border: 1px solid #e5e7eb;
-      background: white;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-    .signin-btn:hover {
-      background: #f9fafb;
-    }
-    .signin-btn.google {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #1f2937;
-      color: white;
-      border-color: #1f2937;
-    }
-    .signin-btn.google:hover {
-      background: #111827;
-    }
+
     .signin-divider {
       text-align: center;
       color: #d1d5db;
       font-size: 12px;
     }
+
+    .signin-btn {
+      padding: 12px 24px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .signin-btn:hover {
+      background: #f9fafb;
+      transform: translateY(-1px);
+    }
+
+    .signin-btn.google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #111827;
+      color: white;
+      border-color: #111827;
+    }
+
+    .signin-btn.google:hover {
+      background: #000;
+    }
+
+    .auth-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0 18px;
+      padding: 6px;
+      border-radius: 16px;
+      background: #f3f1ef;
+      border: 1px solid #efe7e1;
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+    }
+
+    .auth-toggle button {
+      position: relative;
+      z-index: 2;
+      border: 0;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 700;
+      color: #8a6a56;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .auth-toggle button.active {
+      color: #3f2e24;
+    }
+
+    .toggle-pill {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: calc(50% - 10px);
+      height: calc(100% - 12px);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 6px 14px rgba(28, 18, 12, 0.08);
+      transition: transform 0.3s ease;
+      z-index: 1;
+    }
+
+    .auth-toggle[data-mode="signup"] .toggle-pill {
+      transform: translateX(calc(100% + 8px));
+    }
+
     .signin-form-group {
       margin-bottom: 18px;
     }
+
     .signin-form-group label {
       display: block;
       font-size: 13px;
@@ -120,19 +212,23 @@
       margin-bottom: 8px;
       font-weight: 500;
     }
+
     .signin-form-group input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: 1px solid #d1d5db;
-      border-radius: 6px;
+      border-radius: 12px;
       font-size: 14px;
       box-sizing: border-box;
+      transition: 0.2s ease;
     }
+
     .signin-form-group input:focus {
       outline: none;
       border-color: #8B4513;
       box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
     }
+
     .signin-checkbox-group {
       display: flex;
       align-items: center;
@@ -140,48 +236,44 @@
       margin-bottom: 24px;
       font-size: 13px;
     }
-    .signin-checkbox-group input[type="checkbox"] {
-      margin-right: 8px;
-    }
+
     .signin-checkbox-group a {
       color: #8B4513;
       text-decoration: none;
     }
-    .signin-checkbox-group a:hover {
-      text-decoration: underline;
-    }
-    #loginForm .signin-form-group:nth-child(3) {
-      margin-bottom: 0;
-    }
+
     .signin-submit {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background: #16a34a;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       margin-top: 24px;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
     }
+
     .signin-submit:hover {
       background: #15803d;
+      transform: translateY(-1px);
     }
+
     .signin-footer {
       text-align: center;
       margin-top: 30px;
       font-size: 13px;
       color: #666;
     }
+
     .signin-footer a {
       color: #8B4513;
       text-decoration: none;
+      font-weight: 600;
     }
-    .signin-footer a:hover {
-      text-decoration: underline;
-    }
+
     .signin-links {
       display: flex;
       gap: 20px;
@@ -189,178 +281,319 @@
       margin-top: 20px;
       font-size: 12px;
     }
+
     .signin-links a {
       color: #666;
       text-decoration: none;
     }
-    .signin-links a:hover {
-      color: #8B4513;
-    }
+
     .error-message {
       color: #dc2626;
       font-size: 13px;
       margin-bottom: 16px;
       display: none;
     }
+
     .error-message.show {
       display: block;
     }
+
     .auth-panel {
       display: none;
     }
+
     .auth-panel.active {
       display: block;
     }
+
     @media (max-width: 768px) {
       .signin-container {
         grid-template-columns: 1fr;
         height: auto;
       }
+
       .signin-visual {
         min-height: 300px;
         padding: 40px;
       }
+
       .signin-visual h1 {
-        font-size: 28px;
+        font-size: 30px;
       }
+
       .signin-form-section {
-        padding: 40px;
+        padding: 40px 24px;
       }
     }
   </style>
 </head>
+
 <body class="signin-page">
+
   <div class="signin-container">
+
     <div class="signin-visual">
       <h1>Precision cooking meets artisanal flair.</h1>
-      <p>Experience the future of the home kitchen with AI-powered recipes tailored to your palate.</p>
+
+      <p>
+        Experience the future of the home kitchen with
+        AI-powered recipes tailored to your palate.
+      </p>
     </div>
-    
+
     <div class="signin-form-section">
+
       <div class="signin-header">
-        <img class="signin-header-icon" src="assets/fork-and-knife.png" alt="Culinary Intelligence" />
+        <img
+          class="signin-header-icon"
+          src="assets/fork-and-knife.png"
+          alt="Culinary Intelligence"
+        />
+
         <span>Culinary Intelligence</span>
       </div>
-      
-      <h2 id="authTitle" class="signin-title">Welcome Back</h2>
-      <p id="authSubtitle" class="signin-subtitle">Your personal sous-chef is ready to assist.</p>
-      
+
+      <h2 id="authTitle" class="signin-title">
+        Welcome Back
+      </h2>
+
+      <p id="authSubtitle" class="signin-subtitle">
+        Your personal sous-chef is ready to assist.
+      </p>
+
       <div class="signin-buttons-group">
-        <button type="button" class="signin-btn google" onclick="window.location.href='/api/auth/google'">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+
+        <button
+          type="button"
+          class="signin-btn google"
+          onclick="window.location.href='/api/auth/google'"
+        >
           Google
         </button>
+
         <span class="signin-divider">I</span>
-        <button type="button" class="signin-btn" onclick="alert('Apple sign-in coming soon')">Apple</button>
+
+        <button
+          type="button"
+          class="signin-btn"
+          onclick="alert('Apple sign-in coming soon')"
+        >
+          Apple
+        </button>
+
       </div>
-      
-      <div style="text-align: center; color: #d1d5db; margin-bottom: 24px; font-size: 12px;">OR EMAIL</div>
-      
+
+      <div
+        style="
+          text-align:center;
+          color:#d1d5db;
+          margin-bottom:24px;
+          font-size:12px;
+        "
+      >
+        OR EMAIL
+      </div>
+
+      <div
+        class="auth-toggle"
+        id="authToggle"
+        data-mode="login"
+      >
+        <span class="toggle-pill"></span>
+
+        <button
+          type="button"
+          id="toggleLogin"
+          class="active"
+        >
+          Sign In
+        </button>
+
+        <button
+          type="button"
+          id="toggleSignup"
+        >
+          Sign Up
+        </button>
+      </div>
+
+      <!-- LOGIN -->
+
       <form id="loginForm" class="auth-panel active">
+
         <div class="signin-form-group">
-          <label for="loginEmail">Email Address</label>
-          <input type="email" id="loginEmail" placeholder="" required />
+          <label>Email Address</label>
+
+          <input type="email" required />
         </div>
-        
+
         <div class="signin-form-group">
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" placeholder="" required />
+          <label>Password</label>
+
+          <input type="password" required />
         </div>
-        
+
         <div class="signin-checkbox-group">
-          <label style="display: flex; align-items: center;">
-            <input type="checkbox" id="rememberMe" />
-            <span>Remember me</span>
+          <label>
+            <input type="checkbox" />
+            Remember me
           </label>
+
           <a href="#">Forgot password?</a>
         </div>
-        
-        <div id="loginError" class="error-message"></div>
-        
-        <button type="submit" class="signin-submit">Sign In</button>
+
+        <button type="submit" class="signin-submit">
+          Sign In
+        </button>
+
       </form>
+
+      <!-- SIGNUP -->
 
       <form id="signupForm" class="auth-panel">
+
         <div class="signin-form-group">
-          <label for="signupName">Full Name</label>
-          <input type="text" id="signupName" placeholder="" required />
+          <label>Full Name</label>
+
+          <input type="text" required />
         </div>
 
         <div class="signin-form-group">
-          <label for="signupEmail">Email Address</label>
-          <input type="email" id="signupEmail" placeholder="" required />
+          <label>Email Address</label>
+
+          <input type="email" required />
         </div>
-        
+
         <div class="signin-form-group">
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" placeholder="" required />
+          <label>Password</label>
+
+          <input type="password" required />
         </div>
-        
-        <div id="signupError" class="error-message"></div>
-        
-        <button type="submit" class="signin-submit">Create Account</button>
+
+        <div class="signin-form-group">
+          <label>Confirm Password</label>
+
+          <input type="password" required />
+        </div>
+
+        <button type="submit" class="signin-submit">
+          Create Account
+        </button>
+
       </form>
-      
+
       <div class="signin-footer">
-        Don't have an account? <a href="#" id="switchToSignup">Join the Kitchen</a>
+        Don't have an account?
+        <a href="#" id="switchToSignup">
+          Join the Kitchen
+        </a>
       </div>
 
-      <div class="signin-footer" id="backToLoginWrap" style="display:none; margin-top: 12px;">
-        Already have an account? <a href="#" id="switchToLogin">Sign in</a>
+      <div
+        class="signin-footer"
+        id="backToLoginWrap"
+        style="display:none; margin-top:12px;"
+      >
+        Already have an account?
+        <a href="#" id="switchToLogin">
+          Sign in
+        </a>
       </div>
-      
+
       <div class="signin-links">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
       </div>
+
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
-  <script src="app.js"></script>
   <script>
     lucide.createIcons();
-    
+
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
-    const switchToSignup = document.getElementById('switchToSignup');
-    const switchToLogin = document.getElementById('switchToLogin');
-    const authTitle = document.getElementById('authTitle');
-    const authSubtitle = document.getElementById('authSubtitle');
-    const backToLoginWrap = document.getElementById('backToLoginWrap');
+
+    const switchToSignup =
+      document.getElementById('switchToSignup');
+
+    const switchToLogin =
+      document.getElementById('switchToLogin');
+
+    const authTitle =
+      document.getElementById('authTitle');
+
+    const authSubtitle =
+      document.getElementById('authSubtitle');
+
+    const backToLoginWrap =
+      document.getElementById('backToLoginWrap');
+
+    const authToggle =
+      document.getElementById('authToggle');
+
+    const toggleLogin =
+      document.getElementById('toggleLogin');
+
+    const toggleSignup =
+      document.getElementById('toggleSignup');
 
     const showLogin = () => {
-      if (loginForm) loginForm.classList.add('active');
-      if (signupForm) signupForm.classList.remove('active');
-      if (authTitle) authTitle.textContent = 'Welcome Back';
-      if (authSubtitle) authSubtitle.textContent = 'Your personal sous-chef is ready to assist.';
-      if (switchToSignup?.closest('.signin-footer')) switchToSignup.closest('.signin-footer').style.display = 'block';
-      if (backToLoginWrap) backToLoginWrap.style.display = 'none';
+
+      loginForm.classList.add('active');
+      signupForm.classList.remove('active');
+
+      authTitle.textContent = 'Welcome Back';
+
+      authSubtitle.textContent =
+        'Your personal sous-chef is ready to assist.';
+
+      switchToSignup.closest('.signin-footer').style.display =
+        'block';
+
+      backToLoginWrap.style.display = 'none';
+
+      authToggle.setAttribute('data-mode', 'login');
+
+      toggleLogin.classList.add('active');
+      toggleSignup.classList.remove('active');
     };
 
     const showSignup = () => {
-      if (loginForm) loginForm.classList.remove('active');
-      if (signupForm) signupForm.classList.add('active');
-      if (authTitle) authTitle.textContent = 'Join the Kitchen';
-      if (authSubtitle) authSubtitle.textContent = 'Create your account to save and personalize recipes.';
-      if (switchToSignup?.closest('.signin-footer')) switchToSignup.closest('.signin-footer').style.display = 'none';
-      if (backToLoginWrap) backToLoginWrap.style.display = 'block';
-    };
-    
-    if (switchToSignup) {
-      switchToSignup.addEventListener('click', (e) => {
-        e.preventDefault();
-        showSignup();
-      });
-    }
 
-    if (switchToLogin) {
-      switchToLogin.addEventListener('click', (e) => {
-        e.preventDefault();
-        showLogin();
-      });
-    }
+      loginForm.classList.remove('active');
+      signupForm.classList.add('active');
+
+      authTitle.textContent = 'Join the Kitchen';
+
+      authSubtitle.textContent =
+        'Create your account to save and personalize recipes.';
+
+      switchToSignup.closest('.signin-footer').style.display =
+        'none';
+
+      backToLoginWrap.style.display = 'block';
+
+      authToggle.setAttribute('data-mode', 'signup');
+
+      toggleSignup.classList.add('active');
+      toggleLogin.classList.remove('active');
+    };
+
+    switchToSignup.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSignup();
+    });
+
+    switchToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      showLogin();
+    });
+
+    toggleLogin.addEventListener('click', showLogin);
+
+    toggleSignup.addEventListener('click', showSignup);
   </script>
+
 </body>
 </html>

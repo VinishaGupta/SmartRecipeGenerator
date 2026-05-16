@@ -155,6 +155,12 @@ const closeAuthModal = document.getElementById("closeAuthModal");
 const loginError = document.getElementById("loginError");
 const signupError = document.getElementById("signupError");
 
+const setAuthError = (element, message) => {
+  if (!element) return;
+  element.textContent = message;
+  element.classList.toggle("show", Boolean(message));
+};
+
 const openAuthModal = () => {
   if (authModal) {
     authModal.removeAttribute("hidden");
@@ -210,7 +216,7 @@ if (loginForm) {
     const password = document.getElementById("loginPassword").value;
 
     try {
-      if (loginError) loginError.textContent = "";
+      setAuthError(loginError, "");
       const res = await fetch(apiUrl("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -220,9 +226,12 @@ if (loginForm) {
 
       if (!res.ok) {
         const data = await res.json();
-        if (loginError) loginError.textContent = data.error === "invalid_credentials"
-          ? "Invalid email or password. If you do not have an account, choose Join the Kitchen."
-          : "Login failed";
+        setAuthError(
+          loginError,
+          data.error === "invalid_credentials"
+            ? "Invalid email or password. If you do not have an account, choose Join the Kitchen."
+            : "Login failed"
+        );
         return;
       }
 
@@ -239,7 +248,7 @@ if (loginForm) {
       }
     } catch (err) {
       console.error("Login error:", err);
-      if (loginError) loginError.textContent = "Login failed";
+      setAuthError(loginError, "Login failed");
     }
   });
 }
@@ -249,10 +258,16 @@ if (signupForm) {
     e.preventDefault();
     const email = document.getElementById("signupEmail").value;
     const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("signupConfirmPassword")?.value;
     const displayName = document.getElementById("signupName").value;
 
     try {
-      if (signupError) signupError.textContent = "";
+      setAuthError(signupError, "");
+
+      if (confirmPassword !== undefined && password !== confirmPassword) {
+        setAuthError(signupError, "Passwords do not match");
+        return;
+      }
       const res = await fetch(apiUrl("/api/auth/signup"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -262,7 +277,10 @@ if (signupForm) {
 
       if (!res.ok) {
         const data = await res.json();
-        if (signupError) signupError.textContent = data.error === "user_exists" ? "Email already exists" : "Signup failed";
+        setAuthError(
+          signupError,
+          data.error === "user_exists" ? "Email already exists" : "Signup failed"
+        );
         return;
       }
 
@@ -279,7 +297,7 @@ if (signupForm) {
       }
     } catch (err) {
       console.error("Signup error:", err);
-      if (signupError) signupError.textContent = "Signup failed";
+      setAuthError(signupError, "Signup failed");
     }
   });
 }
@@ -394,6 +412,7 @@ const saveSearchState = () => {
 };
 
 const restoreSearchState = () => {
+  if (!ingredientInput) return;
   const state = readSearchState();
 
   ingredientInput.value = state.ingredients || "";
@@ -1211,60 +1230,65 @@ const recognizeIngredientsFromImage = async (file) => {
   return recognizeIngredientsInBrowser(file);
 };
 
-imageInput.addEventListener("change", async (e) => {
-  const file = e.target.files[0];
-  if (!file) {
-    clearImagePreview();
-    saveSearchState();
-    return;
-  }
+if (imageInput) {
+  imageInput.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      clearImagePreview();
+      saveSearchState();
+      return;
+    }
 
-  clearImageIngredients();
-  showImagePreview(file);
-  imageHint.textContent = "Analyzing image...";
+    clearImageIngredients();
+    showImagePreview(file);
+    imageHint.textContent = "Analyzing image...";
 
-  try {
-    const [storedPreview, ingredients] = await Promise.all([
-      createStoredPreviewDataUrl(file),
-      recognizeIngredientsFromImage(file)
-    ]);
+    try {
+      const [storedPreview, ingredients] = await Promise.all([
+        createStoredPreviewDataUrl(file),
+        recognizeIngredientsFromImage(file)
+      ]);
 
-    imagePreviewDataUrl = storedPreview;
-    recognizedIngredients = ingredients;
-    syncSelectedIngredients();
-    imageHint.textContent = recognizedIngredients.length
-      ? "Ingredients detected from image."
-      : "No ingredients detected.";
-    saveSearchState();
-  } catch (error) {
-    console.error(error);
-    recognizedIngredients = [];
-    renderRecognized();
-    imageHint.textContent = "Could not analyze image.";
-    saveSearchState();
-  }
-});
+      imagePreviewDataUrl = storedPreview;
+      recognizedIngredients = ingredients;
+      syncSelectedIngredients();
+      imageHint.textContent = recognizedIngredients.length
+        ? "Ingredients detected from image."
+        : "No ingredients detected.";
+      saveSearchState();
+    } catch (error) {
+      console.error(error);
+      recognizedIngredients = [];
+      renderRecognized();
+      imageHint.textContent = "Could not analyze image.";
+      saveSearchState();
+    }
+  });
+}
 
 
 /*************************************************
  * EVENTS
  *************************************************/
 
-matchButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  // Run matching and render results inline on Home instead of navigating away
-  if (!recipes.length) {
-    loadRecipes();
-  } else {
-    renderRecipes(matchRecipes());
-  }
-  document.getElementById("recipeList")?.scrollIntoView({ behavior: "smooth" });
-});
+if (matchButton) {
+  matchButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    // Run matching and render results inline on Home instead of navigating away
+    if (!recipes.length) {
+      loadRecipes();
+    } else {
+      renderRecipes(matchRecipes());
+    }
+    document.getElementById("recipeList")?.scrollIntoView({ behavior: "smooth" });
+  });
+}
 
-
-ingredientInput.addEventListener("input", () => {
-  renderRecognized();
-});
+if (ingredientInput) {
+  ingredientInput.addEventListener("input", () => {
+    renderRecognized();
+  });
+}
 
 if (difficultySelect) {
   difficultySelect.addEventListener("change", () => {
