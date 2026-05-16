@@ -1318,3 +1318,6 @@ input[type="range"] {
   border-color: var(--brand);
 }
 
+body{
+  margin:0px -20px
+}
