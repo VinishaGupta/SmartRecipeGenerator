@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Discover Recipes - Culinary Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="data:," />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">Culinary Intelligence</a>
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a class="active" href="discover.html">Discover</a>
+  </nav>
+  <div class="header-actions">
+    <a id="authBtn" class="icon-btn" href="/api/auth/google" title="Sign in">Sign in</a>
+  </div>
+</header>
+
+<main class="page">
+  <section class="discover-page-full">
+    <section class="recipes-section">
+      <div class="recipes-header">
+        <div>
+          <h1>Discover Recipes</h1>
+          <p id="resultSummary" class="helper">Loading recipes...</p>
+        </div>
+        <div class="view-actions">
+          <label class="favorites-toggle">
+            <input type="checkbox" id="favoritesToggle">
+            Favorites
+          </label>
+        </div>
+      </div>
+      <div id="recipeList" class="recipes-grid"></div>
+    </section>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+<script src="discover.js"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

@@ -92,22 +92,11 @@ const startBackendAutoPing = () => {
  *************************************************/
 const ingredientInput = document.getElementById("ingredientInput");
 const imageInput = document.getElementById("imageInput");
-const ingredientSelector = document.getElementById("ingredientSelector");
-const recognizedPills = document.getElementById("recognizedPills");
 const matchButton = document.getElementById("matchButton");
 const statusEl = document.getElementById("status");
 const imageHint = document.getElementById("imageHint");
 const imagePreviewWrap = document.getElementById("imagePreviewWrap");
 const imagePreview = document.getElementById("imagePreview");
-const recipeList = document.getElementById("recipeList");
-const resultSummary = document.getElementById("resultSummary");
-const suggestionList = document.getElementById("suggestionList");
-const substitutionList = document.getElementById("substitutionList");
-const difficultySelect = document.getElementById("difficultySelect");
-const timeInput = document.getElementById("timeInput");
-const timeValue = document.getElementById("timeValue");
-const servingsInput = document.getElementById("servingsInput");
-const favoritesToggle = document.getElementById("favoritesToggle");
 const authBtn = document.getElementById("authBtn");
 
 const parseJsonSafely = async (res) => {
@@ -1268,61 +1257,16 @@ imageInput.addEventListener("change", async (e) => {
  *************************************************/
 
 matchButton.addEventListener("click", () => {
-  console.log("Button clicked");
-
-  const results = matchRecipes();
-  console.log("Matched results:", results);
-
-  renderRecipes(results);
-  saveSearchState();
+  // Navigate to discover page
+  window.location.href = "discover.html";
 });
 
 
 ingredientInput.addEventListener("input", () => {
   renderRecognized();
-  saveSearchState();
-  rerunMatchIfPossible();
 });
 
-if (difficultySelect) {
-  difficultySelect.addEventListener("change", () => {
-    saveSearchState();
-    rerunMatchIfPossible();
-  });
-}
-
-if (timeInput) {
-  timeInput.addEventListener("input", () => {
-    if (timeValue) {
-      timeValue.textContent = timeInput.value;
-    }
-    saveSearchState();
-    rerunMatchIfPossible();
-  });
-}
-
-if (servingsInput) {
-  servingsInput.addEventListener("input", saveSearchState);
-}
-
-if (favoritesToggle) {
-  favoritesToggle.addEventListener("change", () => {
-    saveSearchState();
-    rerunMatchIfPossible();
-  });
-}
-
-document.querySelectorAll(".diet-checkbox").forEach(cb => {
-  cb.addEventListener("change", () => {
-    saveSearchState();
-    rerunMatchIfPossible();
-  });
-});
-
-
-function rerunMatchIfPossible() {
-  if (recipes.length) renderRecipes(matchRecipes());
-};
+// Removed event listeners for filter elements that no longer exist on home page
 
 
 
@@ -1351,9 +1295,5 @@ if (viewFavoritesBtn) {
  * INIT
  *************************************************/
 startBackendAutoPing();
-updateSubstitutions();
-renderIngredientSelector();
-restoreSearchState();
 initAuthUI();
-loadRecipes();
 

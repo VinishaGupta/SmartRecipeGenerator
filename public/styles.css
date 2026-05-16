@@ -315,6 +315,19 @@ button {
   padding: 34px clamp(24px, 5vw, 80px) 80px;
 }
 
+.discover-page-full {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 34px clamp(24px, 5vw, 80px) 80px;
+}
+
+.discover-page-full .recipes-header h1 {
+  margin: 0;
+  font-size: clamp(40px, 5vw, 56px);
+  line-height: 1.2;
+}
+
 .filter-sidebar {
   display: flex;
   flex-direction: column;
