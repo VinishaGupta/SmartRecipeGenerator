@@ -98,6 +98,16 @@ const imageHint = document.getElementById("imageHint");
 const imagePreviewWrap = document.getElementById("imagePreviewWrap");
 const imagePreview = document.getElementById("imagePreview");
 const authBtn = document.getElementById("authBtn");
+const recognizedPills = document.getElementById("recognizedPills");
+const ingredientSelector = document.getElementById("ingredientSelector");
+const substitutionList = document.getElementById("substitutionList");
+const difficultySelect = document.getElementById("difficultySelect");
+const timeInput = document.getElementById("timeInput");
+const timeValue = document.getElementById("timeValue");
+const servingsInput = document.getElementById("servingsInput");
+const recipeList = document.getElementById("recipeList");
+const favoritesToggle = document.getElementById("favoritesToggle");
+const resultSummary = document.getElementById("resultSummary");
 
 const parseJsonSafely = async (res) => {
   try {
@@ -555,7 +565,6 @@ const loadRecipes = async () => {
   try {
     const res = await fetch(apiUrl("/api/recipes"));
     recipes = await res.json();
-    renderSuggestions();
     renderRecipes(ingredientInput.value.trim() ? matchRecipes() : getFilteredRecipes());
   } catch (err) {
     console.error(err);
@@ -906,34 +915,6 @@ const attachRecipeCardNavigationHandlers = () => {
 
 
 
-const renderSuggestions = () => {
-  if (!suggestionList) {
-    return;
-  }
-
-  const favs = getFavorites();
-
-  // favorite recipes first
-  let suggested = recipes.filter(r => favs.includes(String(r.id))
-);
-
-  // fallback if no favorites
-  if (!suggested.length) {
-    suggested = recipes.slice(0, 3);
-  } else {
-    suggested = suggested.slice(0, 3);
-  }
-
-  suggestionList.innerHTML = suggested.map(r => `
-    <article class="recipe-card">
-      ${recipeImageMarkup(r)}
-      <h3>${r.name}</h3>
-      <p>${r.cuisine} · ${r.timeMinutes} mins</p>
-    </article>
-  `).join("");
-  attachRecipeImageFallbacks(suggestionList);
-};
-
 /*************************************************
  * IMAGE RECOGNITION
  *************************************************/
@@ -1256,15 +1237,49 @@ imageInput.addEventListener("change", async (e) => {
  * EVENTS
  *************************************************/
 
-matchButton.addEventListener("click", () => {
-  // Navigate to discover page
-  window.location.href = "discover.html";
+matchButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  // Run matching and render results inline on Home instead of navigating away
+  if (!recipes.length) {
+    loadRecipes();
+  } else {
+    renderRecipes(matchRecipes());
+  }
+  document.getElementById("recipeList")?.scrollIntoView({ behavior: "smooth" });
 });
 
 
 ingredientInput.addEventListener("input", () => {
   renderRecognized();
 });
+
+if (difficultySelect) {
+  difficultySelect.addEventListener("change", () => {
+    saveSearchState();
+    renderRecipes(matchRecipes());
+  });
+}
+
+if (timeInput) {
+  timeInput.addEventListener("input", () => {
+    if (timeValue) timeValue.textContent = timeInput.value;
+    saveSearchState();
+    renderRecipes(matchRecipes());
+  });
+}
+
+if (servingsInput) {
+  servingsInput.addEventListener("change", () => {
+    saveSearchState();
+  });
+}
+
+if (favoritesToggle) {
+  favoritesToggle.addEventListener("change", () => {
+    saveSearchState();
+    renderRecipes(matchRecipes());
+  });
+}
 
 // Removed event listeners for filter elements that no longer exist on home page
 
@@ -1296,4 +1311,15 @@ if (viewFavoritesBtn) {
  *************************************************/
 startBackendAutoPing();
 initAuthUI();
+
+// Initialize home UI pieces that may be missing from a stripped-down index.html
+try {
+  renderIngredientSelector();
+  updateSubstitutions();
+  restoreSearchState();
+  renderRecognized();
+  loadRecipes();
+} catch (err) {
+  console.debug("Home UI init error:", err);
+}
 

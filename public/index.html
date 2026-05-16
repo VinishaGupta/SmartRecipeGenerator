@@ -21,7 +21,7 @@
   </div>
 </header>
 
-<main class="page">
+<main class="page home-page">
   <section id="home" class="hero">
     <div class="hero-copy">
       <h1>Cook Smarter<br><span>With AI</span></h1>
@@ -54,6 +54,58 @@
         <img id="imagePreview" class="image-preview" alt="Uploaded food preview" />
       </div>
       <p id="imageHint" class="helper"></p>
+    </section>
+  </section>
+
+  <!-- Discover-style results and filters on Home -->
+  <section class="discover-layout">
+    <aside class="filter-sidebar">
+      <div class="filter-card">
+        <h3>Filters</h3>
+        <label>
+          Difficulty
+          <select id="difficultySelect">
+            <option value="">Any</option>
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+          </select>
+        </label>
+
+        <label>
+          Max time <span id="timeValue">30</span> mins
+          <input type="range" id="timeInput" min="0" max="240" value="30">
+        </label>
+
+        <label>
+          Servings
+          <input type="number" id="servingsInput" min="1" max="20" value="2">
+        </label>
+
+        <div id="ingredientSelector"></div>
+
+        <h3>Substitutions</h3>
+        <ul id="substitutionList"></ul>
+      </div>
+    </aside>
+
+    <section class="discover-page-full">
+      <section class="recipes-section">
+        <div class="recipes-header">
+          <div>
+            <h1>Results</h1>
+            <p id="resultSummary" class="helper"></p>
+          </div>
+          <div class="view-actions">
+            <label class="favorites-toggle">
+              <input type="checkbox" id="favoritesToggle">
+              Favorites
+            </label>
+          </div>
+        </div>
+
+        <div id="recipeList" class="recipes-grid"></div>
+      </section>
     </section>
   </section>
 </main>
