@@ -2,447 +2,140 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sign In - Culinary Intelligence</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="icon" href="data:," />
+  <title>Log In</title>
 
-  <style>
-    body.signin-page {
-      background: #fff;
-      margin: 0;
-      padding: 0;
-      font-family: Inter, sans-serif;
-    }
-
-    .signin-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      height: 100vh;
-      background: #fff;
-    }
-
-    .signin-visual {
-      background-image: url('assets/sigin_login_image.png');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 60px;
-      color: white;
-      position: relative;
-    }
-
-    .signin-visual::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.1),
-        rgba(0,0,0,0.5)
-      );
-    }
-
-    .signin-visual h1,
-    .signin-visual p {
-      position: relative;
-      z-index: 2;
-    }
-
-    .signin-visual h1 {
-      font-size: 42px;
-      font-weight: 700;
-      margin: 0 0 20px 0;
-      line-height: 1.2;
-      max-width: 500px;
-    }
-
-    .signin-visual p {
-      font-size: 16px;
-      margin: 0;
-      opacity: 0.95;
-      line-height: 1.6;
-      max-width: 500px;
-    }
-
-    .signin-form-section {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px;
-      background: #fff;
-    }
-
-    .signin-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 40px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .signin-header-icon {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-    }
-
-    .signin-title {
-      font-size: 36px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-      color: #111827;
-    }
-
-    .signin-subtitle {
-      font-size: 14px;
-      color: #666;
-      margin: 0 0 30px 0;
-      line-height: 1.5;
-    }
-
-    .signin-buttons-group {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 12px;
-      margin-bottom: 30px;
-      align-items: center;
-    }
-
-    .signin-divider {
-      text-align: center;
-      color: #d1d5db;
-      font-size: 12px;
-    }
-
-    .signin-btn {
-      padding: 12px 24px;
-      border: 1px solid #e5e7eb;
-      background: white;
-      cursor: pointer;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .signin-btn:hover {
-      background: #f9fafb;
-      transform: translateY(-1px);
-    }
-
-    .signin-btn.google {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #111827;
-      color: white;
-      border-color: #111827;
-    }
-
-    .signin-btn.google:hover {
-      background: #000;
-    }
-
-    .auth-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 8px;
-      margin: 6px 0 18px;
-      padding: 6px;
-      border-radius: 16px;
-      background: #f3f1ef;
-      border: 1px solid #efe7e1;
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      overflow: hidden;
-    }
-
-    .auth-toggle button {
-      position: relative;
-      z-index: 2;
-      border: 0;
-      background: transparent;
-      font-size: 13px;
-      font-weight: 700;
-      color: #8a6a56;
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .auth-toggle button.active {
-      color: #3f2e24;
-    }
-
-    .toggle-pill {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      width: calc(50% - 10px);
-      height: calc(100% - 12px);
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: 0 6px 14px rgba(28, 18, 12, 0.08);
-      transition: transform 0.3s ease;
-      z-index: 1;
-    }
-
-    .auth-toggle[data-mode="signup"] .toggle-pill {
-      transform: translateX(calc(100% + 8px));
-    }
-
-    .signin-form-group {
-      margin-bottom: 18px;
-    }
-
-    .signin-form-group label {
-      display: block;
-      font-size: 13px;
-      color: #4b5563;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    .signin-form-group input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 14px;
-      box-sizing: border-box;
-      transition: 0.2s ease;
-    }
-
-    .signin-form-group input:focus {
-      outline: none;
-      border-color: #8B4513;
-      box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
-    }
-
-    .signin-checkbox-group {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      font-size: 13px;
-    }
-
-    .signin-checkbox-group a {
-      color: #8B4513;
-      text-decoration: none;
-    }
-
-    .signin-submit {
-      width: 100%;
-      padding: 14px;
-      background: #16a34a;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 24px;
-      transition: all 0.2s ease;
-    }
-
-    .signin-submit:hover {
-      background: #15803d;
-      transform: translateY(-1px);
-    }
-
-    .signin-footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 13px;
-      color: #666;
-    }
-
-    .signin-footer a {
-      color: #8B4513;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .signin-links {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
-      font-size: 12px;
-    }
-
-    .signin-links a {
-      color: #666;
-      text-decoration: none;
-    }
-
-    .error-message {
-      color: #dc2626;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: none;
-    }
-
-    .error-message.show {
-      display: block;
-    }
-
-    .auth-panel {
-      display: none;
-    }
-
-    .auth-panel.active {
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      .signin-container {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-
-      .signin-visual {
-        min-height: 300px;
-        padding: 40px;
-      }
-
-      .signin-visual h1 {
-        font-size: 30px;
-      }
-
-      .signin-form-section {
-        padding: 40px 24px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="signin.css" />
 </head>
 
-<body class="signin-page">
+<body>
 
   <div class="signin-container">
 
-    <div class="signin-visual">
-      <h1>Precision cooking meets artisanal flair.</h1>
+    <!-- LEFT -->
 
-      <p>
-        Experience the future of the home kitchen with
-        AI-powered recipes tailored to your palate.
-      </p>
+    <div class="signin-visual">
+
+      <div class="overlay"></div>
+
+      <div class="visual-content">
+
+        <h1>
+          Precision cooking meets artisanal flair.
+        </h1>
+
+        <p>
+          Experience the future of the home kitchen
+          with AI-powered recipes tailored to your palate.
+        </p>
+
+      </div>
+
     </div>
+
+    <!-- RIGHT -->
 
     <div class="signin-form-section">
 
-      <div class="signin-header">
-        <img
-          class="signin-header-icon"
-          src="assets/fork-and-knife.png"
-          alt="Culinary Intelligence"
-        />
-
-        <span>Culinary Intelligence</span>
-      </div>
-
-      <h2 id="authTitle" class="signin-title">
+      <h2 id="authTitle">
         Welcome Back
       </h2>
 
-      <p id="authSubtitle" class="signin-subtitle">
+      <p id="authSubtitle">
         Your personal sous-chef is ready to assist.
       </p>
 
+      <!-- SOCIAL -->
+
       <div class="signin-buttons-group">
 
-        <button
-          type="button"
-          class="signin-btn google"
-          onclick="window.location.href='/api/auth/google'"
-        >
+        <button class="signin-btn google">
           Google
         </button>
 
-        <span class="signin-divider">I</span>
+        <span class="signin-divider">|</span>
 
-        <button
-          type="button"
-          class="signin-btn"
-          onclick="alert('Apple sign-in coming soon')"
-        >
+        <button class="signin-btn">
           Apple
         </button>
 
       </div>
 
-      <div
-        style="
-          text-align:center;
-          color:#d1d5db;
-          margin-bottom:24px;
-          font-size:12px;
-        "
-      >
+      <div class="or-email">
         OR EMAIL
       </div>
+
+      <!-- TOGGLE -->
 
       <div
         class="auth-toggle"
         id="authToggle"
         data-mode="login"
       >
+
         <span class="toggle-pill"></span>
 
         <button
-          type="button"
           id="toggleLogin"
           class="active"
+          type="button"
         >
           Sign In
         </button>
 
         <button
-          type="button"
           id="toggleSignup"
+          type="button"
         >
           Sign Up
         </button>
+
       </div>
 
       <!-- LOGIN -->
 
-      <form id="loginForm" class="auth-panel active">
+      <form
+        id="loginForm"
+        class="auth-panel active"
+      >
 
         <div class="signin-form-group">
+
           <label>Email Address</label>
 
-          <input type="email" required />
+          <input type="email" />
+
         </div>
 
         <div class="signin-form-group">
+
           <label>Password</label>
 
-          <input type="password" required />
+          <input type="password" />
+
         </div>
 
         <div class="signin-checkbox-group">
+
           <label>
             <input type="checkbox" />
             Remember me
           </label>
 
-          <a href="#">Forgot password?</a>
+          <a href="#">
+            Forgot password?
+          </a>
+
         </div>
 
-        <button type="submit" class="signin-submit">
+        <button
+          class="signin-submit"
+          type="submit"
+        >
           Sign In
         </button>
 
@@ -450,149 +143,133 @@
 
       <!-- SIGNUP -->
 
-      <form id="signupForm" class="auth-panel">
+      <form
+        id="signupForm"
+        class="auth-panel"
+      >
 
         <div class="signin-form-group">
+
           <label>Full Name</label>
 
-          <input type="text" required />
+          <input type="text" />
+
         </div>
 
         <div class="signin-form-group">
+
           <label>Email Address</label>
 
-          <input type="email" required />
+          <input type="email" />
+
         </div>
 
         <div class="signin-form-group">
+
           <label>Password</label>
 
-          <input type="password" required />
+          <input type="password" />
+
         </div>
 
         <div class="signin-form-group">
+
           <label>Confirm Password</label>
 
-          <input type="password" required />
+          <input type="password" />
+
         </div>
 
-        <button type="submit" class="signin-submit">
+        <button
+          class="signin-submit"
+          type="submit"
+        >
           Create Account
         </button>
 
       </form>
 
-      <div class="signin-footer">
-        Don't have an account?
-        <a href="#" id="switchToSignup">
-          Join the Kitchen
-        </a>
-      </div>
-
-      <div
-        class="signin-footer"
-        id="backToLoginWrap"
-        style="display:none; margin-top:12px;"
-      >
-        Already have an account?
-        <a href="#" id="switchToLogin">
-          Sign in
-        </a>
-      </div>
-
-      <div class="signin-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-      </div>
-
     </div>
+
   </div>
 
   <script>
-    lucide.createIcons();
-
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-
-    const switchToSignup =
-      document.getElementById('switchToSignup');
-
-    const switchToLogin =
-      document.getElementById('switchToLogin');
-
-    const authTitle =
-      document.getElementById('authTitle');
-
-    const authSubtitle =
-      document.getElementById('authSubtitle');
-
-    const backToLoginWrap =
-      document.getElementById('backToLoginWrap');
 
     const authToggle =
-      document.getElementById('authToggle');
+      document.getElementById("authToggle");
 
     const toggleLogin =
-      document.getElementById('toggleLogin');
+      document.getElementById("toggleLogin");
 
     const toggleSignup =
-      document.getElementById('toggleSignup');
+      document.getElementById("toggleSignup");
 
-    const showLogin = () => {
+    const loginForm =
+      document.getElementById("loginForm");
 
-      loginForm.classList.add('active');
-      signupForm.classList.remove('active');
+    const signupForm =
+      document.getElementById("signupForm");
 
-      authTitle.textContent = 'Welcome Back';
+    const authTitle =
+      document.getElementById("authTitle");
+
+    const authSubtitle =
+      document.getElementById("authSubtitle");
+
+    function showLogin(){
+
+      authToggle.setAttribute(
+        "data-mode",
+        "login"
+      );
+
+      toggleLogin.classList.add("active");
+
+      toggleSignup.classList.remove("active");
+
+      loginForm.classList.add("active");
+
+      signupForm.classList.remove("active");
+
+      authTitle.textContent =
+        "Welcome Back";
 
       authSubtitle.textContent =
-        'Your personal sous-chef is ready to assist.';
+        "Your personal sous-chef is ready to assist.";
+    }
 
-      switchToSignup.closest('.signin-footer').style.display =
-        'block';
+    function showSignup(){
 
-      backToLoginWrap.style.display = 'none';
+      authToggle.setAttribute(
+        "data-mode",
+        "signup"
+      );
 
-      authToggle.setAttribute('data-mode', 'login');
+      toggleSignup.classList.add("active");
 
-      toggleLogin.classList.add('active');
-      toggleSignup.classList.remove('active');
-    };
+      toggleLogin.classList.remove("active");
 
-    const showSignup = () => {
+      signupForm.classList.add("active");
 
-      loginForm.classList.remove('active');
-      signupForm.classList.add('active');
+      loginForm.classList.remove("active");
 
-      authTitle.textContent = 'Join the Kitchen';
+      authTitle.textContent =
+        "Join the Kitchen";
 
       authSubtitle.textContent =
-        'Create your account to save and personalize recipes.';
+        "Create your account to save and personalize recipes.";
+    }
 
-      switchToSignup.closest('.signin-footer').style.display =
-        'none';
+    toggleLogin.addEventListener(
+      "click",
+      showLogin
+    );
 
-      backToLoginWrap.style.display = 'block';
+    toggleSignup.addEventListener(
+      "click",
+      showSignup
+    );
 
-      authToggle.setAttribute('data-mode', 'signup');
-
-      toggleSignup.classList.add('active');
-      toggleLogin.classList.remove('active');
-    };
-
-    switchToSignup.addEventListener('click', (e) => {
-      e.preventDefault();
-      showSignup();
-    });
-
-    switchToLogin.addEventListener('click', (e) => {
-      e.preventDefault();
-      showLogin();
-    });
-
-    toggleLogin.addEventListener('click', showLogin);
-
-    toggleSignup.addEventListener('click', showSignup);
   </script>
 
 </body>
