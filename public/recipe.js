@@ -46,6 +46,11 @@ const formatIngredient = (ingredient) =>
 
 const renderRecipe = (recipe) => {
   const nutrition = recipe.nutrition || {};
+  const smartSubs = [
+    "Plant-Based Protein",
+    "Lower-Carb Option",
+    "Dairy-Free Swap"
+  ];
 
   recipeDetail.innerHTML = `
     <div class="recipe-split">
@@ -100,6 +105,8 @@ const renderRecipe = (recipe) => {
             ${(recipe.steps || []).map(step => `<li>${step}</li>`).join("")}
           </ol>
         </section>
+
+
       </article>
     </div>
 
