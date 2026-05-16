@@ -538,8 +538,8 @@ input[type="range"] {
   position: absolute;
   top: 16px;
   right: 16px;
-    width: 36px;
-    height: 36px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
   border: 0;
@@ -547,6 +547,11 @@ input[type="range"] {
   background: rgba(255, 255, 255, 0.9);
   color: var(--accent);
   box-shadow: 0 8px 20px rgba(22, 14, 9, 0.12);
+}
+
+.fav-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 .fav-btn.active {
