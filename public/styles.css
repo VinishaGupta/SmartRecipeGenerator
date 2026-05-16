@@ -339,6 +339,9 @@ button {
   align-self: start;
   position: sticky;
   top: 100px;
+  max-height: calc(100vh - 124px);
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .filter-card {
@@ -691,6 +694,9 @@ input[type="range"] {
   .filter-sidebar {
     position: static;
     top: auto;
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
   }
 
   #recipeList {
