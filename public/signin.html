@@ -21,6 +21,9 @@
     }
     .signin-visual {
       background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      background-image: url('assets/sigin_login_image.png');
+      background-size: cover;
+      background-position: center;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -55,15 +58,9 @@
       color: #666;
     }
     .signin-header-icon {
-      width: 20px;
-      height: 20px;
-      background: #8B4513;
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
     }
     .signin-title {
       font-size: 32px;
@@ -235,7 +232,7 @@
     
     <div class="signin-form-section">
       <div class="signin-header">
-        <span class="signin-header-icon">⊗</span>
+        <img class="signin-header-icon" src="assets/fork-and-knife.png" alt="Culinary Intelligence" />
         <span>Culinary Intelligence</span>
       </div>
       
