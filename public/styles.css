@@ -396,6 +396,7 @@ button {
   border-radius: 12px;
   background: #f8f4f2;
   overflow: hidden;
+  margin: 20px 0px;
 }
 
 .dropdown-header {
@@ -406,6 +407,7 @@ button {
   color: var(--brand-dark);
   font-weight: 800;
   cursor: pointer;
+  
 }
 
 .dropdown-content {
