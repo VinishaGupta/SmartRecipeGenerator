@@ -99,94 +99,54 @@
       <!-- LOGIN -->
 
       <form
+
         id="loginForm"
         class="auth-panel active"
       >
-
+        <div id="loginError" class="auth-error" style="color:red;min-height:1.5em;"></div>
         <div class="signin-form-group">
-
-          <label>Email Address</label>
-
-          <input type="email" />
-
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" name="loginEmail" required />
         </div>
-
         <div class="signin-form-group">
-
-          <label>Password</label>
-
-          <input type="password" />
-
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" name="loginPassword" required />
         </div>
-
         <div class="signin-checkbox-group">
-
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" name="rememberMe" />
             Remember me
           </label>
-
-          <a href="#">
-            Forgot password?
-          </a>
-
+          <a href="#">Forgot password?</a>
         </div>
-
-        <button
-          class="signin-submit"
-          type="submit"
-        >
-          Sign In
-        </button>
-
+        <button class="signin-submit" type="submit">Sign In</button>
       </form>
 
       <!-- SIGNUP -->
 
       <form
+
         id="signupForm"
         class="auth-panel"
       >
-
+        <div id="signupError" class="auth-error" style="color:red;min-height:1.5em;"></div>
         <div class="signin-form-group">
-
-          <label>Full Name</label>
-
-          <input type="text" />
-
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" name="signupName" required />
         </div>
-
         <div class="signin-form-group">
-
-          <label>Email Address</label>
-
-          <input type="email" />
-
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" name="signupEmail" required />
         </div>
-
         <div class="signin-form-group">
-
-          <label>Password</label>
-
-          <input type="password" />
-
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" name="signupPassword" required />
         </div>
-
         <div class="signin-form-group">
-
-          <label>Confirm Password</label>
-
-          <input type="password" />
-
+          <label for="signupConfirmPassword">Confirm Password</label>
+          <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" required />
         </div>
-
-        <button
-          class="signin-submit"
-          type="submit"
-        >
-          Create Account
-        </button>
-
+        <button class="signin-submit" type="submit">Create Account</button>
       </form>
 
     </div>
