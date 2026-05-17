@@ -317,7 +317,7 @@ button {
   border: 3px solid #f3e8dc;
   border-top-color: var(--accent);
   border-radius: 50%;
-  animation: image-loader-spin 0.8s linear infinite
+  animation: image-loader-spin 0.8s linear infinite;
 }
 
 @keyframes image-loader-spin {
