@@ -1270,7 +1270,7 @@ if (imageInput) {
     clearImageIngredients();
     showImagePreview(file);
     setImageAnalyzing(true);
-    imageHint.textContent = "Analyzing image...";
+    imageHint.textContent = "";
 
     try {
       const [storedPreview, ingredients] = await Promise.all([
