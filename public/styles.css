@@ -281,6 +281,12 @@ button {
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid var(--line);
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.image-preview-wrap.is-analyzing {
+  opacity: 0.72;
+  filter: saturate(0.85);
 }
 
 .image-preview {
@@ -288,6 +294,36 @@ button {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+.image-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 38px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.image-loader[hidden] {
+  display: none;
+}
+
+.image-loader-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #f3e8dc;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: image-loader-spin 0.8s linear infinite;
+}
+
+@keyframes image-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .helper {

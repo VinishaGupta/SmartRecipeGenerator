@@ -41,6 +41,17 @@
 
     <div class="signin-form-section">
 
+      <div
+        class="signin-loader"
+        id="signinLoader"
+        aria-live="polite"
+        aria-hidden="true"
+        hidden
+      >
+        <span class="signin-loader-spinner" aria-hidden="true"></span>
+        <span id="signinLoaderText">Please wait...</span>
+      </div>
+
       <h2 id="authTitle">
         Welcome Back
       </h2>
@@ -80,7 +91,7 @@
         <span class="toggle-pill"></span>
 
         <button
-          id="toggleLogin"
+          id="loginTab"
           class="active"
           type="button"
         >
@@ -88,7 +99,7 @@
         </button>
 
         <button
-          id="toggleSignup"
+          id="signupTab"
           type="button"
         >
           Sign Up
@@ -153,83 +164,6 @@
 
   </div>
 
-  <script>
-
-    const authToggle =
-      document.getElementById("authToggle");
-
-    const toggleLogin =
-      document.getElementById("toggleLogin");
-
-    const toggleSignup =
-      document.getElementById("toggleSignup");
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-    const signupForm =
-      document.getElementById("signupForm");
-
-    const authTitle =
-      document.getElementById("authTitle");
-
-    const authSubtitle =
-      document.getElementById("authSubtitle");
-
-    function showLogin(){
-
-      authToggle.setAttribute(
-        "data-mode",
-        "login"
-      );
-
-      toggleLogin.classList.add("active");
-
-      toggleSignup.classList.remove("active");
-
-      loginForm.classList.add("active");
-
-      signupForm.classList.remove("active");
-
-      authTitle.textContent =
-        "Welcome Back";
-
-      authSubtitle.textContent =
-        "Your personal sous-chef is ready to assist.";
-    }
-
-    function showSignup(){
-
-      authToggle.setAttribute(
-        "data-mode",
-        "signup"
-      );
-
-      toggleSignup.classList.add("active");
-
-      toggleLogin.classList.remove("active");
-
-      signupForm.classList.add("active");
-
-      loginForm.classList.remove("active");
-
-      authTitle.textContent =
-        "Join the Kitchen";
-
-      authSubtitle.textContent =
-        "Create your account to save and personalize recipes.";
-    }
-
-    toggleLogin.addEventListener(
-      "click",
-      showLogin
-    );
-
-    toggleSignup.addEventListener(
-      "click",
-      showSignup
-    );
-</script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="app.js"></script>
   <script>

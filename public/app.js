@@ -97,6 +97,7 @@ const statusEl = document.getElementById("status");
 const imageHint = document.getElementById("imageHint");
 const imagePreviewWrap = document.getElementById("imagePreviewWrap");
 const imagePreview = document.getElementById("imagePreview");
+const imageLoader = document.getElementById("imageLoader");
 const authBtn = document.getElementById("authBtn");
 const recognizedPills = document.getElementById("recognizedPills");
 const ingredientSelector = document.getElementById("ingredientSelector");
@@ -154,11 +155,25 @@ const signupTab = document.getElementById("signupTab");
 const closeAuthModal = document.getElementById("closeAuthModal");
 const loginError = document.getElementById("loginError");
 const signupError = document.getElementById("signupError");
+const signinLoader = document.getElementById("signinLoader");
+const signinLoaderText = document.getElementById("signinLoaderText");
 
 const setAuthError = (element, message) => {
   if (!element) return;
   element.textContent = message;
   element.classList.toggle("show", Boolean(message));
+};
+
+const setSigninLoading = (isLoading, message = "Please wait...") => {
+  if (!signinLoader) return;
+
+  signinLoader.hidden = !isLoading;
+  signinLoader.setAttribute("aria-hidden", String(!isLoading));
+  document.querySelector(".signin-form-section")?.setAttribute("aria-busy", String(isLoading));
+
+  if (signinLoaderText) {
+    signinLoaderText.textContent = message;
+  }
 };
 
 const openAuthModal = () => {
@@ -217,6 +232,7 @@ if (loginForm) {
 
     try {
       setAuthError(loginError, "");
+      setSigninLoading(true, "Signing in...");
       const res = await fetch(apiUrl("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -232,6 +248,7 @@ if (loginForm) {
             ? "Invalid email or password. If you do not have an account, choose Join the Kitchen."
             : "Login failed"
         );
+        setSigninLoading(false);
         return;
       }
 
@@ -249,6 +266,7 @@ if (loginForm) {
     } catch (err) {
       console.error("Login error:", err);
       setAuthError(loginError, "Login failed");
+      setSigninLoading(false);
     }
   });
 }
@@ -268,6 +286,7 @@ if (signupForm) {
         setAuthError(signupError, "Passwords do not match");
         return;
       }
+      setSigninLoading(true, "Creating account...");
       const res = await fetch(apiUrl("/api/auth/signup"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -281,6 +300,7 @@ if (signupForm) {
           signupError,
           data.error === "user_exists" ? "Email already exists" : "Signup failed"
         );
+        setSigninLoading(false);
         return;
       }
 
@@ -298,6 +318,7 @@ if (signupForm) {
     } catch (err) {
       console.error("Signup error:", err);
       setAuthError(signupError, "Signup failed");
+      setSigninLoading(false);
     }
   });
 }
@@ -520,6 +541,7 @@ const clearImagePreview = () => {
   imagePreviewDataUrl = "";
   imagePreview.removeAttribute("src");
   imagePreviewWrap.hidden = true;
+  setImageAnalyzing(false);
 };
 
 const showImagePreview = (file) => {
@@ -527,6 +549,12 @@ const showImagePreview = (file) => {
   imagePreviewUrl = URL.createObjectURL(file);
   imagePreview.src = imagePreviewUrl;
   imagePreviewWrap.hidden = false;
+};
+
+const setImageAnalyzing = (isAnalyzing) => {
+  if (!imageLoader) return;
+  imageLoader.hidden = !isAnalyzing;
+  imagePreviewWrap?.classList.toggle("is-analyzing", isAnalyzing);
 };
 
 /*************************************************
@@ -1241,6 +1269,7 @@ if (imageInput) {
 
     clearImageIngredients();
     showImagePreview(file);
+    setImageAnalyzing(true);
     imageHint.textContent = "Analyzing image...";
 
     try {
@@ -1255,12 +1284,14 @@ if (imageInput) {
       imageHint.textContent = recognizedIngredients.length
         ? "Ingredients detected from image."
         : "No ingredients detected.";
+      setImageAnalyzing(false);
       saveSearchState();
     } catch (error) {
       console.error(error);
       recognizedIngredients = [];
       renderRecognized();
       imageHint.textContent = "Could not analyze image.";
+      setImageAnalyzing(false);
       saveSearchState();
     }
   });
@@ -1359,4 +1390,3 @@ try {
 } catch (err) {
   console.debug("Home UI init error:", err);
 }
-
