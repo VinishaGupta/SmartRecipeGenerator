@@ -119,6 +119,11 @@ button {
   background: #ece7e4;
 }
 
+#authBtn {
+  font-weight: 800;
+  text-decoration: none;
+}
+
 .page {
   width: 100%;
   margin-top: 0;

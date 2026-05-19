@@ -78,8 +78,8 @@ const getCurrentUser = async () => {
 const formatDisplayName = (name) =>
   String(name || "")
     .trim()
-    .toLowerCase()
-    .replace(/\b[a-z]/g, char => char.toUpperCase());
+    .charAt(0)
+    .toUpperCase();
 
 const initAuthUI = async () => {
   if (!authBtn) return;
