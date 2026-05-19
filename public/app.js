@@ -141,8 +141,8 @@ const initAuthUI = async () => {
   if (user && user.email) {
     const displayName = user.displayName || user.email.split('@')[0] || 'Account';
     authBtn.textContent = formatDisplayName(displayName);
-    authBtn.href = '/api/auth/logout';
-    authBtn.title = 'Sign out';
+    authBtn.href = '#';
+    authBtn.title = 'Profile';
   } else {
     authBtn.textContent = 'Sign in';
     // Navigate to dedicated sign-in page instead of opening modal
