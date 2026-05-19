@@ -128,12 +128,19 @@ const getCurrentUser = async () => {
   }
 };
 
+const formatDisplayName = (name) =>
+  String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\b[a-z]/g, char => char.toUpperCase());
+
 const initAuthUI = async () => {
   if (!authBtn) return;
   const user = await getCurrentUser();
 
   if (user && user.email) {
-    authBtn.textContent = user.displayName || user.email.split('@')[0] || 'Account';
+    const displayName = user.displayName || user.email.split('@')[0] || 'Account';
+    authBtn.textContent = formatDisplayName(displayName);
     authBtn.href = '/api/auth/logout';
     authBtn.title = 'Sign out';
   } else {
