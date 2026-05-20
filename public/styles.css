@@ -1183,6 +1183,10 @@ input[type="range"] {
   font-size: 20px;
 }
 
+.save-action.active svg {
+  fill: currentColor;
+}
+
 .meal-plan-action {
   position: fixed;
   left: clamp(20px, 5vw, 80px);

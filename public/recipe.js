@@ -16,10 +16,108 @@ const getBackendBaseUrl = () => {
 
 const apiUrl = (path) => `${getBackendBaseUrl()}${path}`;
 const recipeDetail = document.getElementById("recipeDetail");
+const saveRecipeBtn = document.getElementById("saveRecipeBtn");
+const shareRecipeBtn = document.getElementById("shareRecipeBtn");
 const CLOUDINARY_CLOUD_NAME = "djsenbil3";
 const RECIPE_IMAGE_FOLDER = "";
+const FAVORITES_KEY = "favoriteRecipes";
 const FALLBACK_RECIPE_IMAGE =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 360'%3E%3Crect width='640' height='360' fill='%23f1f5f9'/%3E%3Cpath d='M184 244h272c18 0 28-20 18-35l-42-64c-9-14-28-15-38-2l-30 39-18-22c-10-13-30-12-39 2l-42 63-21-25c-10-12-29-10-36 4l-35 40c-7 14 3 30 21 30z' fill='%23cbd5e1'/%3E%3Ccircle cx='220' cy='118' r='34' fill='%23cbd5e1'/%3E%3C/svg%3E";
+let currentRecipe = null;
+
+const getFavorites = () =>
+  JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]").map(String);
+
+const setFavorites = (favorites) =>
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites.map(String)));
+
+const isCurrentRecipeSaved = () =>
+  currentRecipe ? getFavorites().includes(String(currentRecipe.id)) : false;
+
+const updateSaveButton = () => {
+  if (!saveRecipeBtn || !currentRecipe) return;
+
+  const isSaved = isCurrentRecipeSaved();
+  saveRecipeBtn.classList.toggle("active", isSaved);
+  saveRecipeBtn.setAttribute("aria-pressed", String(isSaved));
+  saveRecipeBtn.innerHTML = `
+    <i data-lucide="heart"></i>
+    ${isSaved ? "Saved" : "Save"}
+  `;
+  lucide.createIcons();
+};
+
+const toggleCurrentRecipeSaved = () => {
+  if (!currentRecipe) return;
+
+  const recipeId = String(currentRecipe.id);
+  const favorites = getFavorites();
+  const nextFavorites = favorites.includes(recipeId)
+    ? favorites.filter(id => id !== recipeId)
+    : [...favorites, recipeId];
+
+  setFavorites(nextFavorites);
+  updateSaveButton();
+};
+
+const showShareCopiedState = () => {
+  if (!shareRecipeBtn) return;
+
+  shareRecipeBtn.classList.add("active");
+  shareRecipeBtn.title = "Link copied";
+  shareRecipeBtn.innerHTML = '<i data-lucide="check"></i>';
+  lucide.createIcons();
+
+  setTimeout(() => {
+    shareRecipeBtn.classList.remove("active");
+    shareRecipeBtn.title = "Share";
+    shareRecipeBtn.innerHTML = '<i data-lucide="share-2"></i>';
+    lucide.createIcons();
+  }, 1800);
+};
+
+const copyRecipeLink = async () => {
+  const recipeUrl = window.location.href;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(recipeUrl);
+    return;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = recipeUrl;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  textarea.remove();
+};
+
+const shareCurrentRecipe = async () => {
+  if (!currentRecipe) return;
+
+  const shareData = {
+    title: currentRecipe.name,
+    text: `Check out this recipe: ${currentRecipe.name}`,
+    url: window.location.href
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      return;
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw error;
+      }
+    }
+  }
+
+  await copyRecipeLink();
+  showShareCopiedState();
+};
 
 const getImageUrl = (imageName) => {
   if (!imageName) return FALLBACK_RECIPE_IMAGE;
@@ -142,7 +240,9 @@ const loadRecipe = async () => {
       return;
     }
 
+    currentRecipe = recipe;
     renderRecipe(recipe);
+    updateSaveButton();
     recipeDetail.querySelector(".recipe-detail-image").addEventListener("error", (event) => {
       event.currentTarget.src = FALLBACK_RECIPE_IMAGE;
     }, { once: true });
@@ -152,5 +252,21 @@ const loadRecipe = async () => {
     recipeDetail.innerHTML = "<p class=\"helper\">Could not load recipe.</p>";
   }
 };
+
+if (saveRecipeBtn) {
+  saveRecipeBtn.addEventListener("click", toggleCurrentRecipeSaved);
+}
+
+if (shareRecipeBtn) {
+  shareRecipeBtn.addEventListener("click", async () => {
+    try {
+      await shareCurrentRecipe();
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Recipe share failed:", error);
+      }
+    }
+  });
+}
 
 loadRecipe();
