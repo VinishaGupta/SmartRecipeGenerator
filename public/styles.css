@@ -1296,7 +1296,7 @@ input[type="range"] {
 
 .profile-nav button.active {
   background: #087b2f;
-  color: #16391e;
+  color: #fff;
 }
 
 .profile-nav button svg,
