@@ -87,10 +87,14 @@ const initAuthUI = async () => {
 
   if (user && user.email) {
     const displayName = user.displayName || user.email.split('@')[0] || 'Account';
+    authBtn.classList.add('profile-initial');
+    authBtn.classList.remove('sign-in-link');
     authBtn.textContent = formatDisplayName(displayName);
     authBtn.href = '/profile.html';
     authBtn.title = 'Profile';
   } else {
+    authBtn.classList.add('sign-in-link');
+    authBtn.classList.remove('profile-initial');
     authBtn.textContent = 'Sign in';
     authBtn.href = '/api/auth/google';
     authBtn.title = 'Sign in';
