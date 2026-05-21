@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profile | Culinary Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="data:," />
+</head>
+<body class="profile-body">
+
+<aside class="profile-sidebar">
+  <a class="profile-mark" href="index.html">CI</a>
+
+  <div class="profile-mini">
+    <div id="profileMiniAvatar" class="profile-mini-avatar">C</div>
+    <div>
+      <strong id="profileMiniName">Chef</strong>
+      <span>Home Cook Level 1</span>
+    </div>
+  </div>
+
+  <nav class="profile-nav" aria-label="Profile navigation">
+    <a href="#dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+    <a class="active" href="#recipes"><i data-lucide="utensils"></i> Recipes</a>
+    <a href="#collections"><i data-lucide="book-open"></i> Collections</a>
+    <a href="#meal-planner"><i data-lucide="calendar-days"></i> Meal Planner</a>
+    <a href="#analytics"><i data-lucide="sparkles"></i> Analytics</a>
+  </nav>
+
+  <div class="profile-sidebar-footer">
+    <a class="profile-create" href="index.html">
+      <i data-lucide="plus"></i>
+      Create New Recipe
+    </a>
+    <a class="profile-muted-link" href="#help"><i data-lucide="circle-help"></i> Help</a>
+    <a class="profile-muted-link" href="/api/auth/logout"><i data-lucide="log-out"></i> Sign Out</a>
+  </div>
+</aside>
+
+<main class="profile-shell">
+  <header class="profile-topbar">
+    <a class="profile-brand" href="index.html">Culinary Intelligence</a>
+    <nav aria-label="Primary navigation">
+      <a href="discover.html">Explore</a>
+      <a href="discover.html">Community</a>
+      <a href="index.html">Kitchen</a>
+    </nav>
+    <label class="profile-search">
+      <i data-lucide="search"></i>
+      <input id="profileSearch" type="search" placeholder="Search saved recipes" />
+    </label>
+  </header>
+
+  <section class="profile-hero">
+    <div class="profile-identity">
+      <div id="profileAvatar" class="profile-avatar">C</div>
+      <div class="profile-copy">
+        <div class="profile-name-row">
+          <h1 id="profileName">Chef</h1>
+          <span id="profileLevel">Level 1 Cook</span>
+        </div>
+        <p>
+          Exploring smarter cooking, favorite recipes, and fresh ideas for what to make next.
+        </p>
+      </div>
+    </div>
+
+    <dl class="profile-stats">
+      <div><dt id="savedCount">0</dt><dd>Recipes</dd></div>
+      <div><dt id="proteinCount">0</dt><dd>High Protein</dd></div>
+      <div><dt id="cookedCount">0</dt><dd>Cooked</dd></div>
+    </dl>
+  </section>
+
+  <section class="profile-tabs" aria-label="Recipe sections">
+    <button class="active" type="button" data-profile-tab="saved">Saved Recipes</button>
+    <button type="button" data-profile-tab="creations">My Creations</button>
+    <button type="button" data-profile-tab="plans">Meal Plans</button>
+  </section>
+
+  <section class="profile-content" id="recipes">
+    <div class="profile-section-head">
+      <div>
+        <h2 id="profileSectionTitle">Recently Saved</h2>
+        <p id="profileResultSummary">Loading recipes...</p>
+      </div>
+      <div class="profile-view-actions">
+        <button id="profileListView" type="button" title="Compact view">
+          <i data-lucide="list-filter"></i>
+        </button>
+        <button id="profileGridView" class="active" type="button" title="Grid view">
+          <i data-lucide="layout-grid"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="profileRecipeGrid" class="profile-recipe-grid"></div>
+
+    <section class="profile-sous-chef">
+      <div>
+        <span><i data-lucide="sparkles"></i> AI Sous-Chef</span>
+        <h2 id="sousChefTitle">What's in your kitchen tonight?</h2>
+        <p>Generate a custom recipe based on your saved favorites and available ingredients.</p>
+        <form id="profilePromptForm" class="profile-prompt">
+          <input id="profilePromptInput" placeholder="I have salmon, avocado, and kale..." />
+          <button type="submit" title="Generate">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </section>
+  </section>
+</main>
+
+<script src="profile.js"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

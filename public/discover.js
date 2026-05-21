@@ -88,7 +88,7 @@ const initAuthUI = async () => {
   if (user && user.email) {
     const displayName = user.displayName || user.email.split('@')[0] || 'Account';
     authBtn.textContent = formatDisplayName(displayName);
-    authBtn.href = '#';
+    authBtn.href = '/profile.html';
     authBtn.title = 'Profile';
   } else {
     authBtn.textContent = 'Sign in';
