@@ -11,8 +11,6 @@
 <body class="profile-body">
 
 <aside class="profile-sidebar">
-  <a class="profile-mark" href="index.html">CI</a>
-
   <div class="profile-mini">
     <div id="profileMiniAvatar" class="profile-mini-avatar">C</div>
     <div>
@@ -30,10 +28,6 @@
   </nav>
 
   <div class="profile-sidebar-footer">
-    <a class="profile-create" href="index.html">
-      <i data-lucide="plus"></i>
-      Create New Recipe
-    </a>
     <a class="profile-muted-link" href="#help"><i data-lucide="circle-help"></i> Help</a>
     <a class="profile-muted-link" href="/api/auth/logout"><i data-lucide="log-out"></i> Sign Out</a>
   </div>
@@ -42,11 +36,7 @@
 <main class="profile-shell">
   <header class="profile-topbar">
     <a class="profile-brand" href="index.html">Culinary Intelligence</a>
-    <nav aria-label="Primary navigation">
-      <a href="discover.html">Explore</a>
-      <a href="discover.html">Community</a>
-      <a href="index.html">Kitchen</a>
-    </nav>
+
     <label class="profile-search">
       <i data-lucide="search"></i>
       <input id="profileSearch" type="search" placeholder="Search saved recipes" />
@@ -81,6 +71,15 @@
   </section>
 
   <section class="profile-content" id="recipes">
+    <a class="profile-create-highlight" href="index.html">
+      <span>
+        <i data-lucide="plus"></i>
+      </span>
+      <strong>Create New Recipe</strong>
+      <em>Start with ingredients, an image, or your saved favorites.</em>
+      <i data-lucide="arrow-right"></i>
+    </a>
+
     <div class="profile-section-head">
       <div>
         <h2 id="profileSectionTitle">Recently Saved</h2>

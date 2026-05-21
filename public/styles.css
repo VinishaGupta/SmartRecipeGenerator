@@ -1210,14 +1210,6 @@ input[type="range"] {
   border-right: 1px solid #ebe1db;
 }
 
-.profile-mark {
-  color: var(--brand);
-  font-size: 22px;
-  font-weight: 800;
-  text-decoration: none;
-  letter-spacing: 0;
-}
-
 .profile-mini {
   display: flex;
   align-items: center;
@@ -1264,7 +1256,7 @@ input[type="range"] {
 
 .profile-nav button,
 .profile-muted-link,
-.profile-create {
+.profile-create-highlight {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1290,7 +1282,7 @@ input[type="range"] {
 
 .profile-nav button svg,
 .profile-muted-link svg,
-.profile-create svg {
+.profile-create-highlight svg {
   flex: 0 0 auto;
   width: 19px;
   height: 19px;
@@ -1302,14 +1294,6 @@ input[type="range"] {
   gap: 10px;
   padding-top: 20px;
   border-top: 1px solid #ded1ca;
-}
-
-.profile-create {
-  justify-content: center;
-  min-height: 50px;
-  margin-bottom: 14px;
-  background: var(--brand);
-  color: #fff;
 }
 
 .profile-muted-link {
@@ -1371,6 +1355,9 @@ input[type="range"] {
   border-radius: 999px;
   background: #f4f0ee;
   color: #6f625b;
+  width: 350px;
+  
+
 }
 
 .profile-search svg {
@@ -1505,6 +1492,45 @@ input[type="range"] {
   min-width: 0;
   max-width: 100%;
   padding: 56px clamp(28px, 6vw, 86px) 96px;
+}
+
+.profile-create-highlight {
+  min-height: 96px;
+  margin-bottom: 34px;
+  padding: 20px 24px;
+  border: 1px solid rgba(138, 70, 0, 0.18);
+  border-radius: 18px;
+  background:
+    linear-gradient(90deg, rgba(138, 70, 0, 0.96), rgba(217, 128, 0, 0.82)),
+    url("https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1000&q=80") center / cover;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 22px 46px rgba(138, 70, 0, 0.2);
+}
+
+.profile-create-highlight span {
+  width: 48px;
+  height: 48px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.profile-create-highlight strong,
+.profile-create-highlight em {
+  display: block;
+}
+
+.profile-create-highlight strong {
+  font-size: 20px;
+}
+
+.profile-create-highlight em {
+  flex: 1;
+  margin-left: 4px;
+  color: rgba(255, 255, 255, 0.82);
+  font-style: normal;
 }
 
 .profile-section-head {
@@ -1769,8 +1795,7 @@ input[type="range"] {
   }
 
   .profile-nav button,
-  .profile-muted-link,
-  .profile-create {
+  .profile-muted-link {
     font-size: 0;
   }
 
@@ -1779,8 +1804,7 @@ input[type="range"] {
   }
 
   .profile-nav button,
-  .profile-muted-link,
-  .profile-create {
+  .profile-muted-link {
     width: 54px;
     justify-content: center;
     padding: 0;
