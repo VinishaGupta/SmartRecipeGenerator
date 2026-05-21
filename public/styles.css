@@ -1235,6 +1235,25 @@ input[type="range"] {
   gap: 12px;
 }
 
+.profile-back-button {
+  width: max-content;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.profile-back-button svg {
+  width: 18px;
+  height: 18px;
+}
+
 .profile-mini-avatar,
 .profile-avatar {
   display: inline-grid;
@@ -1822,6 +1841,13 @@ input[type="range"] {
     display: none;
   }
 
+  .profile-back-button {
+    width: 54px;
+    justify-content: center;
+    padding: 0;
+    font-size: 0;
+  }
+
   .profile-nav button,
   .profile-muted-link {
     width: 54px;
@@ -1859,6 +1885,10 @@ input[type="range"] {
   .profile-mini,
   .profile-sidebar-footer {
     display: none;
+  }
+
+  .profile-back-button {
+    flex: 0 0 auto;
   }
 
   .profile-nav {

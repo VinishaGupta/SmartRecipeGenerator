@@ -13,6 +13,7 @@ const profileGridView = document.getElementById("profileGridView");
 const profileListView = document.getElementById("profileListView");
 const profilePromptForm = document.getElementById("profilePromptForm");
 const profilePromptInput = document.getElementById("profilePromptInput");
+const profileBackBtn = document.getElementById("profileBackBtn");
 
 let recipes = [];
 let activeTab = "saved";
@@ -272,6 +273,15 @@ profilePromptForm.addEventListener("submit", (event) => {
   window.location.href = prompt
     ? `index.html?ingredients=${encodeURIComponent(prompt)}`
     : "index.html";
+});
+
+profileBackBtn.addEventListener("click", () => {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+
+  window.location.href = "index.html";
 });
 
 setUserDetails();
