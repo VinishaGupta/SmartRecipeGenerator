@@ -442,8 +442,9 @@ const saveSearchState = () => {
 const restoreSearchState = () => {
   if (!ingredientInput) return;
   const state = readSearchState();
+  const queryIngredients = new URLSearchParams(window.location.search).get("ingredients");
 
-  ingredientInput.value = state.ingredients || "";
+  ingredientInput.value = queryIngredients || state.ingredients || "";
   recognizedIngredients = Array.isArray(state.recognizedIngredients)
     ? state.recognizedIngredients.map(normalize).filter(Boolean)
     : [];

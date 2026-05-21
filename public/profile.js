@@ -91,6 +91,10 @@ const recipeDescription = (recipe) => {
 };
 
 const currentRecipes = () => {
+  if (activeTab !== "saved") {
+    return [];
+  }
+
   const favoriteIds = new Set(getFavorites());
   const savedRecipes = recipes.filter(recipe => favoriteIds.has(String(recipe.id)));
   const source = savedRecipes.length ? savedRecipes : recipes.slice(0, 6);
@@ -113,7 +117,7 @@ const updateStats = () => {
   const savedRecipes = recipes.filter(recipe => favoriteIds.has(String(recipe.id)));
   const visibleSaved = savedRecipes.length ? savedRecipes : recipes.slice(0, 6);
 
-  document.getElementById("savedCount").textContent = String(savedRecipes.length);
+  document.getElementById("savedCount").textContent = String(visibleSaved.length);
   document.getElementById("proteinCount").textContent = String(
     visibleSaved.filter(recipe => (recipe.nutrition?.protein || 0) >= 25).length
   );
@@ -127,21 +131,24 @@ const renderRecipes = () => {
   const favorites = new Set(getFavorites());
 
   profileRecipeGrid.classList.toggle("compact", compactView);
-  profileResultSummary.textContent = displayedRecipes.length
-    ? `${displayedRecipes.length} recipes shown`
-    : "No recipes match your search";
+  profileResultSummary.textContent = activeTab === "saved"
+    ? displayedRecipes.length
+      ? `${displayedRecipes.length} recipes shown`
+      : "No recipes match your search"
+    : "Coming soon";
 
   if (!displayedRecipes.length) {
-    profileRecipeGrid.innerHTML = "<p class=\"empty-state\">No recipes found.</p>";
+    profileRecipeGrid.innerHTML = activeTab === "saved"
+      ? "<p class=\"empty-state\">No recipes found.</p>"
+      : "<p class=\"empty-state\">This section will be available soon.</p>";
     return;
   }
 
   profileRecipeGrid.innerHTML = displayedRecipes.map((recipe, index) => {
     const isSaved = favorites.has(String(recipe.id));
-    const featured = index === 3 && !compactView;
 
     return `
-      <article class="profile-recipe-card ${featured ? "featured" : ""}" data-recipe-url="recipe.html?id=${encodeURIComponent(recipe.id)}">
+      <article class="profile-recipe-card" data-recipe-url="recipe.html?id=${encodeURIComponent(recipe.id)}">
         <div class="profile-card-image">
           <img src="${getImageUrl(recipe.image)}" alt="${recipe.name}" loading="lazy" />
           <button class="profile-favorite ${isSaved ? "active" : ""}" type="button" data-id="${recipe.id}" title="${isSaved ? "Remove from saved" : "Save recipe"}">
@@ -232,6 +239,14 @@ document.querySelectorAll("[data-profile-tab]").forEach(button => {
         ? "My Creations"
         : "Meal Plans";
     renderRecipes();
+  });
+});
+
+document.querySelectorAll(".profile-nav button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".profile-nav button").forEach(navButton => {
+      navButton.classList.toggle("active", navButton === button);
+    });
   });
 });
 
