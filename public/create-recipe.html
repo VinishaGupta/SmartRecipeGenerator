@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Recipe | Culinary Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="data:," />
+</head>
+<body class="creator-body">
+
+<aside class="creator-sidebar">
+  <a class="creator-brand" href="index.html">Culinary Intelligence</a>
+  <span>Main Menu</span>
+  <nav class="creator-nav" aria-label="Creator navigation">
+    <a href="profile.html"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+    <a class="active" href="create-recipe.html"><i data-lucide="utensils"></i> Recipes</a>
+    <a href="profile.html"><i data-lucide="book-open"></i> Collections</a>
+    <a href="profile.html"><i data-lucide="calendar-days"></i> Meal Planner</a>
+    <a href="profile.html"><i data-lucide="bar-chart-3"></i> Analytics</a>
+  </nav>
+  <a class="creator-settings" href="profile.html"><i data-lucide="settings"></i> Settings</a>
+</aside>
+
+<main class="creator-shell">
+  <header class="creator-topbar">
+    <nav aria-label="Create page navigation">
+      <a href="index.html">Home</a>
+      <a class="active" href="create-recipe.html">Create</a>
+      <a href="discover.html">Community</a>
+    </nav>
+    <div class="creator-actions">
+      <button class="creator-icon" type="button" title="Notifications">
+        <i data-lucide="bell"></i>
+      </button>
+      <a class="creator-user" href="profile.html">
+        <span>C</span>
+        <strong>Chef</strong>
+      </a>
+      <button class="creator-primary small" type="button">Submit for Approval</button>
+    </div>
+  </header>
+
+  <section class="creator-content">
+    <div class="creator-page-head">
+      <div>
+        <h1>Create New Recipe</h1>
+        <p>Elevate your culinary vision with AI-assisted detailing.</p>
+      </div>
+      <div class="creator-head-actions">
+        <button class="creator-secondary" type="button">Discard</button>
+        <button class="creator-secondary filled" type="button">Save as Draft</button>
+      </div>
+    </div>
+
+    <section class="creator-hero-upload">
+      <input id="creatorImageInput" type="file" accept="image/*" />
+      <label for="creatorImageInput">
+        <i data-lucide="cloud-upload"></i>
+        <strong>Change Hero Image</strong>
+        <span>21:9 aspect ratio recommended for best results</span>
+      </label>
+    </section>
+
+    <section class="creator-overview-grid">
+      <div class="creator-panel recipe-basics">
+        <label>
+          Recipe Title
+          <input value="Garden Harvest Micro-Salad" />
+        </label>
+        <label>
+          Detailed Description
+          <textarea>A delicate arrangement of seasonal micro-greens, citrus-infused pearls, and toasted almond soil. Perfect as a refreshing starter for a tasting menu.</textarea>
+        </label>
+      </div>
+
+      <aside class="creator-side-stack">
+        <div class="creator-panel">
+          <h2>Category Tags</h2>
+          <div class="creator-tags">
+            <span>Fine Dining <button type="button">x</button></span>
+            <span>Vegetarian <button type="button">x</button></span>
+            <button type="button">+ Add Tag</button>
+          </div>
+        </div>
+        <div class="creator-time-card">
+          <i data-lucide="timer"></i>
+          <div>
+            <span>Total Prep Time</span>
+            <strong>45 <small>minutes</small></strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="creator-section">
+      <h2>Nutritional Profile <span>Per Serving</span></h2>
+      <div class="nutrition-editor-grid">
+        <article><span>Calories</span><strong>12</strong><em>kcal</em><div></div></article>
+        <article><span>Protein</span><strong>4.</strong><em>g</em><div class="green"></div></article>
+        <article><span>Carbs</span><strong>12</strong><em>g</em><div class="coral"></div></article>
+        <article><span>Fat</span><strong>8</strong><em>g</em><div class="muted"></div></article>
+      </div>
+    </section>
+
+    <section class="creator-panel creator-ingredients">
+      <div class="creator-panel-head">
+        <h2>Ingredients</h2>
+        <button id="addIngredientBtn" type="button"><i data-lucide="plus"></i> Add Ingredient</button>
+      </div>
+      <div id="ingredientRows" class="ingredient-editor">
+        <div class="ingredient-editor-row">
+          <i data-lucide="grip-vertical"></i>
+          <input value="2" />
+          <input value="cups" />
+          <input value="Micro-greens (mixed)" />
+        </div>
+        <div class="ingredient-editor-row">
+          <i data-lucide="grip-vertical"></i>
+          <input value="50" />
+          <input value="g" />
+          <input value="Edible flowers (violas, nasturtium)" />
+        </div>
+        <div class="ingredient-editor-row">
+          <i data-lucide="grip-vertical"></i>
+          <input value="1" />
+          <input value="tbsp" />
+          <input value="Lemon-infused olive oil" />
+        </div>
+      </div>
+    </section>
+
+    <section class="creator-section">
+      <h2>Preparation Steps</h2>
+      <div id="stepRows" class="step-editor">
+        <article><span>1</span><textarea>Wash micro-greens in ice-cold water to ensure maximum crispness. Spin dry gently using a paper towel.</textarea></article>
+        <article><span>2</span><textarea>Prepare the almond soil by finely crushing toasted almonds and seasoning with a pinch of sea salt.</textarea></article>
+        <button id="addStepBtn" type="button"><i data-lucide="plus"></i> Add the next preparation step...</button>
+      </div>
+    </section>
+
+    <section class="creator-ai-panel">
+      <h2>AI Smart Enhancement</h2>
+      <div>
+        <article>
+          <strong>Yield Optimization</strong>
+          <p>Current recipe serves 4. Would you like to scale this for a catering event (100+)?</p>
+          <button type="button">Calculate Scaling</button>
+        </article>
+        <article>
+          <strong>Smart Substitutions</strong>
+          <p>AI suggests <b>Lemon Zest</b> as a cost-effective alternative to Yuzu pearls for this recipe.</p>
+          <button type="button">Accept Suggestion</button>
+        </article>
+      </div>
+    </section>
+
+    <footer class="creator-footer">
+      <span><i data-lucide="cloud"></i> Last saved: Just now</span>
+      <div>
+        <button class="creator-secondary" type="button">Cancel</button>
+        <button class="creator-primary" type="button">Submit for Approval</button>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script src="create-recipe.js"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>
