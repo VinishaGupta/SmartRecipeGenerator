@@ -1,7 +1,7 @@
 const RENDER_BACKEND_URL = "https://smartrecipegenerator-rbkj.onrender.com";
 const CLOUDINARY_CLOUD_NAME = "djsenbil3";
 const RECIPE_IMAGE_FOLDER = "";
-const FAVORITES_KEY = "favoriteRecipes";
+const SAVED_RECIPES_KEY = "savedRecipes";
 const FALLBACK_RECIPE_IMAGE =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 360'%3E%3Crect width='640' height='360' fill='%23f1f5f9'/%3E%3Cpath d='M184 244h272c18 0 28-20 18-35l-42-64c-9-14-28-15-38-2l-30 39-18-22c-10-13-30-12-39 2l-42 63-21-25c-10-12-29-10-36 4l-35 40c-7 14 3 30 21 30z' fill='%23cbd5e1'/%3E%3Ccircle cx='220' cy='118' r='34' fill='%23cbd5e1'/%3E%3C/svg%3E";
 
@@ -16,6 +16,7 @@ const profilePromptInput = document.getElementById("profilePromptInput");
 const profileBackBtn = document.getElementById("profileBackBtn");
 
 let recipes = [];
+let savedRecipeIds = [];
 let activeTab = "saved";
 let compactView = false;
 
@@ -49,11 +50,53 @@ const getCurrentUser = async () => {
   }
 };
 
-const getFavorites = () =>
-  JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]").map(String);
+const getLocalSavedRecipes = () =>
+  JSON.parse(localStorage.getItem(SAVED_RECIPES_KEY) || "[]").map(String);
 
-const setFavorites = (favorites) =>
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites.map(String)));
+const setLocalSavedRecipes = (recipeIds) =>
+  localStorage.setItem(SAVED_RECIPES_KEY, JSON.stringify(recipeIds.map(String)));
+
+const loadSavedRecipes = async () => {
+  try {
+    const response = await fetch(apiUrl("/api/saved-recipes"), {
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      throw new Error("Saved recipes could not be loaded");
+    }
+
+    const data = await response.json();
+    savedRecipeIds = (data.recipeIds || []).map(String);
+    setLocalSavedRecipes(savedRecipeIds);
+  } catch (error) {
+    savedRecipeIds = getLocalSavedRecipes();
+  }
+};
+
+const updateSavedRecipe = async (recipeId, shouldRemove) => {
+  try {
+    const response = await fetch(apiUrl("/api/saved-recipes"), {
+      method: shouldRemove ? "DELETE" : "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ recipeId })
+    });
+
+    if (!response.ok) {
+      throw new Error("Saved recipe update failed");
+    }
+
+    const data = await response.json();
+    savedRecipeIds = (data.recipeIds || []).map(String);
+  } catch (error) {
+    savedRecipeIds = shouldRemove
+      ? savedRecipeIds.filter(id => id !== recipeId)
+      : Array.from(new Set([...savedRecipeIds, recipeId]));
+  }
+
+  setLocalSavedRecipes(savedRecipeIds);
+};
 
 const formatDisplayName = (value) => {
   const fallback = "Chef";
@@ -96,9 +139,8 @@ const currentRecipes = () => {
     return [];
   }
 
-  const favoriteIds = new Set(getFavorites());
-  const savedRecipes = recipes.filter(recipe => favoriteIds.has(String(recipe.id)));
-  const source = savedRecipes.length ? savedRecipes : recipes.slice(0, 6);
+  const savedIds = new Set(savedRecipeIds);
+  const source = recipes.filter(recipe => savedIds.has(String(recipe.id)));
   const query = profileSearch.value.trim().toLowerCase();
 
   return source.filter(recipe => {
@@ -114,22 +156,21 @@ const currentRecipes = () => {
 };
 
 const updateStats = () => {
-  const favoriteIds = new Set(getFavorites());
-  const savedRecipes = recipes.filter(recipe => favoriteIds.has(String(recipe.id)));
-  const visibleSaved = savedRecipes.length ? savedRecipes : recipes.slice(0, 6);
+  const savedIds = new Set(savedRecipeIds);
+  const visibleSaved = recipes.filter(recipe => savedIds.has(String(recipe.id)));
 
   document.getElementById("savedCount").textContent = String(visibleSaved.length);
   document.getElementById("proteinCount").textContent = String(
     visibleSaved.filter(recipe => (recipe.nutrition?.protein || 0) >= 25).length
   );
   document.getElementById("cookedCount").textContent = String(
-    Math.max(visibleSaved.length * 2, savedRecipes.length)
+    visibleSaved.length
   );
 };
 
 const renderRecipes = () => {
   const displayedRecipes = currentRecipes();
-  const favorites = new Set(getFavorites());
+  const savedIds = new Set(savedRecipeIds);
 
   profileRecipeGrid.classList.toggle("compact", compactView);
   profileResultSummary.textContent = activeTab === "saved"
@@ -140,20 +181,20 @@ const renderRecipes = () => {
 
   if (!displayedRecipes.length) {
     profileRecipeGrid.innerHTML = activeTab === "saved"
-      ? "<p class=\"empty-state\">No recipes found.</p>"
+      ? "<p class=\"empty-state\">No saved recipes yet.</p>"
       : "<p class=\"empty-state\">This section will be available soon.</p>";
     return;
   }
 
   profileRecipeGrid.innerHTML = displayedRecipes.map((recipe, index) => {
-    const isSaved = favorites.has(String(recipe.id));
+    const isSaved = savedIds.has(String(recipe.id));
 
     return `
       <article class="profile-recipe-card" data-recipe-url="recipe.html?id=${encodeURIComponent(recipe.id)}">
         <div class="profile-card-image">
           <img src="${getImageUrl(recipe.image)}" alt="${recipe.name}" loading="lazy" />
           <button class="profile-favorite ${isSaved ? "active" : ""}" type="button" data-id="${recipe.id}" title="${isSaved ? "Remove from saved" : "Save recipe"}">
-            <i data-lucide="heart"></i>
+            <i data-lucide="bookmark"></i>
           </button>
           <div class="profile-card-tags">
             ${getRecipeTags(recipe).map(tag => `<span>${tag}</span>`).join("")}
@@ -185,15 +226,12 @@ const renderRecipes = () => {
   });
 
   profileRecipeGrid.querySelectorAll(".profile-favorite").forEach(button => {
-    button.addEventListener("click", (event) => {
+    button.addEventListener("click", async (event) => {
       event.stopPropagation();
       const recipeId = String(button.dataset.id);
-      const favoritesList = getFavorites();
-      const nextFavorites = favoritesList.includes(recipeId)
-        ? favoritesList.filter(id => id !== recipeId)
-        : [...favoritesList, recipeId];
+      const shouldRemove = savedRecipeIds.includes(recipeId);
 
-      setFavorites(nextFavorites);
+      await updateSavedRecipe(recipeId, shouldRemove);
       updateStats();
       renderRecipes();
     });
@@ -216,7 +254,10 @@ const setUserDetails = async () => {
 
 const loadRecipes = async () => {
   try {
-    const response = await fetch(apiUrl("/api/recipes"));
+    const [response] = await Promise.all([
+      fetch(apiUrl("/api/recipes")),
+      loadSavedRecipes()
+    ]);
     if (!response.ok) throw new Error("Recipes could not be loaded");
     recipes = await response.json();
     updateStats();

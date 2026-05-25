@@ -8,7 +8,17 @@ require("dotenv").config();
 const { getRecipes } = require("./lib/recipes");
 const { pingMongo } = require("./lib/mongodb");
 const { signToken, verifyToken } = require("./lib/auth");
-const { upsertGoogleUser, findUserByEmail, upsertLocalUser, verifyPassword, hashPassword, recordLogin } = require("./lib/users");
+const {
+  upsertGoogleUser,
+  findUserByEmail,
+  upsertLocalUser,
+  verifyPassword,
+  hashPassword,
+  recordLogin,
+  findUserByAuthPayload,
+  addSavedRecipe,
+  removeSavedRecipe
+} = require("./lib/users");
 const https = require("https");
 const querystring = require("querystring");
 const crypto = require("crypto");
@@ -28,8 +38,37 @@ const MIME_TYPES = {
 
 function setCorsHeaders(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
+function parseCookies(req) {
+  return (req.headers.cookie || "").split(";").map(c => c.trim()).reduce((acc, cur) => {
+    const [key, value] = cur.split("=");
+    if (!key) return acc;
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+function getAuthPayload(req) {
+  const token = parseCookies(req).auth;
+  return token ? verifyToken(token) : null;
+}
+
+function readJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", chunk => body += chunk);
+    req.on("error", reject);
+    req.on("end", () => {
+      try {
+        resolve(JSON.parse(body || "{}"));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  });
 }
 
 async function pingMongoIfConnected() {
@@ -208,9 +247,11 @@ const server = http.createServer((req, res) => {
           return;
         }
 
+        let persistedUser = null;
+
         // attempt to persist user; if Mongo unavailable, ignore error
         try {
-          await upsertGoogleUser({
+          persistedUser = await upsertGoogleUser({
             googleId: profile.id,
             googleEmail: profile.email,
             displayName: profile.name,
@@ -220,7 +261,12 @@ const server = http.createServer((req, res) => {
           console.debug("Could not persist Google user (no Mongo?):", err && err.message);
         }
 
-        const token = signToken({ sub: profile.id, email: profile.email, name: profile.name, avatar: profile.picture });
+        const token = signToken({
+          sub: persistedUser?._id?.toString() || profile.id,
+          email: profile.email,
+          name: profile.name,
+          avatar: profile.picture
+        });
 
         // set auth cookie and clear oauth_state
         res.setHeader("Set-Cookie", [
@@ -242,26 +288,30 @@ const server = http.createServer((req, res) => {
   }
 
   if (requestPath === "/api/auth/me" && req.method === "GET") {
-    const cookies = (req.headers.cookie || "").split(";").map(c => c.trim()).reduce((acc, cur) => {
-      const [k,v] = cur.split("="); if (!k) return acc; acc[k] = v; return acc;
-    }, {});
+    const payload = getAuthPayload(req);
 
-    const token = cookies.auth;
-    if (!token) {
-      res.writeHead(401, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "not_authenticated" }));
-      return;
-    }
-
-    const payload = verifyToken(token);
     if (!payload) {
       res.writeHead(401, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "invalid_token" }));
       return;
     }
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ email: payload.email, displayName: payload.name, avatar: payload.avatar }));
+    (async () => {
+      const user = await findUserByAuthPayload(payload);
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        email: user?.email || payload.email,
+        displayName: user?.displayName || payload.name,
+        avatar: user?.avatarUrl || payload.avatar,
+        favoriteRecipeIds: user?.favoriteRecipeIds || [],
+        savedRecipeIds: user?.savedRecipeIds || []
+      }));
+    })().catch((error) => {
+      console.error("Auth me error:", error);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "auth_me_failed" }));
+    });
     return;
   }
 
@@ -387,6 +437,55 @@ const server = http.createServer((req, res) => {
   }
 
   /* ---------- AUTH: Manual Login/Signup end ---------- */
+
+  /* ---------- SAVED RECIPES ---------- */
+  if (requestPath === "/api/saved-recipes" && ["GET", "POST", "DELETE"].includes(req.method)) {
+    (async () => {
+      const payload = getAuthPayload(req);
+
+      if (!payload) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "not_authenticated" }));
+        return;
+      }
+
+      const user = await findUserByAuthPayload(payload);
+
+      if (!user) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "user_not_found" }));
+        return;
+      }
+
+      if (req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ recipeIds: user.savedRecipeIds || [] }));
+        return;
+      }
+
+      const { recipeId } = await readJsonBody(req);
+      const normalizedRecipeId = String(recipeId || "").trim();
+
+      if (!normalizedRecipeId) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "recipe_id_required" }));
+        return;
+      }
+
+      const result = req.method === "POST"
+        ? await addSavedRecipe(user._id, normalizedRecipeId)
+        : await removeSavedRecipe(user._id, normalizedRecipeId);
+      const updatedUser = result.value || result;
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ recipeIds: updatedUser?.savedRecipeIds || [] }));
+    })().catch((error) => {
+      console.error("Saved recipes error:", error);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "saved_recipes_failed" }));
+    });
+    return;
+  }
 
   /* ---------- IMAGE RECOGNITION ---------- */
   if (requestPath === "/api/recognize" && req.method === "POST") {
