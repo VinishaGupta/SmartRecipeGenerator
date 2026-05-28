@@ -2258,6 +2258,12 @@ input[type="range"] {
   margin-top: 48px;
 }
 
+.creator-ingredients {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .creator-section h2 span {
   margin-left: 10px;
   color: #b8aaa2;
@@ -2336,13 +2342,13 @@ input[type="range"] {
 
 .ingredient-editor {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .ingredient-editor-row {
   display: grid;
-  grid-template-columns: 28px 120px 120px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: 24px 92px 92px minmax(0, 1fr);
+  gap: 10px;
   align-items: center;
 }
 
@@ -2351,8 +2357,9 @@ input[type="range"] {
 }
 
 .ingredient-editor-row input {
-  min-height: 42px;
-  padding: 0 12px;
+  min-height: 36px;
+  padding: 0 10px;
+  font-size: 16px;
 }
 
 .step-editor {

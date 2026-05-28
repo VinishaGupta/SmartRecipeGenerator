@@ -265,7 +265,8 @@ const server = http.createServer((req, res) => {
           sub: persistedUser?._id?.toString() || profile.id,
           email: profile.email,
           name: profile.name,
-          avatar: profile.picture
+          avatar: profile.picture,
+          role: persistedUser?.role || "user"
         });
 
         // set auth cookie and clear oauth_state
@@ -304,6 +305,7 @@ const server = http.createServer((req, res) => {
         email: user?.email || payload.email,
         displayName: user?.displayName || payload.name,
         avatar: user?.avatarUrl || payload.avatar,
+        role: user?.role || payload.role || "user",
         favoriteRecipeIds: user?.favoriteRecipeIds || [],
         savedRecipeIds: user?.savedRecipeIds || []
       }));
@@ -360,14 +362,15 @@ const server = http.createServer((req, res) => {
         });
 
         // Create token
-        const token = signToken({ sub: user._id.toString(), email: user.email, name: user.displayName });
+        const token = signToken({ sub: user._id.toString(), email: user.email, name: user.displayName, role: user.role || "user" });
 
         // Set cookie
         res.setHeader("Set-Cookie", `auth=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({
           email: user.email,
-          displayName: user.displayName
+          displayName: user.displayName,
+          role: user.role || "user"
         }));
       } catch (err) {
         console.error("Signup error:", err);
@@ -418,14 +421,15 @@ const server = http.createServer((req, res) => {
         await recordLogin(user._id);
 
         // Create token
-        const token = signToken({ sub: user._id.toString(), email: user.email, name: user.displayName });
+        const token = signToken({ sub: user._id.toString(), email: user.email, name: user.displayName, role: user.role || "user" });
 
         // Set cookie
         res.setHeader("Set-Cookie", `auth=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({
           email: user.email,
-          displayName: user.displayName
+          displayName: user.displayName,
+          role: user.role || "user"
         }));
       } catch (err) {
         console.error("Login error:", err);
