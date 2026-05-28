@@ -475,6 +475,25 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (requestPath === "/api/is-admin" && req.method === "GET") {
+    (async () => {
+      try {
+        const { payload, user } = await getAuthenticatedUser(req);
+
+        const isAdmin = Boolean(user && String(user.role || payload?.role || "").toLowerCase() === "admin");
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ isAdmin }));
+      } catch (err) {
+        console.error("is-admin check failed:", err);
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ isAdmin: false }));
+      }
+    })();
+
+    return;
+  }
+
   if (requestPath === "/api/auth/logout" && req.method === "GET") {
     res.setHeader("Set-Cookie", `auth=; HttpOnly; Path=/; Max-Age=0`);
     res.writeHead(302, { Location: "/" });

@@ -190,21 +190,27 @@ const loadQueue = async () => {
 };
 
 const initAdminPage = async () => {
-  const user = await getCurrentUser();
+  try {
+    const res = await fetch(apiUrl('/api/is-admin'), { credentials: 'same-origin' });
+    if (!res.ok) {
+      submissionList.innerHTML = '<p class="access-state">Please sign in to access the moderation queue.</p>';
+      setStatus('Sign in required.');
+      return;
+    }
 
-  if (!user) {
+    const data = await res.json();
+
+    if (!data?.isAdmin) {
+      submissionList.innerHTML = '<p class="access-state">Admin access required. Return to your <a href="profile.html">profile</a>.</p>';
+      setStatus('Admin access required.');
+      return;
+    }
+
+    await loadQueue();
+  } catch (err) {
     submissionList.innerHTML = '<p class="access-state">Please sign in to access the moderation queue.</p>';
-    setStatus("Sign in required.");
-    return;
+    setStatus('Sign in required.');
   }
-
-  if (String(user.role || "user").toLowerCase() !== "admin") {
-    submissionList.innerHTML = '<p class="access-state">Admin access required. Return to your <a href="profile.html">profile</a>.</p>';
-    setStatus("Admin access required.");
-    return;
-  }
-
-  await loadQueue();
 };
 
 if (refreshQueueBtn) {

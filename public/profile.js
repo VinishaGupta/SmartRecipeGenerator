@@ -253,7 +253,17 @@ const setUserDetails = async () => {
   document.getElementById("sousChefTitle").textContent = `What's in your kitchen tonight, ${displayName}?`;
 
   if (adminPanelLink) {
-    adminPanelLink.hidden = String(user?.role || "user").toLowerCase() !== "admin";
+    try {
+      const res = await fetch(apiUrl('/api/is-admin'), { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        adminPanelLink.hidden = !data?.isAdmin;
+      } else {
+        adminPanelLink.hidden = true;
+      }
+    } catch (e) {
+      adminPanelLink.hidden = true;
+    }
   }
 };
 

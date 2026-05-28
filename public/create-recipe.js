@@ -209,4 +209,13 @@ Array.from(document.querySelectorAll(".creator-primary, .creator-secondary.fille
   }
 });
 
+// Prefer direct ID wiring for reliability
+const headerSubmitBtn = document.getElementById("submitForApprovalBtnHeader");
+const footerSubmitBtn = document.getElementById("submitForApprovalBtn");
+const saveDraftBtn = Array.from(document.querySelectorAll(".creator-secondary.filled")).find(b => (b.textContent || "").includes("Save as Draft"));
+
+if (headerSubmitBtn) headerSubmitBtn.addEventListener("click", submitForApproval);
+if (footerSubmitBtn) footerSubmitBtn.addEventListener("click", submitForApproval);
+if (saveDraftBtn) saveDraftBtn.addEventListener("click", saveDraft);
+
 restoreDraft();
