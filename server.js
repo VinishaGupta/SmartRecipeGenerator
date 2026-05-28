@@ -62,7 +62,9 @@ function getAuthPayload(req) {
   return token ? verifyToken(token) : null;
 }
 
-const isAdminUser = (user, payload) => String(user?.role || payload?.role || "user").toLowerCase() === "admin";
+// Only consider a user an admin if the persisted user document has role 'admin'.
+// Do NOT trust the role from the JWT payload alone (tokens can be stale).
+const isAdminUser = (user) => String(user?.role || "user").toLowerCase() === "admin";
 
 const getAuthenticatedUser = async (req) => {
   const payload = getAuthPayload(req);
@@ -382,7 +384,7 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      if (!isAdminUser(user, payload)) {
+      if (!isAdminUser(user)) {
         res.writeHead(403, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "admin_only" }));
         return;
@@ -410,7 +412,7 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      if (!isAdminUser(user, payload)) {
+      if (!isAdminUser(user)) {
         res.writeHead(403, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "admin_only" }));
         return;
@@ -447,7 +449,7 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      if (!isAdminUser(user, payload)) {
+      if (!isAdminUser(user)) {
         res.writeHead(403, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "admin_only" }));
         return;
@@ -483,7 +485,8 @@ const server = http.createServer((req, res) => {
         // Debug logging to help track why non-admins may see admin UI
         console.log("[debug] /api/is-admin called; payload:", payload, "userRole:", user?.role, "userId:", user?._id?.toString());
 
-        const isAdmin = Boolean(user && String(user.role || payload?.role || "").toLowerCase() === "admin");
+        // Only trust persisted user role; if user isn't resolved, do not grant admin.
+        const isAdmin = Boolean(user && String(user.role || "").toLowerCase() === "admin");
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ isAdmin }));
