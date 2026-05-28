@@ -14,6 +14,7 @@ const profileListView = document.getElementById("profileListView");
 const profilePromptForm = document.getElementById("profilePromptForm");
 const profilePromptInput = document.getElementById("profilePromptInput");
 const profileBackBtn = document.getElementById("profileBackBtn");
+const adminPanelLink = document.getElementById("adminPanelLink");
 
 let recipes = [];
 let savedRecipeIds = [];
@@ -250,6 +251,10 @@ const setUserDetails = async () => {
   document.getElementById("profileAvatar").textContent = initial;
   document.getElementById("profileMiniAvatar").textContent = initial;
   document.getElementById("sousChefTitle").textContent = `What's in your kitchen tonight, ${displayName}?`;
+
+  if (adminPanelLink) {
+    adminPanelLink.hidden = String(user?.role || "user").toLowerCase() !== "admin";
+  }
 };
 
 const loadRecipes = async () => {

@@ -19,6 +19,12 @@ const {
   addSavedRecipe,
   removeSavedRecipe
 } = require("./lib/users");
+const {
+  submitRecipeForReview,
+  getPendingRecipeSubmissions,
+  approveRecipeSubmission,
+  rejectRecipeSubmission
+} = require("./lib/recipes");
 const https = require("https");
 const querystring = require("querystring");
 const crypto = require("crypto");
@@ -55,6 +61,19 @@ function getAuthPayload(req) {
   const token = parseCookies(req).auth;
   return token ? verifyToken(token) : null;
 }
+
+const isAdminUser = (user, payload) => String(user?.role || payload?.role || "user").toLowerCase() === "admin";
+
+const getAuthenticatedUser = async (req) => {
+  const payload = getAuthPayload(req);
+
+  if (!payload) {
+    return { payload: null, user: null };
+  }
+
+  const user = await findUserByAuthPayload(payload);
+  return { payload, user };
+};
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -313,6 +332,145 @@ const server = http.createServer((req, res) => {
       console.error("Auth me error:", error);
       res.writeHead(500, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "auth_me_failed" }));
+    });
+    return;
+  }
+
+  if (requestPath === "/api/recipe-submissions" && req.method === "POST") {
+    (async () => {
+      const { payload, user } = await getAuthenticatedUser(req);
+
+      if (!payload || !user) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "not_authenticated" }));
+        return;
+      }
+
+      const body = await readJsonBody(req);
+
+      const submission = await submitRecipeForReview({
+        recipe: body,
+        submittedBy: {
+          userId: user._id?.toString() || payload.sub,
+          email: user.email,
+          displayName: user.displayName,
+          role: user.role || payload.role || "user"
+        }
+      });
+
+      res.writeHead(201, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        id: submission.id,
+        status: submission.status,
+        submittedAt: submission.submittedAt
+      }));
+    })().catch((error) => {
+      console.error("Recipe submission error:", error);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "recipe_submission_failed", details: error.message }));
+    });
+    return;
+  }
+
+  if (requestPath === "/api/admin/recipe-submissions" && req.method === "GET") {
+    (async () => {
+      const { payload, user } = await getAuthenticatedUser(req);
+
+      if (!payload || !user) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "not_authenticated" }));
+        return;
+      }
+
+      if (!isAdminUser(user, payload)) {
+        res.writeHead(403, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "admin_only" }));
+        return;
+      }
+
+      const submissions = await getPendingRecipeSubmissions();
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ submissions }));
+    })().catch((error) => {
+      console.error("Admin submissions load error:", error);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "admin_submissions_failed" }));
+    });
+    return;
+  }
+
+  if (requestPath === "/api/admin/recipe-submissions/approve" && req.method === "POST") {
+    (async () => {
+      const { payload, user } = await getAuthenticatedUser(req);
+
+      if (!payload || !user) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "not_authenticated" }));
+        return;
+      }
+
+      if (!isAdminUser(user, payload)) {
+        res.writeHead(403, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "admin_only" }));
+        return;
+      }
+
+      const { submissionId } = await readJsonBody(req);
+      const approvedRecipe = await approveRecipeSubmission({
+        submissionId,
+        reviewer: {
+          userId: user._id?.toString() || payload.sub,
+          email: user.email,
+          displayName: user.displayName,
+          role: user.role || payload.role || "user"
+        }
+      });
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ recipe: approvedRecipe }));
+    })().catch((error) => {
+      console.error("Approve recipe error:", error);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "approve_recipe_failed", details: error.message }));
+    });
+    return;
+  }
+
+  if (requestPath === "/api/admin/recipe-submissions/reject" && req.method === "POST") {
+    (async () => {
+      const { payload, user } = await getAuthenticatedUser(req);
+
+      if (!payload || !user) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "not_authenticated" }));
+        return;
+      }
+
+      if (!isAdminUser(user, payload)) {
+        res.writeHead(403, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "admin_only" }));
+        return;
+      }
+
+      const { submissionId, reviewNote } = await readJsonBody(req);
+      const rejectedSubmission = await rejectRecipeSubmission({
+        submissionId,
+        reviewer: {
+          userId: user._id?.toString() || payload.sub,
+          email: user.email,
+          displayName: user.displayName,
+          role: user.role || payload.role || "user"
+        },
+        reviewNote
+      });
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ submission: rejectedSubmission }));
+    })().catch((error) => {
+      console.error("Reject recipe error:", error);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "reject_recipe_failed", details: error.message }));
     });
     return;
   }

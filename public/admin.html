@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Queue | Culinary Intelligence</title>
+  <link rel="icon" href="data:," />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --bg-soft: #0e1a2d;
+      --card: rgba(14, 26, 45, 0.9);
+      --card-border: rgba(148, 163, 184, 0.16);
+      --text: #e5eefb;
+      --muted: #9fb0c7;
+      --accent: #84cc16;
+      --danger: #fb7185;
+      --warning: #f59e0b;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(132, 204, 22, 0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(251, 191, 36, 0.16), transparent 24%),
+        linear-gradient(160deg, #050b14, var(--bg));
+    }
+
+    .admin-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .admin-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .admin-topbar a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .admin-hero {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1.6fr 0.8fr;
+      margin-bottom: 28px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-copy, .hero-metrics, .queue-panel {
+      padding: 24px;
+    }
+
+    .hero-copy h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1; }
+    .hero-copy p { margin: 0; color: var(--muted); max-width: 62ch; }
+
+    .hero-metrics {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(148, 163, 184, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .metric strong { display: block; font-size: 1.8rem; }
+    .metric span { color: var(--muted); }
+
+    .queue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .queue-header h2 { margin: 0; }
+    .queue-header p { margin: 4px 0 0; color: var(--muted); }
+
+    .queue-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .submission-card {
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    .submission-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .submission-top h3 { margin: 0 0 6px; }
+    .submission-top p, .submission-meta, .submission-note { color: var(--muted); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(132, 204, 22, 0.12);
+      color: #d7f7ab;
+      font-size: 0.85rem;
+    }
+
+    .submission-section { margin-top: 14px; }
+    .submission-section h4 { margin: 0 0 8px; }
+    .submission-section ul, .submission-section ol { margin: 0; padding-left: 18px; color: var(--text); }
+    .submission-section li + li { margin-top: 6px; }
+
+    .submission-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-approve { background: var(--accent); color: #10210a; }
+    .btn-reject { background: rgba(251, 113, 133, 0.14); color: #fecdd3; border: 1px solid rgba(251, 113, 133, 0.2); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid rgba(148, 163, 184, 0.2); }
+
+    .empty-state, .error-state, .access-state {
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .access-state a { color: var(--text); }
+
+    @media (max-width: 900px) {
+      .admin-hero { grid-template-columns: 1fr; }
+      .admin-topbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-topbar">
+      <a href="profile.html"><i data-lucide="arrow-left"></i> Back to profile</a>
+      <a href="index.html">Open app</a>
+    </header>
+
+    <section class="admin-hero">
+      <article class="panel hero-copy">
+        <h1>Recipe moderation queue</h1>
+        <p>Review submitted recipes, approve the ones that fit the standard, and reject anything that needs more work before it reaches the public recipe library.</p>
+      </article>
+      <aside class="panel hero-metrics">
+        <div class="metric"><strong id="pendingCount">0</strong><span>Pending reviews</span></div>
+        <div class="metric"><strong id="approvedHint">Approved</strong><span>Accepted recipes appear in the public catalog immediately.</span></div>
+      </aside>
+    </section>
+
+    <section class="panel queue-panel">
+      <div class="queue-header">
+        <div>
+          <h2>Submissions</h2>
+          <p id="adminStatus">Loading submissions...</p>
+        </div>
+        <button id="refreshQueueBtn" class="btn btn-ghost" type="button">Refresh queue</button>
+      </div>
+      <div id="submissionList" class="queue-list"></div>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
