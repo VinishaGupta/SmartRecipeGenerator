@@ -16,6 +16,12 @@ const profilePromptInput = document.getElementById("profilePromptInput");
 const profileBackBtn = document.getElementById("profileBackBtn");
 const adminPanelLink = document.getElementById("adminPanelLink");
 
+// Ensure the admin link is hidden by default in case other scripts or markup
+// leave it visible. We'll explicitly show it only after a successful server check.
+if (adminPanelLink) {
+  try { adminPanelLink.style.display = "none"; } catch (e) {}
+}
+
 let recipes = [];
 let savedRecipeIds = [];
 let activeTab = "saved";
@@ -252,17 +258,25 @@ const setUserDetails = async () => {
   document.getElementById("profileMiniAvatar").textContent = initial;
   document.getElementById("sousChefTitle").textContent = `What's in your kitchen tonight, ${displayName}?`;
 
-  if (adminPanelLink) {
+    if (adminPanelLink) {
     try {
       const res = await fetch(apiUrl('/api/is-admin'), { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
-        adminPanelLink.hidden = !data?.isAdmin;
+          if (data?.isAdmin) {
+            adminPanelLink.style.display = "";
+            adminPanelLink.hidden = false;
+          } else {
+            adminPanelLink.style.display = "none";
+            adminPanelLink.hidden = true;
+          }
       } else {
-        adminPanelLink.hidden = true;
+          adminPanelLink.style.display = "none";
+          adminPanelLink.hidden = true;
       }
     } catch (e) {
-      adminPanelLink.hidden = true;
+        adminPanelLink.style.display = "none";
+        adminPanelLink.hidden = true;
     }
   }
 };
