@@ -480,6 +480,9 @@ const server = http.createServer((req, res) => {
       try {
         const { payload, user } = await getAuthenticatedUser(req);
 
+        // Debug logging to help track why non-admins may see admin UI
+        console.log("[debug] /api/is-admin called; payload:", payload, "userRole:", user?.role, "userId:", user?._id?.toString());
+
         const isAdmin = Boolean(user && String(user.role || payload?.role || "").toLowerCase() === "admin");
 
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -498,6 +501,23 @@ const server = http.createServer((req, res) => {
     res.setHeader("Set-Cookie", `auth=; HttpOnly; Path=/; Max-Age=0`);
     res.writeHead(302, { Location: "/" });
     res.end();
+    return;
+  }
+
+  // Temporary debug endpoint to inspect auth payload and resolved user
+  if (requestPath === "/api/debug-auth" && req.method === "GET") {
+    (async () => {
+      try {
+        const { payload, user } = await getAuthenticatedUser(req);
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ payload, user: user ? { email: user.email, role: user.role, _id: user._id?.toString() } : null }));
+      } catch (err) {
+        console.error("debug-auth failed:", err);
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "debug_failed" }));
+      }
+    })();
+
     return;
   }
 
