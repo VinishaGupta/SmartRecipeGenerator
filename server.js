@@ -482,11 +482,19 @@ const server = http.createServer((req, res) => {
       try {
         const { payload, user } = await getAuthenticatedUser(req);
 
-        // Debug logging to help track why non-admins may see admin UI
+        // Debug logging to help track why admin checks may fail
         console.log("[debug] /api/is-admin called; payload:", payload, "userRole:", user?.role, "userId:", user?._id?.toString());
 
-        // Only trust persisted user role; if user isn't resolved, do not grant admin.
-        const isAdmin = Boolean(user && String(user.role || "").toLowerCase() === "admin");
+        // Only trust persisted user role when available.
+        let isAdmin = Boolean(user && String(user.role || "").toLowerCase() === "admin");
+
+        // If DB/user not available, allow an explicit fallback for local development
+        // when the environment variable ALLOW_ADMIN_FALLBACK is set to '1'.
+        if (!isAdmin && !user && payload && String(process.env.ALLOW_ADMIN_FALLBACK || "0") === "1") {
+          const tokenRole = String(payload.role || "").toLowerCase();
+          isAdmin = tokenRole === "admin";
+          console.log("[debug] is-admin using token fallback; tokenRole:", tokenRole, "isAdmin:", isAdmin);
+        }
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ isAdmin }));
