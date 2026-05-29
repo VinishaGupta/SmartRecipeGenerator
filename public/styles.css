@@ -1094,7 +1094,7 @@ input[type="range"] {
 .community-reviews-inner {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   align-items: flex-start;
 }
 .community-summary { width: 360px; }
@@ -1157,18 +1157,31 @@ input[type="range"] {
 .community-summary .avg-meta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 14px;
+  gap: 4px;
+  font-size: 13px;
 }
 .community-summary .avg-count {
   color: var(--muted);
   font-size: 13px;
 }
+.avg-stars {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--brand);
+}
+.summary-star {
+  font-size: 14px;
+  color: #d7ccc5;
+}
+.summary-star.filled {
+  color: var(--accent);
+}
 .reviews-list {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 .review-item {
   padding: 6px 0;
@@ -1179,12 +1192,24 @@ input[type="range"] {
 .review-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   font-weight: 700;
+  font-size: 13px;
+}
+.review-header .review-age {
+  margin-left: auto;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+.review-rating {
+  color: var(--accent);
+  font-size: 12px;
 }
 .review-body {
   margin: 8px 0 0;
   color: var(--muted);
+  font-size: 13px;
 }
 .community-reviews-actions { margin-top: 10px; }
 .community-reviews .write-review { 

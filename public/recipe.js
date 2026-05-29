@@ -60,6 +60,11 @@ const renderRatingStars = (rating) =>
     >&#9733;</button>
   `).join("");
 
+const renderSummaryStars = (rating) =>
+  [1, 2, 3, 4, 5].map((star) => `
+    <span class="summary-star ${star <= Math.round(rating) ? "filled" : ""}">&#9733;</span>
+  `).join("");
+
 const submitRecipeRating = async (recipeId, rating) => {
   const response = await fetch(apiUrl(`/api/recipes/${encodeURIComponent(recipeId)}/rate`), {
     method: "POST",
@@ -336,7 +341,7 @@ const renderRecipe = (recipe) => {
                 <div class="summary-left">
                   <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
                   <div class="avg-meta">
-                    <div class="avg-stars">${formatCommunityRating(recipe)}</div>
+                    <div class="avg-stars">${renderSummaryStars(Number(recipe.averageRating || 0))}</div>
                     <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
                   </div>
                 </div>
