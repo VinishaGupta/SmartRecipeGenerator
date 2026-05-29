@@ -380,13 +380,6 @@ const renderRecipe = (recipe) => {
             </div>
           </div>
 
-          <div class="community-personal">
-            <p class="recipe-personal-rating-label">${formatPersonalRating(recipe)}</p>
-            <div class="rating rating-detail" data-id="${recipe.id}">
-              ${renderRatingStars(currentRating)}
-            </div>
-          </div>
-
           <div class="community-reviews-actions">
             <button class="write-review primary">Write a Review</button>
           </div>

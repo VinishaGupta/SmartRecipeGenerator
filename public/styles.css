@@ -1169,6 +1169,7 @@ input[type="range"] {
   gap: 4px;
   align-items: center;
   color: var(--brand);
+  
 }
 .summary-star {
   font-size: 14px;
