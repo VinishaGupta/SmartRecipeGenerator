@@ -500,9 +500,9 @@ button {
 
 /* Footer styles */
 .site-footer {
-  background: linear-gradient(180deg, #fffdfb, #fbf8f7);
+  background: #fbf8f7;
   border-top: 1px solid var(--line);
-  padding: 40px 24px;
+  padding: 40px 24px 20px;
   color: var(--muted);
 }
 .site-footer-inner {
@@ -514,11 +514,13 @@ button {
   flex-wrap: wrap;
 }
 .footer-brand {
-  flex: 1 1 220px;
+  flex: 1 1 260px;
 }
 .footer-brand h3 {
   margin: 0 0 8px;
   color: var(--brand);
+  font-size: 18px;
+  font-weight: 800;
 }
 .footer-brand p {
   margin: 0;
@@ -535,6 +537,9 @@ button {
   margin: 0 0 8px;
   font-size: 14px;
   color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 800;
 }
 .footer-column ul {
   list-style: none;
@@ -546,14 +551,22 @@ button {
   color: var(--muted);
   font-size: 14px;
 }
+.site-footer a { color: var(--muted); text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+
+.footer-social { display:flex; gap:10px; margin-top:14px; }
+.social-btn { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:999px; background:#fff; border:1px solid var(--line); color:var(--brand); }
+.social-btn svg, .social-btn i { width:18px; height:18px; }
 .site-footer-bottom {
   max-width: 1200px;
   margin: 0 auto;
-  padding-top: 8px;
   color: var(--muted);
   font-size: 13px;
   border-top: 1px solid var(--line);
-  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 0;
 }
 
 @media (max-width: 720px) {
