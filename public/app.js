@@ -366,7 +366,7 @@ const formatCommunityRating = (recipe) => {
   const averageRating = Number(recipe?.averageRating || 0).toFixed(1);
   const totalRatings = Number(recipe?.totalRatings || 0);
 
-  return `⭐ ${averageRating} (${totalRatings})`;
+  return `<i data-lucide="star"></i> ${averageRating} (${totalRatings})`;
 };
 
 const formatPersonalRating = (recipe) => {

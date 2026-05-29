@@ -773,7 +773,24 @@ input[type="range"] {
   font-weight: 800;
 }
 
+.rating-score i,
+.recipe-community-rating i {
+  color: var(--brand);
+}
+
 .rating-score svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+}
+
+.recipe-community-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recipe-community-rating svg {
   width: 18px;
   height: 18px;
   fill: none;
