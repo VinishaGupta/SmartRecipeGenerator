@@ -360,6 +360,42 @@ const setRatings = (ratings) =>
 
 const getRating = (recipeId) => Number(getRatings()[recipeId] || 0);
 
+const getUserRating = (recipe) => Number(recipe?.userRating || 0);
+
+const formatCommunityRating = (recipe) => {
+  const averageRating = Number(recipe?.averageRating || 0).toFixed(1);
+  const totalRatings = Number(recipe?.totalRatings || 0);
+
+  return `⭐ ${averageRating} (${totalRatings})`;
+};
+
+const formatPersonalRating = (recipe) => {
+  const userRating = getUserRating(recipe);
+  return userRating ? `You rated ${userRating}★` : "Rate this recipe";
+};
+
+const submitRecipeRating = async (recipeId, rating) => {
+  const response = await fetch(apiUrl(`/api/recipes/${encodeURIComponent(recipeId)}/rate`), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ rating })
+  });
+
+  const data = await parseJsonSafely(response);
+
+  if (response.status === 401) {
+    window.location.href = "/signin.html";
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error(data?.details || data?.error || "Failed to save rating");
+  }
+
+  return data;
+};
+
 
 /*************************************************
  * HELPERS
@@ -755,7 +791,6 @@ const matchRecipes = () => {
 
 const renderRecipesOld = (results) => {
   const favorites = getFavorites();
-  const ratings = getRatings();
 
   if (!results.length) {
     recipeList.innerHTML = "<p>No recipes found.</p>";
@@ -765,7 +800,9 @@ const renderRecipesOld = (results) => {
 
   recipeList.innerHTML = results.map(r => {
     const isFav = favorites.includes(r.id);
-    const rating = ratings[r.id] || 0;
+    const rating = getUserRating(r);
+    const averageRating = Number(r.averageRating || 0).toFixed(1);
+    const totalRatings = Number(r.totalRatings || 0);
 
    return `
   <article class="recipe-card">
@@ -789,6 +826,9 @@ const renderRecipesOld = (results) => {
       <span><strong>Time:</strong> ${r.timeMinutes} mins</span>
       <span><strong>Servings:</strong> ${r.servings}</span>
     </div>
+
+    <p class="recipe-community-rating">⭐ ${averageRating} (${totalRatings})</p>
+    <p class="recipe-user-rating">${formatPersonalRating(r)}</p>
 
     <p>
       <strong>Matched:</strong> ${r.matchedCount} / ${r.total} ingredients
@@ -836,7 +876,6 @@ const renderRecipes = (results) => {
   }
 
   const favorites = getFavorites();
-  const ratings = getRatings();
 
   if (!results.length) {
     recipeList.innerHTML = "<p class=\"empty-state\">No recipes found.</p>";
@@ -851,9 +890,10 @@ const renderRecipes = (results) => {
 
   recipeList.innerHTML = results.map(r => {
     const isFav = favorites.includes(r.id);
-    const rating = ratings[r.id] || 0;
+    const rating = getUserRating(r);
     const matchPercent = r.total ? Math.round((r.matchedCount / r.total) * 100) : 0;
-    const displayRating = rating || "4.8";
+    const communityRating = formatCommunityRating(r);
+    const personalRating = formatPersonalRating(r);
 
     return `
       <article
@@ -881,9 +921,10 @@ const renderRecipes = (results) => {
         <div class="recipe-card-body">
           <div class="recipe-title-row">
             <h3>${r.name}</h3>
-            <span class="rating-score"><i data-lucide="star"></i> ${displayRating}</span>
+            <span class="rating-score">${communityRating}</span>
           </div>
           <p class="recipe-cuisine">${r.cuisine || "Recipe"} Cuisine</p>
+          <p class="recipe-user-rating">${personalRating}</p>
 
           <div class="recipe-meta">
             <span><i data-lucide="clock-3"></i>${r.timeMinutes} mins</span>
@@ -897,6 +938,7 @@ const renderRecipes = (results) => {
               <span
                 class="star ${star <= rating ? "filled" : ""}"
                 data-star="${star}"
+                title="Rate ${star} star${star === 1 ? "" : "s"}"
               >&#9733;</span>
             `).join("")}
           </div>
@@ -941,12 +983,28 @@ const attachRatingHandlers = () => {
     const id = container.dataset.id;
 
     container.querySelectorAll(".star").forEach(star => {
-      star.addEventListener("click", () => {
+      star.addEventListener("click", async (event) => {
+        event.stopPropagation();
         const value = Number(star.dataset.star);
-        const ratings = getRatings();
-        ratings[id] = value;
-        setRatings(ratings);
-        renderRecipes(matchRecipes());
+
+        try {
+          const result = await submitRecipeRating(id, value);
+
+          if (!result) {
+            return;
+          }
+
+          recipes = recipes.map(recipe => (
+            String(recipe.id) === String(id)
+              ? { ...recipe, ...result }
+              : recipe
+          ));
+
+          renderRecipes(matchRecipes());
+        } catch (error) {
+          console.error("Rating save failed:", error);
+          statusEl.textContent = "Could not save rating right now.";
+        }
       });
     });
   });

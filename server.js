@@ -5,7 +5,7 @@ const os = require("os");
 const { execFile } = require("child_process");
 require("dotenv").config();
 
-const { getRecipes } = require("./lib/recipes");
+const { getRecipes, rateRecipe } = require("./lib/recipes");
 const { pingMongo } = require("./lib/mongodb");
 const { signToken, verifyToken } = require("./lib/auth");
 const {
@@ -148,7 +148,18 @@ const server = http.createServer((req, res) => {
   if (requestPath === "/api/recipes" && req.method === "GET") {
     (async () => {
       try {
-        const recipes = await getRecipes();
+        const payload = getAuthPayload(req);
+        let user = null;
+
+        if (payload) {
+          try {
+            user = await findUserByAuthPayload(payload);
+          } catch (error) {
+            user = null;
+          }
+        }
+
+        const recipes = await getRecipes({ userId: user?._id || null });
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(recipes));
       } catch (error) {
@@ -157,6 +168,41 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: "Failed to load recipes" }));
       }
     })();
+    return;
+  }
+
+  if (/^\/api\/recipes\/[^/]+\/rate$/.test(requestPath) && req.method === "POST") {
+    (async () => {
+      const { payload, user } = await getAuthenticatedUser(req);
+
+      if (!payload || !user) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "not_authenticated" }));
+        return;
+      }
+
+      const match = requestPath.match(/^\/api\/recipes\/([^/]+)\/rate$/);
+      const recipeId = match ? decodeURIComponent(match[1]) : "";
+      const { rating } = await readJsonBody(req);
+      const result = await rateRecipe({ recipeId, userId: user._id, rating });
+
+      if (!result) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "recipe_not_found" }));
+        return;
+      }
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(result));
+    })().catch((error) => {
+      console.error("Recipe rating error:", error);
+      const isValidationError = /rating must be an integer between 1 and 5/i.test(error.message);
+      res.writeHead(isValidationError ? 400 : 500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        error: isValidationError ? "invalid_rating" : "recipe_rating_failed",
+        details: error.message
+      }));
+    });
     return;
   }
 
