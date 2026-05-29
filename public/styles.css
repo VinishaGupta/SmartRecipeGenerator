@@ -1078,6 +1078,69 @@ input[type="range"] {
   border-radius: 8px;
 }
 
+/* Community reviews (recipe detail bottom) */
+.community-reviews {
+  margin-top: 28px;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #efe3da;
+  background: #fffaf6;
+}
+.community-reviews h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: var(--brand);
+}
+.community-reviews-inner {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.community-summary {
+  min-width: 140px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.community-summary .avg-rating {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--brand);
+}
+.community-summary .avg-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.community-summary .avg-count {
+  color: var(--muted);
+  font-size: 13px;
+}
+.reviews-list {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.review-item {
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #f0e7e1;
+}
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+}
+.review-body {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+.community-reviews-actions { margin-top: 12px; }
+.community-reviews .write-review { border-radius: 999px; padding: 10px 18px; }
+
 /* Auth Modal styles */
 .modal {
   position: fixed;

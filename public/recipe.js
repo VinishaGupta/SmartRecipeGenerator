@@ -337,6 +337,37 @@ const renderRecipe = (recipe) => {
           </ol>
         </section>
 
+        <section class="community-reviews">
+          <h2>Community Reviews</h2>
+
+          <div class="community-reviews-inner">
+            <div class="community-summary">
+              <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
+              <div class="avg-meta">
+                <div class="avg-stars">${formatCommunityRating(recipe)}</div>
+                <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
+              </div>
+            </div>
+
+            <div class="reviews-list">
+              ${(recipe.reviews || []).length ? (recipe.reviews || []).map(r => `
+                <div class="review-item">
+                  <div class="review-header">
+                    <strong>${r.author || 'Anonymous'}</strong>
+                    <span class="review-rating">${'★'.repeat(r.rating || 5)}</span>
+                    <span class="review-age">${r.age || ''}</span>
+                  </div>
+                  <p class="review-body">${r.text || ''}</p>
+                </div>
+              `).join('') : '<p class="helper">No reviews yet. Be the first to write one.</p>'}
+            </div>
+          </div>
+
+          <div class="community-reviews-actions">
+            <button class="write-review primary">Write a Review</button>
+          </div>
+        </section>
+
 
       </article>
     </div>
@@ -345,6 +376,22 @@ const renderRecipe = (recipe) => {
 
   attachRatingHandlers();
   lucide.createIcons();
+
+  // Write review button scrolls to rating panel and focuses first star
+  const writeBtn = recipeDetail.querySelector('.write-review');
+  if (writeBtn) {
+    writeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const ratingPanel = recipeDetail.querySelector('.recipe-detail-rating-panel');
+      if (ratingPanel) {
+        ratingPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const firstStar = ratingPanel.querySelector('.rating .star, .rating-detail .star');
+        if (firstStar) firstStar.focus();
+      } else {
+        window.location.hash = '#write-review';
+      }
+    });
+  }
 };
 
 const loadRecipe = async () => {
