@@ -332,29 +332,34 @@ const renderRecipe = (recipe) => {
 
           <div class="community-reviews-inner">
             <div class="community-summary">
-              <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
-              <div class="avg-meta">
-                <div class="avg-stars">${formatCommunityRating(recipe)}</div>
-                <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
+              <div class="summary-card">
+                <div class="summary-left">
+                  <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
+                  <div class="avg-meta">
+                    <div class="avg-stars">${formatCommunityRating(recipe)}</div>
+                    <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
+                  </div>
+                </div>
+                <div class="summary-right">
+                  <div class="rating-histogram">
+                    ${[5,4,3,2,1].map(star => {
+                      const counts = recipe.ratingCounts || {};
+                      const starCount = Number(counts[String(star)] || 0);
+                      const total = Number(recipe.totalRatings || 0) || 0;
+                      const pct = total ? Math.round((starCount / total) * 100) : 0;
+                      return `
+                        <div class="hist-row">
+                          <div class="hist-star">${star}</div>
+                          <div class="hist-bar-wrap">
+                            <div class="hist-bar" style="width:${pct}%"></div>
+                          </div>
+                          <div class="hist-count">${starCount}</div>
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
               </div>
-              <div class="rating-histogram">
-                ${[5,4,3,2,1].map(star => {
-                  const counts = recipe.ratingCounts || {};
-                  const starCount = Number(counts[String(star)] || 0);
-                  const total = Number(recipe.totalRatings || 0) || 0;
-                  const pct = total ? Math.round((starCount / total) * 100) : 0;
-                  return `
-                    <div class="hist-row">
-                      <div class="hist-star">${star}</div>
-                      <div class="hist-bar-wrap">
-                        <div class="hist-bar" style="width:${pct}%"></div>
-                      </div>
-                      <div class="hist-count">${starCount}</div>
-                    </div>
-                  `;
-                }).join('')}
-              </div>
-            </div>
 
             <div class="reviews-list">
               ${(recipe.reviews || []).length ? (recipe.reviews || []).map(r => `

@@ -1096,14 +1096,26 @@ input[type="range"] {
   gap: 18px;
   align-items: flex-start;
 }
-.community-summary {
-  min-width: 140px;
+.community-summary { width: 420px; }
+.summary-card {
   display: flex;
-  gap: 12px;
+  gap: 18px;
   align-items: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #f0e7e1;
+  box-shadow: 0 8px 20px rgba(49,34,24,0.04);
 }
+.summary-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  min-width: 90px;
+}
+.summary-right { flex: 1 1 auto; }
 .rating-histogram {
-  margin-left: 18px;
   min-width: 220px;
 }
 .hist-row {
@@ -2465,16 +2477,7 @@ input[type="range"] {
   margin: 0;
   font-size: 26px;
   line-height: 1.15;
-}
 
-.creator-panel h2 {
-  margin-bottom: 14px;
-  font-size: 14px;
-}
-
-.creator-tags {
-  display: flex;
-  flex-wrap: wrap;
   gap: 8px;
 }
 
