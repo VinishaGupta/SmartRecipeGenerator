@@ -289,17 +289,7 @@ const renderRecipe = (recipe) => {
         </div>
 
         <h1>${recipe.name}</h1>
-        <div class="recipe-detail-rating-panel">
-          <div class="recipe-community-rating">
-            ${formatCommunityRating(recipe)}
-          </div>
-          <div class="recipe-personal-rating">
-            <p class="recipe-personal-rating-label">${formatPersonalRating(recipe)}</p>
-            <div class="rating rating-detail" data-id="${recipe.id}">
-              ${renderRatingStars(currentRating)}
-            </div>
-          </div>
-        </div>
+        
         <p class="detail-description">
           A vibrant ${recipe.cuisine || "chef-inspired"} recipe built around simple ingredients,
           balanced nutrition, and weeknight-friendly cooking.
@@ -363,6 +353,13 @@ const renderRecipe = (recipe) => {
             </div>
           </div>
 
+          <div class="community-personal">
+            <p class="recipe-personal-rating-label">${formatPersonalRating(recipe)}</p>
+            <div class="rating rating-detail" data-id="${recipe.id}">
+              ${renderRatingStars(currentRating)}
+            </div>
+          </div>
+
           <div class="community-reviews-actions">
             <button class="write-review primary">Write a Review</button>
           </div>
@@ -377,15 +374,15 @@ const renderRecipe = (recipe) => {
   attachRatingHandlers();
   lucide.createIcons();
 
-  // Write review button scrolls to rating panel and focuses first star
+  // Write review button scrolls to bottom community reviews and focuses first star
   const writeBtn = recipeDetail.querySelector('.write-review');
   if (writeBtn) {
     writeBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const ratingPanel = recipeDetail.querySelector('.recipe-detail-rating-panel');
-      if (ratingPanel) {
-        ratingPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        const firstStar = ratingPanel.querySelector('.rating .star, .rating-detail .star');
+      const community = recipeDetail.querySelector('.community-reviews');
+      if (community) {
+        community.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const firstStar = community.querySelector('.rating .star, .rating-detail .star');
         if (firstStar) firstStar.focus();
       } else {
         window.location.hash = '#write-review';

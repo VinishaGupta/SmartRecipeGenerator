@@ -828,7 +828,6 @@ const renderRecipesOld = (results) => {
     </div>
 
     <p class="recipe-community-rating">⭐ ${averageRating} (${totalRatings})</p>
-    <p class="recipe-user-rating">${formatPersonalRating(r)}</p>
 
     <p>
       <strong>Matched:</strong> ${r.matchedCount} / ${r.total} ingredients
@@ -840,14 +839,7 @@ const renderRecipesOld = (results) => {
       ).join("")}
     </div>
 
-    <div class="rating" data-id="${r.id}">
-      ${[1,2,3,4,5].map(star => `
-        <span 
-          class="star ${star <= rating ? "filled" : ""}" 
-          data-star="${star}"
-        >★</span>
-      `).join("")}
-    </div>
+    
 
     <a class="recipe-link" href="${getRecipeUrl(r)}">
       View Recipe
@@ -859,7 +851,6 @@ const renderRecipesOld = (results) => {
   }).join("");
 
   attachFavoriteHandlers();
-  attachRatingHandlers();
   attachRecipeImageFallbacks(recipeList);
   recipeList.querySelectorAll(".recipe-link").forEach(link => {
     link.addEventListener("click", saveSearchState);
@@ -924,7 +915,7 @@ const renderRecipes = (results) => {
             <span class="rating-score">${communityRating}</span>
           </div>
           <p class="recipe-cuisine">${r.cuisine || "Recipe"} Cuisine</p>
-          <p class="recipe-user-rating">${personalRating}</p>
+          
 
           <div class="recipe-meta">
             <span><i data-lucide="clock-3"></i>${r.timeMinutes} mins</span>
@@ -933,15 +924,7 @@ const renderRecipes = (results) => {
 
           ${r.matchedCount ? `<p class="match-copy">Matched ${r.matchedCount} / ${r.total} ingredients</p>` : ""}
 
-          <div class="rating" data-id="${r.id}">
-            ${[1,2,3,4,5].map(star => `
-              <span
-                class="star ${star <= rating ? "filled" : ""}"
-                data-star="${star}"
-                title="Rate ${star} star${star === 1 ? "" : "s"}"
-              >&#9733;</span>
-            `).join("")}
-          </div>
+          
 
           <a class="recipe-link" href="${getRecipeUrl(r)}">View Recipe</a>
         </div>
@@ -950,7 +933,6 @@ const renderRecipes = (results) => {
   }).join("");
 
   attachFavoriteHandlers();
-  attachRatingHandlers();
   attachRecipeCardNavigationHandlers();
   attachRecipeImageFallbacks(recipeList);
   recipeList.querySelectorAll(".recipe-link").forEach(link => {

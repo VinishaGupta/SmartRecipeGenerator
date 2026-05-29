@@ -1122,6 +1122,15 @@ input[type="range"] {
   flex-direction: column;
   gap: 14px;
 }
+.community-personal {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.community-personal .rating {
+  gap: 8px;
+}
 .review-item {
   padding: 12px;
   border-radius: 12px;
