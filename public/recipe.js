@@ -50,20 +50,22 @@ const formatPersonalRating = (recipe) => {
 };
 
 const renderRatingStars = (rating) =>
-  [1, 2, 3, 4, 5].map((star) => `
-    <button
-      type="button"
-      class="star ${star <= rating ? "filled" : ""}"
-      data-star="${star}"
-      title="Rate ${star} star${star === 1 ? "" : "s"}"
-      aria-label="Rate ${star} star${star === 1 ? "" : "s"}"
-    >&#9733;</button>
-  `).join("");
-
-const renderSummaryStars = (rating) =>
-  [1, 2, 3, 4, 5].map((star) => `
-    <span class="summary-star ${star <= Math.round(rating) ? "filled" : ""}">&#9733;</span>
-  `).join("");
+  [1, 2, 3, 4, 5].map((star) => {
+    const className = rating >= star
+      ? "filled"
+      : rating >= star - 0.5
+        ? "half"
+        : "";
+    return `
+      <button
+        type="button"
+        class="star ${className}"
+        data-star="${star}"
+        title="Rate ${star} star${star === 1 ? "" : "s"}"
+        aria-label="Rate ${star} star${star === 1 ? "" : "s"}"
+      >&#9733;</button>
+    `;
+  }).join("");
 
 const submitRecipeRating = async (recipeId, rating) => {
   const response = await fetch(apiUrl(`/api/recipes/${encodeURIComponent(recipeId)}/rate`), {
@@ -108,7 +110,11 @@ const attachRatingHandlers = () => {
       event.preventDefault();
       event.stopPropagation();
 
-      const rating = Number(star.dataset.star);
+      const rect = star.getBoundingClientRect();
+      const offsetX = event.clientX - rect.left;
+      const isHalf = offsetX <= rect.width / 2;
+      const base = Number(star.dataset.star);
+      const rating = isHalf ? base - 0.5 : base;
 
       try {
         const result = await submitRecipeRating(currentRecipe.id, rating);
@@ -341,7 +347,9 @@ const renderRecipe = (recipe) => {
                 <div class="summary-left">
                   <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
                   <div class="avg-meta">
-                    <div class="avg-stars">${renderSummaryStars(Number(recipe.averageRating || 0))}</div>
+                    <div class="rating summary-rating" data-id="${recipe.id}">
+                      ${renderRatingStars(currentRating)}
+                    </div>
                     <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
                   </div>
                 </div>

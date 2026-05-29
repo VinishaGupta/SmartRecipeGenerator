@@ -857,14 +857,28 @@ input[type="range"] {
 }
 
 .star {
+  position: relative;
+  display: inline-block;
+  width: 1em;
   color: #d7ccc5;
   cursor: pointer;
   font-size: 18px;
+  line-height: 1;
+  background: transparent;
+  border: 0;
+  padding: 0;
 }
-
-.star.filled {
+.star::before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  overflow: hidden;
   color: var(--accent);
 }
+.star.filled::before { width: 100%; }
+.star.half::before { width: 50%; }
 
 .recipe-link,
 .back-link {
@@ -1164,19 +1178,13 @@ input[type="range"] {
   color: var(--muted);
   font-size: 13px;
 }
-.avg-stars {
+.summary-rating {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
-  color: var(--brand);
-  
 }
-.summary-star {
-  font-size: 14px;
-  color: #d7ccc5;
-}
-.summary-star.filled {
-  color: var(--accent);
+.summary-rating .star {
+  font-size: 22px;
 }
 .reviews-list {
   width: 100%;
