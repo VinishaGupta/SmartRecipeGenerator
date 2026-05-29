@@ -1102,6 +1102,39 @@ input[type="range"] {
   gap: 12px;
   align-items: center;
 }
+.rating-histogram {
+  margin-left: 18px;
+  min-width: 220px;
+}
+.hist-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.hist-star {
+  width: 18px;
+  color: var(--muted);
+  font-weight: 700;
+  text-align: right;
+}
+.hist-bar-wrap {
+  flex: 1 1 auto;
+  background: #f3ebe4;
+  height: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.hist-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand) 0%, #b36a1a 100%);
+}
+.hist-count {
+  width: 30px;
+  text-align: right;
+  color: var(--muted);
+  font-size: 13px;
+}
 .community-summary .avg-rating {
   font-size: 44px;
   font-weight: 800;
