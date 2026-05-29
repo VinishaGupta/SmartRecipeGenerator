@@ -564,7 +564,7 @@ button {
   margin: 0 auto;
   color: var(--muted);
   font-size: 13px;
-  border-top: 1px solid var(--line);
+ 
   display: flex;
   justify-content: center;
   align-items: center;
