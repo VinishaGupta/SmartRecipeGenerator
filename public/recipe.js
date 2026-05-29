@@ -35,6 +35,53 @@ const setLocalSavedRecipes = (recipeIds) =>
 const isCurrentRecipeSaved = () =>
   currentRecipe ? savedRecipeIds.includes(String(currentRecipe.id)) : false;
 
+const getCurrentRecipeRating = () => Number(currentRecipe?.userRating || 0);
+
+const formatCommunityRating = (recipe) => {
+  const averageRating = Number(recipe?.averageRating || 0).toFixed(1);
+  const totalRatings = Number(recipe?.totalRatings || 0);
+
+  return `<span class="recipe-rating-icon"><i data-lucide="star"></i></span> ${averageRating} (${totalRatings})`;
+};
+
+const formatPersonalRating = (recipe) => {
+  const userRating = Number(recipe?.userRating || 0);
+  return userRating ? `You rated ${userRating}★` : "Rate this recipe";
+};
+
+const renderRatingStars = (rating) =>
+  [1, 2, 3, 4, 5].map((star) => `
+    <button
+      type="button"
+      class="star ${star <= rating ? "filled" : ""}"
+      data-star="${star}"
+      title="Rate ${star} star${star === 1 ? "" : "s"}"
+      aria-label="Rate ${star} star${star === 1 ? "" : "s"}"
+    >&#9733;</button>
+  `).join("");
+
+const submitRecipeRating = async (recipeId, rating) => {
+  const response = await fetch(apiUrl(`/api/recipes/${encodeURIComponent(recipeId)}/rate`), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ rating })
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (response.status === 401) {
+    window.location.href = "/signin.html";
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error(data?.details || data?.error || "Failed to save rating");
+  }
+
+  return data;
+};
+
 const updateSaveButton = () => {
   if (!saveRecipeBtn || !currentRecipe) return;
 
@@ -46,6 +93,36 @@ const updateSaveButton = () => {
     ${isSaved ? "Saved" : "Save"}
   `;
   lucide.createIcons();
+};
+
+const attachRatingHandlers = () => {
+  if (!recipeDetail || !currentRecipe) return;
+
+  recipeDetail.querySelectorAll(".rating .star").forEach((star) => {
+    star.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const rating = Number(star.dataset.star);
+
+      try {
+        const result = await submitRecipeRating(currentRecipe.id, rating);
+
+        if (!result) return;
+
+        currentRecipe = {
+          ...currentRecipe,
+          ...result
+        };
+
+        renderRecipe(currentRecipe);
+        updateSaveButton();
+        lucide.createIcons();
+      } catch (error) {
+        console.error("Recipe rating failed:", error);
+      }
+    });
+  });
 };
 
 const loadSavedRecipes = async () => {
@@ -193,6 +270,7 @@ const renderRecipe = (recipe) => {
     "Lower-Carb Option",
     "Dairy-Free Swap"
   ];
+  const currentRating = Number(recipe.userRating || 0);
 
   recipeDetail.innerHTML = `
     <div class="recipe-split">
@@ -211,6 +289,17 @@ const renderRecipe = (recipe) => {
         </div>
 
         <h1>${recipe.name}</h1>
+        <div class="recipe-detail-rating-panel">
+          <div class="recipe-community-rating">
+            ${formatCommunityRating(recipe)}
+          </div>
+          <div class="recipe-personal-rating">
+            <p class="recipe-personal-rating-label">${formatPersonalRating(recipe)}</p>
+            <div class="rating rating-detail" data-id="${recipe.id}">
+              ${renderRatingStars(currentRating)}
+            </div>
+          </div>
+        </div>
         <p class="detail-description">
           A vibrant ${recipe.cuisine || "chef-inspired"} recipe built around simple ingredients,
           balanced nutrition, and weeknight-friendly cooking.
@@ -253,6 +342,9 @@ const renderRecipe = (recipe) => {
     </div>
 
   `;
+
+  attachRatingHandlers();
+  lucide.createIcons();
 };
 
 const loadRecipe = async () => {
@@ -284,7 +376,6 @@ const loadRecipe = async () => {
     recipeDetail.querySelector(".recipe-detail-image").addEventListener("error", (event) => {
       event.currentTarget.src = FALLBACK_RECIPE_IMAGE;
     }, { once: true });
-    lucide.createIcons();
   } catch (error) {
     console.error(error);
     recipeDetail.innerHTML = "<p class=\"helper\">Could not load recipe.</p>";

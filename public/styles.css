@@ -1014,6 +1014,70 @@ input[type="range"] {
   line-height: 1.6;
 }
 
+.recipe-detail-rating-panel {
+  display: grid;
+  gap: 14px;
+  margin: 12px 0 22px;
+  padding: 16px 18px;
+  border: 1px solid #efe3da;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(49, 34, 24, 0.04);
+}
+
+.recipe-community-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.recipe-community-rating .recipe-rating-icon,
+.recipe-community-rating svg {
+  width: 18px;
+  height: 18px;
+  color: var(--brand);
+  fill: none;
+}
+
+.recipe-personal-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-personal-rating-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.rating-detail {
+  gap: 8px;
+}
+
+.rating-detail .star {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #d7ccc5;
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.rating-detail .star.filled {
+  color: var(--accent);
+}
+
+.rating-detail .star:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
 /* Auth Modal styles */
 .modal {
   position: fixed;
