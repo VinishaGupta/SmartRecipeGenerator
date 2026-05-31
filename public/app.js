@@ -973,6 +973,19 @@ const attachRatingHandlers = () => {
         const base = Number(star.dataset.star);
         const value = isHalf ? base - 0.5 : base;
 
+        container.querySelectorAll(".star").forEach(s => {
+          const starValue = Number(s.dataset.star);
+          if (value >= starValue) {
+            s.classList.add("filled");
+            s.classList.remove("half");
+          } else if (value >= starValue - 0.5) {
+            s.classList.add("half");
+            s.classList.remove("filled");
+          } else {
+            s.classList.remove("filled", "half");
+          }
+        });
+
         try {
           const result = await submitRecipeRating(id, value);
 

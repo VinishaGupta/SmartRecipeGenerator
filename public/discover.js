@@ -297,12 +297,19 @@ const renderRecipes = (results) => {
           </div>
 
           <div class="rating" data-id="${r.id}">
-            ${[1,2,3,4,5].map(star => `
+            ${[1,2,3,4,5].map(star => {
+              const className = rating >= star
+                ? "filled"
+                : rating >= star - 0.5
+                  ? "half"
+                  : "";
+              return `
               <span 
-                class="star ${star <= rating ? "filled" : ""}" 
+                class="star ${className}" 
                 data-star="${star}"
               >★</span>
-            `).join("")}
+              `;
+            }).join("")}
           </div>
 
           <a class="recipe-link" href="${getRecipeUrl(r)}">

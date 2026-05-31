@@ -1082,10 +1082,6 @@ input[type="range"] {
   line-height: 1;
 }
 
-.rating-detail .star.filled {
-  color: var(--accent);
-}
-
 .rating-detail .star:focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 4px;
