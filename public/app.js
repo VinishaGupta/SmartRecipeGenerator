@@ -967,7 +967,11 @@ const attachRatingHandlers = () => {
     container.querySelectorAll(".star").forEach(star => {
       star.addEventListener("click", async (event) => {
         event.stopPropagation();
-        const value = Number(star.dataset.star);
+        const rect = star.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const isHalf = offsetX <= rect.width / 2;
+        const base = Number(star.dataset.star);
+        const value = isHalf ? base - 0.5 : base;
 
         try {
           const result = await submitRecipeRating(id, value);

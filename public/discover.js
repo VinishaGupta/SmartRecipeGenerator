@@ -183,17 +183,26 @@ const attachRatingHandlers = () => {
     const recipeId = ratingDiv.dataset.id;
 
     ratingDiv.querySelectorAll(".star").forEach(star => {
-      star.addEventListener("click", () => {
-        const starValue = Number(star.dataset.star);
+      star.addEventListener("click", (event) => {
+        const rect = star.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const isHalf = offsetX <= rect.width / 2;
+        const base = Number(star.dataset.star);
+        const rating = isHalf ? base - 0.5 : base;
         const ratings = getRatings();
-        ratings[recipeId] = starValue;
+        ratings[recipeId] = rating;
         setRatings(ratings);
 
         ratingDiv.querySelectorAll(".star").forEach(s => {
-          if (Number(s.dataset.star) <= starValue) {
+          const starValue = Number(s.dataset.star);
+          if (rating >= starValue) {
             s.classList.add("filled");
-          } else {
+            s.classList.remove("half");
+          } else if (rating >= starValue - 0.5) {
+            s.classList.add("half");
             s.classList.remove("filled");
+          } else {
+            s.classList.remove("filled", "half");
           }
         });
       });
