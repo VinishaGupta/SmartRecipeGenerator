@@ -282,6 +282,7 @@ const renderRecipe = (recipe) => {
     "Dairy-Free Swap"
   ];
   const currentRating = Number(recipe.userRating || 0);
+  const displayRating = currentRating || Number(recipe.averageRating || 0);
 
   recipeDetail.innerHTML = `
     <div class="recipe-split">
@@ -348,7 +349,7 @@ const renderRecipe = (recipe) => {
                   <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
                   <div class="avg-meta">
                     <div class="rating summary-rating" data-id="${recipe.id}">
-                      ${renderRatingStars(currentRating)}
+                      ${renderRatingStars(displayRating)}
                     </div>
                     <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
                   </div>

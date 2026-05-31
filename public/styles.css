@@ -1126,12 +1126,20 @@ input[type="range"] {
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
-  min-width: 90px;
+  flex: 0 0 auto;
+  min-width: 160px;
+
 }
-.summary-right { flex: 1 1 auto; }
+.summary-right {
+  flex: 1 1 0;
+  min-width: 0;
+}
 .rating-histogram {
+  
   min-width: 210px;
 }
+
+
 .hist-row {
   display: flex;
   align-items: center;
@@ -1182,9 +1190,10 @@ input[type="range"] {
   display: flex;
   gap: 6px;
   align-items: center;
+  flex-wrap: nowrap;
 }
 .summary-rating .star {
-  font-size: 22px;
+  font-size: 26px;
 }
 .reviews-list {
   width: 100%;
