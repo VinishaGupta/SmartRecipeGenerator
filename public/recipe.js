@@ -102,6 +102,7 @@ const updateCommunitySummary = (recipe) => {
   }
 
   if (summaryRatingEl) {
+    summaryRatingEl.dataset.rating = String(displayRating);
     updateStarClasses(summaryRatingEl, displayRating);
   }
 
@@ -170,6 +171,12 @@ const attachRatingHandlers = () => {
       const isHalf = offsetX <= rect.width / 2;
       const base = Number(star.dataset.star);
       const rating = isHalf ? base - 0.5 : base;
+      const ratingContainer = star.closest(".rating");
+
+      if (ratingContainer) {
+        ratingContainer.dataset.rating = String(rating);
+        updateStarClasses(ratingContainer, rating);
+      }
 
       try {
         const result = await submitRecipeRating(currentRecipe.id, rating);
@@ -186,6 +193,26 @@ const attachRatingHandlers = () => {
       } catch (error) {
         console.error("Recipe rating failed:", error);
       }
+    });
+
+    star.addEventListener("mousemove", (event) => {
+      const rect = star.getBoundingClientRect();
+      const offsetX = event.clientX - rect.left;
+      const isHalf = offsetX <= rect.width / 2;
+      const base = Number(star.dataset.star);
+      const hoverValue = isHalf ? base - 0.5 : base;
+      const ratingContainer = star.closest(".rating");
+
+      if (ratingContainer) {
+        updateStarClasses(ratingContainer, hoverValue);
+      }
+    });
+
+    star.addEventListener("mouseleave", () => {
+      const ratingContainer = star.closest(".rating");
+      if (!ratingContainer) return;
+      const current = Number(ratingContainer.dataset.rating || 0);
+      updateStarClasses(ratingContainer, current);
     });
   });
 };
@@ -402,7 +429,7 @@ const renderRecipe = (recipe) => {
                 <div class="summary-left">
                   <div class="avg-rating">${Number(recipe.averageRating || 0).toFixed(1)}</div>
                   <div class="avg-meta">
-                    <div class="rating summary-rating" data-id="${recipe.id}">
+                    <div class="rating summary-rating" data-id="${recipe.id}" data-rating="${displayRating}">
                       ${renderRatingStars(displayRating)}
                     </div>
                     <div class="avg-count">${Number(recipe.totalRatings || 0)} Verified Reviews</div>
