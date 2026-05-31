@@ -1111,11 +1111,15 @@ input[type="range"] {
   gap: 12px;
   align-items: flex-start;
 }
-.community-summary { width: 360px; }
+.community-summary {
+  width: 100%;
+  max-width: 560px;
+}
 .summary-card {
   display: flex;
   gap: 16px;
   align-items: center;
+  flex-wrap: wrap;
   padding: 12px 16px;
   border-radius: 12px;
   background: #f7f3f1;
@@ -1131,12 +1135,24 @@ input[type="range"] {
 
 }
 .summary-right {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 1 1 240px;
+  min-width: 220px;
+  width: 100%;
 }
 .rating-histogram {
-  
-  min-width: 210px;
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 680px) {
+  .summary-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .summary-right {
+    min-width: 0;
+  }
 }
 
 
