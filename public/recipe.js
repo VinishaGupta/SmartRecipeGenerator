@@ -67,6 +67,61 @@ const renderRatingStars = (rating) =>
     `;
   }).join("");
 
+const updateStarClasses = (container, rating) => {
+  if (!container) return;
+
+  container.querySelectorAll(".star").forEach((star) => {
+    const starValue = Number(star.dataset.star);
+    if (rating >= starValue) {
+      star.classList.add("filled");
+      star.classList.remove("half");
+    } else if (rating >= starValue - 0.5) {
+      star.classList.add("half");
+      star.classList.remove("filled");
+    } else {
+      star.classList.remove("filled", "half");
+    }
+  });
+};
+
+const updateCommunitySummary = (recipe) => {
+  if (!recipeDetail) return;
+
+  const avgRatingEl = recipeDetail.querySelector(".avg-rating");
+  const avgCountEl = recipeDetail.querySelector(".avg-count");
+  const summaryRatingEl = recipeDetail.querySelector(".summary-rating");
+  const histogramEl = recipeDetail.querySelector(".rating-histogram");
+  const displayRating = Number(recipe.userRating || 0) || Number(recipe.averageRating || 0);
+
+  if (avgRatingEl) {
+    avgRatingEl.textContent = Number(recipe.averageRating || 0).toFixed(1);
+  }
+
+  if (avgCountEl) {
+    avgCountEl.textContent = `${Number(recipe.totalRatings || 0)} Verified Reviews`;
+  }
+
+  if (summaryRatingEl) {
+    updateStarClasses(summaryRatingEl, displayRating);
+  }
+
+  if (histogramEl) {
+    const total = Number(recipe.totalRatings || 0) || 0;
+    const counts = recipe.ratingCounts || {};
+    histogramEl.querySelectorAll(".hist-row").forEach((row) => {
+      const starLabel = row.querySelector(".hist-star");
+      const bar = row.querySelector(".hist-bar");
+      const countEl = row.querySelector(".hist-count");
+      const starValue = Number(starLabel?.textContent || 0);
+      const starCount = Number(counts[String(starValue)] || 0);
+      const pct = total ? Math.round((starCount / total) * 100) : 0;
+
+      if (bar) bar.style.width = `${pct}%`;
+      if (countEl) countEl.textContent = String(starCount);
+    });
+  }
+};
+
 const submitRecipeRating = async (recipeId, rating) => {
   const response = await fetch(apiUrl(`/api/recipes/${encodeURIComponent(recipeId)}/rate`), {
     method: "POST",
@@ -126,9 +181,8 @@ const attachRatingHandlers = () => {
           ...result
         };
 
-        renderRecipe(currentRecipe);
+        updateCommunitySummary(currentRecipe);
         updateSaveButton();
-        lucide.createIcons();
       } catch (error) {
         console.error("Recipe rating failed:", error);
       }
