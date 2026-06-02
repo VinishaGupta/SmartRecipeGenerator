@@ -859,20 +859,18 @@ input[type="range"] {
 .star {
   position: relative;
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  color: #d7ccc5;
+  width: var(--star-size);
+  height: var(--star-size);
+  --star-size: 18px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: var(--star-size);
   line-height: 1;
   background: transparent;
   border: 0;
   padding: 0;
-  color: transparent;
-  vertical-align: middle;
   overflow: hidden;
-  text-indent: -9999px;
-  white-space: nowrap;
+  vertical-align: middle;
+  color: transparent;
 }
 .star::before {
   content: "★";
@@ -883,6 +881,8 @@ input[type="range"] {
   height: 100%;
   color: #d7ccc5;
   display: block;
+  font-size: var(--star-size);
+  line-height: 1;
 }
 .star::after {
   content: "★";
@@ -894,6 +894,8 @@ input[type="range"] {
   overflow: hidden;
   color: var(--accent);
   display: block;
+  font-size: var(--star-size);
+  line-height: 1;
 }
 .star.filled::after { width: 100%; }
 .star.half::after { width: 50%; }
@@ -1096,8 +1098,7 @@ input[type="range"] {
   padding: 0;
   color: #d7ccc5;
   cursor: pointer;
-  font-size: 28px;
-  line-height: 1;
+  --star-size: 28px;
 }
 
 .rating-detail .star:focus-visible {
@@ -1223,7 +1224,7 @@ input[type="range"] {
   flex-wrap: nowrap;
 }
 .summary-rating .star {
-  font-size: 26px;
+  --star-size: 26px;
 }
 .reviews-list {
   width: 100%;
