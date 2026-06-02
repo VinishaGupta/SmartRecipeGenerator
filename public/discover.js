@@ -187,23 +187,15 @@ const attachRatingHandlers = () => {
         const starValue = Number(s.dataset.star);
         if (value >= starValue) {
           s.classList.add("filled");
-          s.classList.remove("half");
-        } else if (value >= starValue - 0.5) {
-          s.classList.add("half");
-          s.classList.remove("filled");
         } else {
-          s.classList.remove("filled", "half");
+          s.classList.remove("filled");
         }
       });
     };
 
     ratingDiv.querySelectorAll(".star").forEach(star => {
       star.addEventListener("click", (event) => {
-        const rect = star.getBoundingClientRect();
-        const offsetX = event.clientX - rect.left;
-        const isHalf = offsetX <= rect.width / 2;
-        const base = Number(star.dataset.star);
-        const rating = isHalf ? base - 0.5 : base;
+        const rating = Number(star.dataset.star);
         const ratings = getRatings();
         ratings[recipeId] = rating;
         setRatings(ratings);
@@ -212,11 +204,7 @@ const attachRatingHandlers = () => {
       });
 
       star.addEventListener("mousemove", (event) => {
-        const rect = star.getBoundingClientRect();
-        const offsetX = event.clientX - rect.left;
-        const isHalf = offsetX <= rect.width / 2;
-        const base = Number(star.dataset.star);
-        const hoverValue = isHalf ? base - 0.5 : base;
+        const hoverValue = Number(star.dataset.star);
         updateStars(hoverValue);
       });
 

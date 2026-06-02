@@ -51,11 +51,7 @@ const formatPersonalRating = (recipe) => {
 
 const renderRatingStars = (rating) =>
   [1, 2, 3, 4, 5].map((star) => {
-    const className = rating >= star
-      ? "filled"
-      : rating >= star - 0.5
-        ? "half"
-        : "";
+    const className = rating >= star ? "filled" : "";
     return `
       <button
         type="button"
@@ -74,12 +70,8 @@ const updateStarClasses = (container, rating) => {
     const starValue = Number(star.dataset.star);
     if (rating >= starValue) {
       star.classList.add("filled");
-      star.classList.remove("half");
-    } else if (rating >= starValue - 0.5) {
-      star.classList.add("half");
-      star.classList.remove("filled");
     } else {
-      star.classList.remove("filled", "half");
+      star.classList.remove("filled");
     }
   });
 };
@@ -166,11 +158,7 @@ const attachRatingHandlers = () => {
       event.preventDefault();
       event.stopPropagation();
 
-      const rect = star.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const isHalf = offsetX <= rect.width / 2;
-      const base = Number(star.dataset.star);
-      const rating = isHalf ? base - 0.5 : base;
+      const rating = Number(star.dataset.star);
       const ratingContainer = star.closest(".rating");
 
       if (ratingContainer) {
@@ -196,11 +184,7 @@ const attachRatingHandlers = () => {
     });
 
     star.addEventListener("mousemove", (event) => {
-      const rect = star.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const isHalf = offsetX <= rect.width / 2;
-      const base = Number(star.dataset.star);
-      const hoverValue = isHalf ? base - 0.5 : base;
+      const hoverValue = Number(star.dataset.star);
       const ratingContainer = star.closest(".rating");
 
       if (ratingContainer) {

@@ -898,7 +898,6 @@ input[type="range"] {
   line-height: 1;
 }
 .star.filled::after { width: 100%; }
-.star.half::after { width: 50%; }
 
 .recipe-link,
 .back-link {
