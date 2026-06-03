@@ -504,6 +504,8 @@ button {
   border-top: 1px solid var(--line);
   padding: 40px 24px 20px;
   color: var(--muted);
+
+  margin-top: 30px;
 }
 .site-footer-inner {
   max-width: 1200px;
