@@ -1,19 +1,18 @@
 # 🍳 Smart Recipe Generator
 
-An AI-assisted cooking application that helps users discover recipes based on available ingredients, dietary preferences, and cooking constraints — all running locally with a clean web UI.
+An AI-assisted cooking application that helps users discover recipes based on available ingredients, dietary preferences, and cooking constraints — now backed by MongoDB, Cloudinary image hosting, and an admin moderation workflow.
 
 ---
 
 ## 📌 Overview
 
-**Smart Recipe Generator** allows users to:
+**Smart Recipe Generator** lets users:
 - Input ingredients manually
 - Select ingredients from categorized dropdowns
 - Upload food images for ingredient detection
+- Submit their own recipes for approval
 
-The system matches ingredients against a curated recipe dataset and ranks recipes by relevance.
-
-This project focuses on **core logic**, **UI usability**, and **extensibility**, without relying on paid or third-party AI services.
+The system matches ingredients against curated recipes, ranks results by relevance, and supports user accounts with favorites, ratings, and admin moderation.
 
 ---
 
@@ -30,47 +29,42 @@ This project focuses on **core logic**, **UI usability**, and **extensibility**,
 - Multiple selections supported
 - Selected ingredients automatically sync with the input field
 
----
-
 ### 🧠 Recipe Matching Engine
 - Ingredient overlap scoring
 - Ranked recipe results
 - Match percentage shown for each recipe
 - Real-time updates when filters change
 
----
-
 ### 🥗 Filters & Preferences
-- Dietary preferences
-  - Vegetarian
-  - Gluten-free
-- Cooking difficulty
-  - Easy
-  - Medium
-  - Hard
+- Dietary preferences (Vegetarian, Gluten-free)
+- Cooking difficulty (Easy, Medium, Hard)
 - Maximum cooking time
 - Adjustable servings
 
----
-
 ### 🔁 Ingredient Substitutions
-- Built-in substitution suggestions for common ingredients  
-  *(e.g. milk → oat milk, soy milk)*
+- Built-in substitution suggestions for common ingredients
 
----
+### ⭐ Accounts, Favorites & Ratings
+- Google sign-in + user profiles
+- Favorites and ratings persisted in MongoDB for signed-in users
 
-### ⭐ Favorites & Ratings
-- Favorite recipes stored locally using `localStorage`
-- Rating system (1–5)
-- Personalized suggestions based on user ratings
+### 🧾 Recipe Submission & Moderation
+- Recipe submission form for users
+- Submissions stored in a pending queue
+- Admin panel to approve/reject recipes
+- Approved recipes are published to the main catalog
+
+### 🖼️ Cloudinary Images
+- Recipe images served from Cloudinary with size-optimized URLs
+- Fallback images when a recipe has no hosted image
 
 ---
 
 ## 🧱 Tech Stack
 - **Frontend:** HTML, CSS, Vanilla JavaScript
-- **Backend:** Node.js (lightweight HTTP server)
-- **Data:** Local JSON recipe database
-- **Storage:** Browser `localStorage`
+- **Backend:** Node.js (HTTP server)
+- **Database:** MongoDB (users, submissions, ratings)
+- **Images:** Cloudinary delivery URLs
 - **AI Integration:** Local / pluggable (no external services required)
 
 ---
@@ -87,6 +81,7 @@ npm start
 Create a local `.env` file from `.env.example` and fill in your own values for:
 - `MONGODB_URI`
 - `MONGODB_DB`
+- `MONGODB_RECIPES_COLLECTION`
 - `MONGODB_USERS_COLLECTION`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
@@ -94,151 +89,76 @@ Create a local `.env` file from `.env.example` and fill in your own values for:
 - `SESSION_SECRET`
 - `JWT_SECRET`
 
-📦 Python Dependencies Installed
+Optional:
+- `ALLOW_ADMIN_FALLBACK` (set to `1` to allow admin checks to fall back to token role)
 
-For local image recognition, the following Python libraries were installed using pip:
+### 📦 Optional Python Dependencies
+
+For local image recognition, install:
 
 ```bash
 pip install torch torchvision pillow numpy
 ```
 
+---
+
 ## 📁 Project Structure
 
 ```
 .
-├── data/
-│   └── recipes.json              # Recipe dataset (JSON)
-│
-├── public/
-│   ├── index.html                # UI layout
-│   ├── styles.css                # App styling
-│   └── app.js                    # Client-side logic
-│
-├── src/
-│   ├── server.js                 # Local Node.js HTTP server
-│   ├── recipeEngine.js           # Recipe matching & scoring logic
-│   ├── ingredientRecognizer.js   # JS bridge for ingredient recognition
-│   └── index.js                  # Entry point
-│
-├── vision/
-│   ├── recognize.py              # Python image recognition script
-│   └── imagenet_classes.txt      # ImageNet class labels for mapping
-│
-├── docs/
-│   └── approach.md               # Design & approach explanation
-│
+├── api/                          # API routes (Vercel)
+├── data/                         # Local recipe seed data
+├── docs/                         # Design notes
+├── lib/                          # MongoDB helpers and domain logic
+├── models/                       # Recipe model
+├── public/                       # UI pages and client scripts
+├── scripts/                      # Data/image utilities
+├── src/                          # Core recipe engine + ingredient recognizer
+├── vision/                       # Local Python vision pipeline
+├── server.js                     # Node.js HTTP server
 ├── README.md
 └── package.json
 ```
 
-### 🧪 How Recipe Matching Works
+---
+
+## 🧪 How Recipe Matching Works
 - User ingredients are normalized
 - Recipes are scored by ingredient overlap
 - Filters are applied (diet, difficulty, time)
 - Recipes are ranked by match percentage
-- Top results are displayed instantly
 
 ---
 
-### 🐍 Python & Vision Integration
+## 🐍 Python & Vision Integration
 
-This project does not rely on paid APIs or third-party AI services.
-Instead, it uses a local Python-based vision pipeline.
-
----
-
-### 🔍 Image Recognition Flow
+The vision pipeline is optional and runs locally:
 - Images uploaded in the UI are sent to the Node.js server
-- Node.js invokes a Python script (recognize.py)
-- A pretrained ImageNet-based CNN model is used
-- Predicted labels are mapped to food ingredients using:
-- -imagenet_classes.txt
-- Curated ingredient lists in JavaScript
+- The server invokes `vision/recognize.py`
+- A pretrained ImageNet CNN model predicts labels
+- Labels are mapped to food ingredients before matching
 
 ---
 
-### 📦 Python Libraries Used
-- torch
-- torchvision
-- Pillow
-- numpy
-
-These libraries are used to:
-- Load a pretrained vision model
-- Run image inference locally
-- Convert predictions into usable ingredient names
-
----
-
-### 🧠 Ingredient Mapping Strategy
-- Raw ImageNet labels are not used directly
-- Labels are matched against:
-- - KNOWN_INGREDIENTS
-  - Category-based ingredient lists
-- This avoids noisy outputs (e.g. non-food objects)
-- Only food-relevant ingredients are extracted
-
---- 
-
-### Why This Architecture?
-- ❌ No paid APIs
-- ✅ Fully local
-- ✅ Deterministic & reliable
-
----
-
-### 🛠 Extensibility
-
-This project is intentionally designed to be extended:
-- Plug in a real image recognition API
-- Add more recipe datasets
-- Enhance the UI with React or Vue
-- Add user accounts and cloud storage
-
----
-
-### 🌐 Live Deployment
-
-The Smart Recipe Generator has been successfully deployed and is publicly accessible.
+## 🌐 Live Deployment
 
 Live URL:
 👉 https://smartrecipegenerator-rbkj.onrender.com/
 
----
-
-### 🚀 Deployment Details
-- Platform: Render
-- Frontend: Static build served via Render
-- Backend: Local Node.js server (used during development)
-
-Python Vision Pipeline:
-- Runs locally only
-- Not required for the deployed version
-- Core app functionality works without it
+Notes:
+- The deployed version includes the main app, user accounts, and moderation workflow
+- The local Python vision pipeline is not required for production
 
 ---
 
-### 📝 Notes on Deployment
-- The deployed version focuses on:
-- Ingredient input (text + dropdowns)
-- Recipe matching & filtering
-- Favorites and ratings (stored in browser localStorage)
-- Image recognition remains optional and local, as it depends on Python and PyTorch
-- No paid APIs or external AI services are used in production
+## 🛠 Extensibility
 
-### 📄 Notes
+- Plug in a production image recognition API
+- Add new recipe datasets
+- Enhance the UI with React or Vue
+- Extend moderation with roles and audit logs
 
-- No paid APIs required
-- No external AI dependency
-- Fully functional offline logic
-- Suitable for assessments and demos
-
---- 
-
-### 👩‍💻 Author
-
-### 👩‍💻 Author
-### 👩‍💻 Author
+---
 
 Built as part of a software engineering / web development assessment,
 with a focus on clean architecture, usability, and extensibility.

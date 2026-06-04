@@ -56,6 +56,7 @@ const recipeList = document.getElementById("recipeList");
 const resultSummary = document.getElementById("resultSummary");
 const favoritesToggle = document.getElementById("favoritesToggle");
 const authBtn = document.getElementById("authBtn");
+const adminLink = document.getElementById("adminLink");
 
 const parseJsonSafely = async (res) => {
   try {
@@ -81,6 +82,29 @@ const formatDisplayName = (name) =>
     .charAt(0)
     .toUpperCase();
 
+const initAdminLink = async () => {
+  if (!adminLink) return;
+
+  adminLink.style.display = "none";
+  adminLink.hidden = true;
+
+  try {
+    const res = await fetch(apiUrl("/api/is-admin"), { credentials: "same-origin" });
+
+    if (!res.ok) {
+      return;
+    }
+
+    const data = await res.json();
+    if (data?.isAdmin) {
+      adminLink.hidden = false;
+      adminLink.style.display = "inline-grid";
+    }
+  } catch (error) {
+    // Keep admin link hidden on errors.
+  }
+};
+
 const initAuthUI = async () => {
   if (!authBtn) return;
   const user = await getCurrentUser();
@@ -99,6 +123,8 @@ const initAuthUI = async () => {
     authBtn.href = '/api/auth/google';
     authBtn.title = 'Sign in';
   }
+
+  await initAdminLink();
 };
 
 /*************************************************

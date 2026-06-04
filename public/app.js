@@ -92,6 +92,7 @@ const startBackendAutoPing = () => {
  *************************************************/
 const ingredientInput = document.getElementById("ingredientInput");
 const imageInput = document.getElementById("imageInput");
+const adminLink = document.getElementById("adminLink");
 const matchButton = document.getElementById("matchButton");
 const statusEl = document.getElementById("status");
 const imageHint = document.getElementById("imageHint");
@@ -134,6 +135,29 @@ const formatDisplayName = (name) =>
     .charAt(0)
     .toUpperCase();
 
+const initAdminLink = async () => {
+  if (!adminLink) return;
+
+  adminLink.style.display = "none";
+  adminLink.hidden = true;
+
+  try {
+    const res = await fetch(apiUrl("/api/is-admin"), { credentials: "same-origin" });
+
+    if (!res.ok) {
+      return;
+    }
+
+    const data = await res.json();
+    if (data?.isAdmin) {
+      adminLink.hidden = false;
+      adminLink.style.display = "inline-grid";
+    }
+  } catch (error) {
+    // Keep admin link hidden on errors.
+  }
+};
+
 const initAuthUI = async () => {
   if (!authBtn) return;
   const user = await getCurrentUser();
@@ -153,6 +177,8 @@ const initAuthUI = async () => {
     authBtn.href = '/signin.html';
     authBtn.title = 'Sign in';
   }
+
+  await initAdminLink();
 };
 
 /*************************************************
@@ -1291,6 +1317,8 @@ const recognizeIngredientsInBrowser = async (file) => {
 };
 
 const recognizeIngredientsFromImage = async (file) => {
+
+  await initAdminLink();
   const reader = new FileReader();
   const base64 = await new Promise((res, rej) => {
     reader.onload = () => res(reader.result);
