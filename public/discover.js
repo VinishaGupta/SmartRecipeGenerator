@@ -158,6 +158,7 @@ const normalize = (str) =>
 const recipeImageMarkup = (r) => {
   const cloudinaryUrl = (imageName) => {
     if (!imageName) return FALLBACK_RECIPE_IMAGE;
+    if (/^https?:\/\//i.test(imageName) || /^data:/i.test(imageName)) return imageName;
     return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_300,h_300,c_fill,q_auto,f_auto/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}`;
   };
 

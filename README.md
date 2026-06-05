@@ -83,11 +83,16 @@ Create a local `.env` file from `.env.example` and fill in your own values for:
 - `MONGODB_DB`
 - `MONGODB_RECIPES_COLLECTION`
 - `MONGODB_USERS_COLLECTION`
+- `MONGODB_RECIPE_SUBMISSIONS_COLLECTION`
+- `MONGODB_RECIPE_RATINGS_COLLECTION`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `GOOGLE_CALLBACK_URL`
 - `SESSION_SECRET`
 - `JWT_SECRET`
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
 
 Optional:
 - `ALLOW_ADMIN_FALLBACK` (set to `1` to allow admin checks to fall back to token role)

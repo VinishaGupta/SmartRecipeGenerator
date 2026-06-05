@@ -116,7 +116,7 @@ const getInitial = (value) =>
 
 const getImageUrl = (imageName) => {
   if (!imageName) return FALLBACK_RECIPE_IMAGE;
-  if (/^https?:\/\//i.test(imageName)) return imageName;
+  if (/^https?:\/\//i.test(imageName) || /^data:/i.test(imageName)) return imageName;
 
   const safePublicId = encodeURIComponent(imageName).replace(/%2F/g, "/");
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_720,h_560,c_fill,q_auto,f_auto/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${safePublicId}`;

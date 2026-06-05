@@ -313,7 +313,7 @@ const shareCurrentRecipe = async () => {
 const getImageUrl = (imageName) => {
   if (!imageName) return FALLBACK_RECIPE_IMAGE;
 
-  if (/^https?:\/\//i.test(imageName)) {
+  if (/^https?:\/\//i.test(imageName) || /^data:/i.test(imageName)) {
     return imageName;
   }
 

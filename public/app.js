@@ -430,7 +430,9 @@ const normalize = (v) => v.trim().toLowerCase();
 const getRecipeUrl = (recipe) => `recipe.html?id=${encodeURIComponent(recipe.id)}`;
 const getImageUrl = (imageName) =>
   imageName
-    ? `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}?v=${Date.now()}`
+    ? (/^https?:\/\//i.test(imageName) || /^data:/i.test(imageName)
+        ? imageName
+        : `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${RECIPE_IMAGE_FOLDER ? `${RECIPE_IMAGE_FOLDER}/` : ""}${imageName}?v=${Date.now()}`)
     : FALLBACK_RECIPE_IMAGE;
 
 const recipeImageMarkup = (recipe) => `
