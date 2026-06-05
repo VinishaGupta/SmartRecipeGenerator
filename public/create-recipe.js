@@ -25,6 +25,15 @@ const creatorStatus = document.getElementById("creatorStatus");
 const creatorImageInput = document.getElementById("creatorImageInput");
 const creatorHeroUpload = document.querySelector(".creator-hero-upload");
 const creatorHeroLabel = creatorHeroUpload?.querySelector("label");
+const submissionSuccessModal = document.getElementById("submissionSuccessModal");
+const closeSubmissionSuccessModal = document.getElementById("closeSubmissionSuccessModal");
+const submissionSuccessContinue = document.getElementById("submissionSuccessContinue");
+
+const initialTitleValue = document.querySelector(".recipe-basics input")?.value || "";
+const initialDescriptionValue = document.querySelector(".recipe-basics textarea")?.value || "";
+const initialTagsHtml = document.querySelector(".creator-tags")?.innerHTML || "";
+const initialIngredientRowsHtml = ingredientRows?.innerHTML || "";
+const initialStepRowsHtml = stepRows?.innerHTML || "";
 
 const DEFAULT_HERO_BACKGROUND =
   'linear-gradient(rgba(20, 16, 14, 0.36), rgba(20, 16, 14, 0.36)), url("https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=1300&q=80") center / cover';
@@ -54,6 +63,67 @@ const setHeroBackground = (imageUrl = "") => {
 
   if (creatorHeroLabel) {
     creatorHeroLabel.dataset.previewState = imageUrl ? "selected" : "default";
+  }
+};
+
+const openSubmissionSuccessModal = () => {
+  if (submissionSuccessModal) {
+    submissionSuccessModal.removeAttribute("hidden");
+  }
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+};
+
+const closeSubmissionSuccessModalBox = () => {
+  if (submissionSuccessModal) {
+    submissionSuccessModal.setAttribute("hidden", "");
+  }
+};
+
+const resetCreateRecipePage = () => {
+  const titleInput = document.querySelector(".recipe-basics input");
+  const descriptionInput = document.querySelector(".recipe-basics textarea");
+  const tagsContainer = document.querySelector(".creator-tags");
+
+  if (titleInput) {
+    titleInput.value = initialTitleValue;
+  }
+
+  if (descriptionInput) {
+    descriptionInput.value = initialDescriptionValue;
+  }
+
+  if (tagsContainer) {
+    tagsContainer.innerHTML = initialTagsHtml;
+  }
+
+  if (ingredientRows) {
+    ingredientRows.innerHTML = initialIngredientRowsHtml;
+  }
+
+  if (stepRows) {
+    stepRows.innerHTML = initialStepRowsHtml;
+  }
+
+  if (creatorImageInput) {
+    creatorImageInput.value = "";
+  }
+
+  if (creatorHeroUpload) {
+    creatorHeroUpload.style.background = "";
+  }
+
+  if (creatorHeroLabel) {
+    creatorHeroLabel.dataset.previewState = "default";
+  }
+
+  localStorage.removeItem(DRAFT_KEY);
+  setStatus("", "");
+
+  if (window.lucide) {
+    lucide.createIcons();
   }
 };
 
@@ -171,6 +241,8 @@ const submitForApproval = async () => {
 
     setStatus("Recipe submitted for admin approval.", "success");
     localStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
+    resetCreateRecipePage();
+    openSubmissionSuccessModal();
   } catch (error) {
     setStatus(error.message || "Could not submit recipe.", "error");
   }
@@ -252,6 +324,22 @@ const saveDraftBtn = Array.from(document.querySelectorAll(".creator-secondary.fi
 if (headerSubmitBtn) headerSubmitBtn.addEventListener("click", submitForApproval);
 if (footerSubmitBtn) footerSubmitBtn.addEventListener("click", submitForApproval);
 if (saveDraftBtn) saveDraftBtn.addEventListener("click", saveDraft);
+
+if (closeSubmissionSuccessModal) {
+  closeSubmissionSuccessModal.addEventListener("click", closeSubmissionSuccessModalBox);
+}
+
+if (submissionSuccessContinue) {
+  submissionSuccessContinue.addEventListener("click", closeSubmissionSuccessModalBox);
+}
+
+if (submissionSuccessModal) {
+  submissionSuccessModal.addEventListener("click", (event) => {
+    if (event.target === submissionSuccessModal) {
+      closeSubmissionSuccessModalBox();
+    }
+  });
+}
 
 restoreDraft();
 

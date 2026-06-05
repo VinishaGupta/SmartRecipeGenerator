@@ -168,6 +168,17 @@
   </section>
 </main>
 
+<div id="submissionSuccessModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="submissionSuccessTitle">
+  <div class="modal-content">
+    <button id="closeSubmissionSuccessModal" class="modal-close" type="button" aria-label="Close success message">
+      <i data-lucide="x"></i>
+    </button>
+    <h2 id="submissionSuccessTitle">Recipe submitted</h2>
+    <p>Your recipe was submitted for admin approval and the page has been reset to the default draft state.</p>
+    <button id="submissionSuccessContinue" class="creator-primary" type="button">Continue</button>
+  </div>
+</div>
+
 <script src="create-recipe.js"></script>
 <script>
   lucide.createIcons();
