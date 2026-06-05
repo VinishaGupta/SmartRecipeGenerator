@@ -23,6 +23,11 @@ const addStepBtn = document.getElementById("addStepBtn");
 const stepRows = document.getElementById("stepRows");
 const creatorStatus = document.getElementById("creatorStatus");
 const creatorImageInput = document.getElementById("creatorImageInput");
+const creatorHeroUpload = document.querySelector(".creator-hero-upload");
+const creatorHeroLabel = creatorHeroUpload?.querySelector("label");
+
+const DEFAULT_HERO_BACKGROUND =
+  'linear-gradient(rgba(20, 16, 14, 0.36), rgba(20, 16, 14, 0.36)), url("https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=1300&q=80") center / cover';
 
 const setStatus = (message, state = "") => {
   if (!creatorStatus) {
@@ -36,6 +41,20 @@ const setStatus = (message, state = "") => {
 const parseNumber = (value, fallback = 0) => {
   const parsed = Number(String(value || "").replace(/[^0-9.\-]/g, ""));
   return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const setHeroBackground = (imageUrl = "") => {
+  if (!creatorHeroUpload) {
+    return;
+  }
+
+  creatorHeroUpload.style.background = imageUrl
+    ? `linear-gradient(rgba(20, 16, 14, 0.28), rgba(20, 16, 14, 0.28)), url("${imageUrl}") center / cover`
+    : DEFAULT_HERO_BACKGROUND;
+
+  if (creatorHeroLabel) {
+    creatorHeroLabel.dataset.previewState = imageUrl ? "selected" : "default";
+  }
 };
 
 const getIngredientRows = () => Array.from(ingredientRows?.querySelectorAll(".ingredient-editor-row") || []);
@@ -96,6 +115,18 @@ const collectRecipePayload = async () => {
     dietaryTags: collectTags(),
     image
   };
+};
+
+const updateHeroPreviewFromFile = (file) => {
+  if (!file) {
+    setHeroBackground("");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => setHeroBackground(String(reader.result || ""));
+  reader.onerror = () => setHeroBackground("");
+  reader.readAsDataURL(file);
 };
 
 const saveDraft = async () => {
@@ -163,6 +194,10 @@ const restoreDraft = () => {
     if (descriptionInput && draft.description) {
       descriptionInput.value = draft.description;
     }
+
+    if (draft.image) {
+      setHeroBackground(draft.image);
+    }
   } catch (error) {
     console.debug("Draft restore failed:", error);
   }
@@ -219,3 +254,11 @@ if (footerSubmitBtn) footerSubmitBtn.addEventListener("click", submitForApproval
 if (saveDraftBtn) saveDraftBtn.addEventListener("click", saveDraft);
 
 restoreDraft();
+
+if (creatorImageInput) {
+  creatorImageInput.addEventListener("change", () => {
+    updateHeroPreviewFromFile(creatorImageInput.files?.[0] || null);
+  });
+}
+
+setHeroBackground("");
