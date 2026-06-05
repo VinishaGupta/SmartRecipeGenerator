@@ -51,11 +51,13 @@ const formatDate = (value) => {
   return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString();
 };
 
+const ADMIN_IMAGE_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'%3E%3Crect width='1280' height='720' fill='%23eef3f9'/%3E%3Ccircle cx='260' cy='190' r='72' fill='%23c7d2e2'/%3E%3Cpath d='M118 562l176-190c28-30 76-31 106-2l92 86 160-176c30-32 81-31 110 2l206 225c42 46 10 121-52 121H170c-69 0-106-82-52-116z' fill='%23d6deea'/%3E%3C/svg%3E";
+
 const getSubmissionImageUrl = (submission) => {
   const imageValue = String(submission?.imageUrl || submission?.image || "").trim();
 
   if (!imageValue) {
-    return "";
+    return ADMIN_IMAGE_PLACEHOLDER;
   }
 
   if (/^https?:\/\//i.test(imageValue) || /^data:/i.test(imageValue)) {
@@ -74,11 +76,9 @@ const renderSubmission = (submission) => {
 
   return `
     <article class="submission-card" data-submission-id="${submission.id}">
-      ${submissionImageUrl ? `
-        <div class="submission-image-wrap">
-          <img class="submission-image" src="${submissionImageUrl}" alt="${submission.name || "Submitted recipe"}" loading="lazy" onerror="this.closest('.submission-image-wrap').remove()" />
-        </div>
-      ` : ""}
+      <div class="submission-image-wrap">
+        <img class="submission-image" src="${submissionImageUrl}" alt="${submission.name || "Submitted recipe"}" loading="lazy" onerror="this.onerror=null;this.src='${ADMIN_IMAGE_PLACEHOLDER}'" />
+      </div>
       <div class="submission-top">
         <div>
           <h3>${submission.name || "Untitled recipe"}</h3>
