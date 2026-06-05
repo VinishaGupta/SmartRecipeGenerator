@@ -2559,9 +2559,21 @@ input[type="range"] {
   gap: 8px;
 }
 
+.creator-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
 .creator-tags span,
 .creator-tags button {
-  min-height: 30px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: 0;
   border-radius: 999px;
   padding: 0 12px;
@@ -2569,12 +2581,20 @@ input[type="range"] {
   color: #087b2f;
   font-weight: 800;
   font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .creator-tags span button {
-  min-height: auto;
-  padding: 0 0 0 4px;
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
   background: transparent;
+  color: currentColor;
+  font-size: 13px;
+  line-height: 1;
 }
 
 .creator-tags > button {
