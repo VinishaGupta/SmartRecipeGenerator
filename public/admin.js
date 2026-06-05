@@ -51,13 +51,34 @@ const formatDate = (value) => {
   return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString();
 };
 
+const getSubmissionImageUrl = (submission) => {
+  const imageValue = String(submission?.imageUrl || submission?.image || "").trim();
+
+  if (!imageValue) {
+    return "";
+  }
+
+  if (/^https?:\/\//i.test(imageValue) || /^data:/i.test(imageValue)) {
+    return imageValue;
+  }
+
+  const cloudinaryPublicId = encodeURIComponent(imageValue).replace(/%2F/g, "/");
+  return `https://res.cloudinary.com/djsenbil3/image/upload/w_720,h_420,c_fill,q_auto,f_auto/${cloudinaryPublicId}`;
+};
+
 const renderSubmission = (submission) => {
   const ingredients = Array.isArray(submission.ingredients) ? submission.ingredients : [];
   const steps = Array.isArray(submission.steps) ? submission.steps : [];
   const tags = Array.isArray(submission.dietaryTags) ? submission.dietaryTags : [];
+  const submissionImageUrl = getSubmissionImageUrl(submission);
 
   return `
     <article class="submission-card" data-submission-id="${submission.id}">
+      ${submissionImageUrl ? `
+        <div class="submission-image-wrap">
+          <img class="submission-image" src="${submissionImageUrl}" alt="${submission.name || "Submitted recipe"}" loading="lazy" onerror="this.closest('.submission-image-wrap').remove()" />
+        </div>
+      ` : ""}
       <div class="submission-top">
         <div>
           <h3>${submission.name || "Untitled recipe"}</h3>
