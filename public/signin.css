@@ -359,6 +359,123 @@ body{
 }
 
 /* =========================
+   FOOTER
+========================= */
+
+.site-footer{
+  width:100%;
+  padding:40px 24px 20px;
+  margin-top:0;
+  border-top:1px solid #eadfd7;
+  background:#fbf8f7;
+  color:#76685f;
+}
+
+.site-footer-inner{
+  max-width:1200px;
+  margin:0 auto 16px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+}
+
+.footer-brand{
+  flex:1 1 260px;
+}
+
+.footer-brand h3{
+  margin:0 0 8px;
+  color:#8a4600;
+  font-size:18px;
+  font-weight:800;
+}
+
+.footer-brand p{
+  max-width:320px;
+  margin:0;
+  color:#76685f;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.footer-social{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+
+.social-btn{
+  display:inline-grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  border:1px solid #eadfd7;
+  border-radius:999px;
+  background:#fff;
+  color:#8a4600;
+  text-decoration:none;
+}
+
+.social-btn svg,
+.social-btn i{
+  width:18px;
+  height:18px;
+}
+
+.footer-columns{
+  display:flex;
+  flex:2 1 560px;
+  justify-content:center;
+  gap:32px;
+  flex-wrap:wrap;
+}
+
+.footer-column h4{
+  margin:0 0 8px;
+  color:#1d1714;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+
+.footer-column ul{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.footer-column li{
+  margin:6px 0;
+  font-size:14px;
+}
+
+.site-footer a{
+  color:#76685f;
+  text-decoration:none;
+}
+
+.site-footer a:hover{
+  text-decoration:underline;
+}
+
+.site-footer-bottom{
+  max-width:1200px;
+  margin:0 auto;
+  padding:12px 0 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  color:#76685f;
+  font-size:13px;
+  text-align:center;
+}
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -395,5 +512,14 @@ body{
 
   .signin-visual p{
     font-size:18px;
+  }
+
+  .site-footer-inner{
+    gap:20px;
+  }
+
+  .footer-columns{
+    justify-content:flex-start;
+    gap:16px 32px;
   }
 }
