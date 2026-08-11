@@ -93,7 +93,12 @@ function readJsonBody(req) {
 }
 
 async function pingMongoIfConnected() {
-  await pingMongo();
+  try {
+    return await pingMongo();
+  } catch (error) {
+    console.warn("Mongo health check skipped:", error.message);
+    return false;
+  }
 }
 
 function readStaticFile(filePath, res) {

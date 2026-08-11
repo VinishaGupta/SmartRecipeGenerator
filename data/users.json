@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "7c606936-dc05-4e8e-a964-e4deb7c2c5fb",
+    "email": "finshark84@gmail.com",
+    "displayName": "abc",
+    "passwordHash": "hash",
+    "googleId": null,
+    "googleEmail": null,
+    "avatarUrl": null,
+    "role": "user",
+    "authProviders": [
+      "local"
+    ],
+    "favoriteRecipeIds": [],
+    "savedRecipeIds": [],
+    "lastLoginAt": "2026-08-11T18:26:51.592Z",
+    "createdAt": "2026-08-11T18:26:51.592Z",
+    "updatedAt": "2026-08-11T18:26:51.592Z",
+    "emailVerifiedAt": null
+  },
+  {
+    "_id": "23d376af-cc9d-4d56-a9af-95e430402aa4",
+    "email": "rubberd564@gmail.com",
+    "displayName": "abc",
+    "passwordHash": "$2a$10$QVxWtV3N5I3sFvSvIzw24O41ex4cqR4t0FQi987BBSTqTz03Z9Hkq",
+    "googleId": null,
+    "googleEmail": null,
+    "avatarUrl": null,
+    "role": "user",
+    "authProviders": [
+      "local"
+    ],
+    "favoriteRecipeIds": [],
+    "savedRecipeIds": [],
+    "lastLoginAt": "2026-08-11T22:41:30.154Z",
+    "createdAt": "2026-08-11T22:41:30.154Z",
+    "updatedAt": "2026-08-11T22:41:30.154Z",
+    "emailVerifiedAt": null
+  }
+]
