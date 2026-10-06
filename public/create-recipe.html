@@ -49,8 +49,8 @@
         <p>Elevate your culinary vision with AI-assisted detailing.</p>
       </div>
       <div class="creator-head-actions">
-        <button class="creator-secondary" type="button">Discard</button>
-        <button class="creator-secondary filled" type="button">Save as Draft</button>
+        <button id="discardRecipeBtn" class="creator-secondary" type="button">Discard</button>
+        <button id="saveDraftBtn" class="creator-secondary filled" type="button">Save as Draft</button>
       </div>
     </div>
 
@@ -81,16 +81,20 @@
         <div class="creator-panel">
           <h2>Category Tags</h2>
           <div class="creator-tags">
-            <span>Fine Dining <button type="button">x</button></span>
-            <span>Vegetarian <button type="button">x</button></span>
-            <button type="button">+ Add Tag</button>
+            <span data-tag="Fine Dining">Fine Dining <button type="button" aria-label="Remove Fine Dining tag">x</button></span>
+            <span data-tag="Vegetarian">Vegetarian <button type="button" aria-label="Remove Vegetarian tag">x</button></span>
+            <input id="creatorTagInput" type="text" placeholder="New tag" maxlength="32" />
+            <button id="addTagBtn" type="button">+ Add Tag</button>
           </div>
         </div>
         <div class="creator-time-card">
           <i data-lucide="timer"></i>
           <div>
             <span>Total Prep Time</span>
-            <strong>45 <small>minutes</small></strong>
+            <label class="creator-time-input">
+              <input id="recipeTimeInput" type="number" min="0" step="1" value="45" aria-label="Total prep time in minutes" />
+              <small>minutes</small>
+            </label>
           </div>
         </div>
       </aside>
@@ -99,10 +103,10 @@
     <section class="creator-section">
       <h2>Nutritional Profile <span>Per Serving</span></h2>
       <div class="nutrition-editor-grid">
-        <article><span>Calories</span><strong>12</strong><em>kcal</em><div></div></article>
-        <article><span>Protein</span><strong>4.</strong><em>g</em><div class="green"></div></article>
-        <article><span>Carbs</span><strong>12</strong><em>g</em><div class="coral"></div></article>
-        <article><span>Fat</span><strong>8</strong><em>g</em><div class="muted"></div></article>
+        <article><span>Calories</span><input class="nutrition-input" data-nutrition="calories" type="number" min="0" step="1" value="12" aria-label="Calories per serving" /><em>kcal</em><div></div></article>
+        <article><span>Protein</span><input class="nutrition-input" data-nutrition="protein" type="number" min="0" step="0.1" value="4" aria-label="Protein per serving" /><em>g</em><div class="green"></div></article>
+        <article><span>Carbs</span><input class="nutrition-input" data-nutrition="carbs" type="number" min="0" step="0.1" value="12" aria-label="Carbohydrates per serving" /><em>g</em><div class="coral"></div></article>
+        <article><span>Fat</span><input class="nutrition-input" data-nutrition="fat" type="number" min="0" step="0.1" value="8" aria-label="Fat per serving" /><em>g</em><div class="muted"></div></article>
       </div>
     </section>
 
@@ -148,12 +152,12 @@
         <article>
           <strong>Yield Optimization</strong>
           <p>Current recipe serves 4. Would you like to scale this for a catering event (100+)?</p>
-          <button type="button">Calculate Scaling</button>
+          <button id="calculateScalingBtn" type="button">Calculate Scaling</button>
         </article>
         <article>
           <strong>Smart Substitutions</strong>
           <p>AI suggests <b>Lemon Zest</b> as a cost-effective alternative to Yuzu pearls for this recipe.</p>
-          <button type="button">Accept Suggestion</button>
+          <button id="acceptSuggestionBtn" type="button">Accept Suggestion</button>
         </article>
       </div>
     </section>
@@ -161,7 +165,7 @@
     <footer class="creator-footer">
       <span><i data-lucide="cloud"></i> Last saved: Just now</span>
       <div>
-        <button class="creator-secondary" type="button">Cancel</button>
+        <button id="cancelRecipeBtn" class="creator-secondary" type="button">Cancel</button>
         <button id="submitForApprovalBtn" class="creator-primary" type="button">Submit for Approval</button>
       </div>
     </footer>

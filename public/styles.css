@@ -2602,6 +2602,18 @@ input[type="range"] {
   color: #5e4b40;
 }
 
+.creator-tags input {
+  width: 112px;
+  min-height: 32px;
+  border: 1px solid #d8c9c0;
+  border-radius: 999px;
+  padding: 0 10px;
+  background: #fff;
+  color: #5e4b40;
+  font: inherit;
+  font-size: 12px;
+}
+
 .creator-time-card {
   min-height: 116px;
   display: flex;
@@ -2625,6 +2637,24 @@ input[type="range"] {
   display: block;
   margin-top: 12px;
   font-size: 28px;
+}
+
+.creator-time-input {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.creator-time-input input {
+  width: 72px;
+  border: 0;
+  border-bottom: 2px solid #cda783;
+  background: transparent;
+  color: #251a16;
+  font: inherit;
+  font-size: 28px;
+  font-weight: 800;
 }
 
 .creator-time-card small {
@@ -2678,6 +2708,20 @@ input[type="range"] {
   display: inline-block;
   margin-top: 18px;
   font-size: 22px;
+}
+
+.nutrition-editor-grid .nutrition-input {
+  display: inline-block;
+  width: 72px;
+  margin-top: 18px;
+  border: 0;
+  border-bottom: 2px solid #d8c9c0;
+  background: transparent;
+  color: #251a16;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
 }
 
 .nutrition-editor-grid em {

@@ -28,12 +28,21 @@ const creatorHeroLabel = creatorHeroUpload?.querySelector("label");
 const submissionSuccessModal = document.getElementById("submissionSuccessModal");
 const closeSubmissionSuccessModal = document.getElementById("closeSubmissionSuccessModal");
 const submissionSuccessContinue = document.getElementById("submissionSuccessContinue");
+const saveDraftBtn = document.getElementById("saveDraftBtn");
+const discardRecipeBtn = document.getElementById("discardRecipeBtn");
+const cancelRecipeBtn = document.getElementById("cancelRecipeBtn");
+const addTagBtn = document.getElementById("addTagBtn");
+const creatorTagInput = document.getElementById("creatorTagInput");
+const recipeTimeInput = document.getElementById("recipeTimeInput");
+const calculateScalingBtn = document.getElementById("calculateScalingBtn");
+const acceptSuggestionBtn = document.getElementById("acceptSuggestionBtn");
 
 const initialTitleValue = document.querySelector(".recipe-basics input")?.value || "";
 const initialDescriptionValue = document.querySelector(".recipe-basics textarea")?.value || "";
 const initialTagsHtml = document.querySelector(".creator-tags")?.innerHTML || "";
 const initialIngredientRowsHtml = ingredientRows?.innerHTML || "";
 const initialStepRowsHtml = stepRows?.innerHTML || "";
+let selectedImageData = "";
 
 const DEFAULT_HERO_BACKGROUND =
   'linear-gradient(rgba(20, 16, 14, 0.36), rgba(20, 16, 14, 0.36)), url("https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=1300&q=80") center / cover';
@@ -111,6 +120,8 @@ const resetCreateRecipePage = () => {
     creatorImageInput.value = "";
   }
 
+  selectedImageData = "";
+
   if (creatorHeroUpload) {
     creatorHeroUpload.style.background = "";
   }
@@ -118,6 +129,14 @@ const resetCreateRecipePage = () => {
   if (creatorHeroLabel) {
     creatorHeroLabel.dataset.previewState = "default";
   }
+
+  if (recipeTimeInput) {
+    recipeTimeInput.value = "45";
+  }
+
+  document.querySelectorAll(".nutrition-input").forEach((input) => {
+    input.value = input.dataset.nutrition === "calories" ? "12" : input.dataset.nutrition === "protein" ? "4" : input.dataset.nutrition === "carbs" ? "12" : "8";
+  });
 
   localStorage.removeItem(DRAFT_KEY);
   setStatus("", "");
@@ -142,7 +161,7 @@ const collectIngredients = () => getIngredientRows().map((row) => {
 const collectSteps = () => getStepRows().map((row) => row.querySelector("textarea")?.value || "").filter(Boolean);
 
 const collectTags = () => Array.from(document.querySelectorAll(".creator-tags span"))
-  .map((tag) => tag.textContent.replace(/x\s*$/i, "").trim())
+  .map((tag) => tag.dataset.tag || tag.textContent.replace(/x\s*$/i, "").trim())
   .filter(Boolean);
 
 const collectNutrition = () => {
@@ -150,7 +169,7 @@ const collectNutrition = () => {
   const keys = ["calories", "protein", "carbs", "fat"];
 
   return keys.reduce((nutrition, key, index) => {
-    const valueText = cards[index]?.querySelector("strong")?.textContent || "0";
+    const valueText = cards[index]?.querySelector(".nutrition-input")?.value || "0";
     nutrition[key] = parseNumber(valueText, 0);
     return nutrition;
   }, {});
@@ -159,9 +178,9 @@ const collectNutrition = () => {
 const collectRecipePayload = async () => {
   const title = document.querySelector(".recipe-basics input")?.value.trim() || "";
   const description = document.querySelector(".recipe-basics textarea")?.value.trim() || "";
-  const timeText = document.querySelector(".creator-time-card strong")?.textContent || "0";
+  const timeText = recipeTimeInput?.value || "0";
   const imageFile = creatorImageInput?.files?.[0] || null;
-  let image = "";
+  let image = selectedImageData;
 
   if (imageFile) {
     image = await new Promise((resolve, reject) => {
@@ -189,13 +208,20 @@ const collectRecipePayload = async () => {
 
 const updateHeroPreviewFromFile = (file) => {
   if (!file) {
+    selectedImageData = "";
     setHeroBackground("");
     return;
   }
 
   const reader = new FileReader();
-  reader.onload = () => setHeroBackground(String(reader.result || ""));
-  reader.onerror = () => setHeroBackground("");
+  reader.onload = () => {
+    selectedImageData = String(reader.result || "");
+    setHeroBackground(selectedImageData);
+  };
+  reader.onerror = () => {
+    selectedImageData = "";
+    setHeroBackground("");
+  };
   reader.readAsDataURL(file);
 };
 
@@ -239,9 +265,8 @@ const submitForApproval = async () => {
       throw new Error(data?.details || data?.error || "Submission failed");
     }
 
-    setStatus("Recipe submitted for admin approval.", "success");
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
     resetCreateRecipePage();
+    setStatus("Recipe submitted for admin approval.", "success");
     openSubmissionSuccessModal();
   } catch (error) {
     setStatus(error.message || "Could not submit recipe.", "error");
@@ -267,7 +292,32 @@ const restoreDraft = () => {
       descriptionInput.value = draft.description;
     }
 
+    if (recipeTimeInput && draft.timeMinutes !== undefined) {
+      recipeTimeInput.value = String(draft.timeMinutes);
+    }
+
+    document.querySelectorAll(".nutrition-input").forEach((input) => {
+      const value = draft.nutrition?.[input.dataset.nutrition];
+      if (value !== undefined) input.value = String(value);
+    });
+
+    if (Array.isArray(draft.dietaryTags)) {
+      document.querySelectorAll(".creator-tags span").forEach((tag) => tag.remove());
+      draft.dietaryTags.forEach((tag) => addTag(String(tag)));
+    }
+
+    if (Array.isArray(draft.ingredients) && ingredientRows) {
+      ingredientRows.innerHTML = "";
+      draft.ingredients.forEach((ingredient) => addIngredientRow(ingredient));
+    }
+
+    if (Array.isArray(draft.steps) && stepRows && addStepBtn) {
+      stepRows.querySelectorAll("article").forEach((row) => row.remove());
+      draft.steps.forEach((step, index) => addStepRow(step, index + 1));
+    }
+
     if (draft.image) {
+      selectedImageData = draft.image;
       setHeroBackground(draft.image);
     }
   } catch (error) {
@@ -275,55 +325,90 @@ const restoreDraft = () => {
   }
 };
 
-if (addIngredientBtn && ingredientRows) {
-  addIngredientBtn.addEventListener("click", () => {
-    const row = document.createElement("div");
-    row.className = "ingredient-editor-row";
-    row.innerHTML = `
+const addIngredientRow = (ingredient = {}) => {
+  if (!ingredientRows) return;
+  const row = document.createElement("div");
+  row.className = "ingredient-editor-row";
+  row.innerHTML = `
       <i data-lucide="grip-vertical"></i>
-      <input placeholder="Qty" />
-      <input placeholder="Unit" />
-      <input placeholder="Ingredient name" />
+      <input placeholder="Qty" value="${ingredient.quantity || ""}" />
+      <input placeholder="Unit" value="${ingredient.unit || ""}" />
+      <input placeholder="Ingredient name" value="${ingredient.name || ""}" />
     `;
-    ingredientRows.appendChild(row);
-    if (window.lucide) {
-      lucide.createIcons();
-    }
-  });
-}
+  ingredientRows.appendChild(row);
+  if (window.lucide) lucide.createIcons();
+};
 
-if (addStepBtn && stepRows) {
-  addStepBtn.addEventListener("click", () => {
-    const stepNumber = getStepRows().length + 1;
-    const article = document.createElement("article");
-    article.innerHTML = `
+if (addIngredientBtn) addIngredientBtn.addEventListener("click", () => addIngredientRow());
+
+const addStepRow = (value = "", stepNumber = getStepRows().length + 1) => {
+  if (!stepRows || !addStepBtn) return;
+  const article = document.createElement("article");
+  article.innerHTML = `
       <span>${stepNumber}</span>
-      <textarea placeholder="Describe the next preparation step..."></textarea>
+      <textarea placeholder="Describe the next preparation step...">${value}</textarea>
     `;
-    stepRows.insertBefore(article, addStepBtn);
-  });
-}
+  stepRows.insertBefore(article, addStepBtn);
+};
 
-Array.from(document.querySelectorAll(".creator-primary, .creator-secondary.filled")).forEach((button) => {
-  const label = button.textContent || "";
+if (addStepBtn) addStepBtn.addEventListener("click", () => addStepRow());
 
-  if (label.includes("Submit for Approval")) {
-    button.addEventListener("click", submitForApproval);
-  }
-
-  if (label.includes("Save as Draft")) {
-    button.addEventListener("click", saveDraft);
-  }
-});
-
-// Prefer direct ID wiring for reliability
 const headerSubmitBtn = document.getElementById("submitForApprovalBtnHeader");
 const footerSubmitBtn = document.getElementById("submitForApprovalBtn");
-const saveDraftBtn = Array.from(document.querySelectorAll(".creator-secondary.filled")).find(b => (b.textContent || "").includes("Save as Draft"));
 
 if (headerSubmitBtn) headerSubmitBtn.addEventListener("click", submitForApproval);
 if (footerSubmitBtn) footerSubmitBtn.addEventListener("click", submitForApproval);
 if (saveDraftBtn) saveDraftBtn.addEventListener("click", saveDraft);
+
+const removeTag = (event) => {
+  const button = event.target.closest("button");
+  if (button) button.closest("span")?.remove();
+};
+
+document.querySelector(".creator-tags")?.addEventListener("click", (event) => {
+  if (event.target.closest("span")) removeTag(event);
+});
+
+const addTag = (value) => {
+  const tag = String(value || "").trim();
+  const tagsContainer = document.querySelector(".creator-tags");
+  if (!tag || !tagsContainer || collectTags().some((existing) => existing.toLowerCase() === tag.toLowerCase())) return;
+  const tagElement = document.createElement("span");
+  tagElement.dataset.tag = tag;
+  tagElement.innerHTML = `${tag} <button type="button" aria-label="Remove ${tag} tag">x</button>`;
+  tagsContainer.insertBefore(tagElement, creatorTagInput || addTagBtn);
+};
+
+if (addTagBtn) addTagBtn.addEventListener("click", () => {
+  addTag(creatorTagInput?.value);
+  if (creatorTagInput) creatorTagInput.value = "";
+});
+
+if (creatorTagInput) creatorTagInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    addTagBtn?.click();
+  }
+});
+
+const resetWithConfirmation = () => {
+  if (window.confirm("Discard this recipe draft?")) resetCreateRecipePage();
+};
+
+if (discardRecipeBtn) discardRecipeBtn.addEventListener("click", resetWithConfirmation);
+if (cancelRecipeBtn) cancelRecipeBtn.addEventListener("click", resetWithConfirmation);
+
+if (calculateScalingBtn) calculateScalingBtn.addEventListener("click", () => {
+  const servings = window.prompt("How many servings should this recipe make?", "100");
+  const count = parseNumber(servings, 0);
+  if (count > 0) setStatus(`Scaling estimate ready for ${count} servings.`, "success");
+});
+
+if (acceptSuggestionBtn) acceptSuggestionBtn.addEventListener("click", () => {
+  const ingredient = { quantity: "1", unit: "tsp", name: "Lemon zest" };
+  if (!collectIngredients().some((item) => item.name.toLowerCase() === ingredient.name.toLowerCase())) addIngredientRow(ingredient);
+  setStatus("Lemon zest added to the ingredient list.", "success");
+});
 
 if (closeSubmissionSuccessModal) {
   closeSubmissionSuccessModal.addEventListener("click", closeSubmissionSuccessModalBox);
@@ -341,8 +426,6 @@ if (submissionSuccessModal) {
   });
 }
 
-restoreDraft();
-
 if (creatorImageInput) {
   creatorImageInput.addEventListener("change", () => {
     updateHeroPreviewFromFile(creatorImageInput.files?.[0] || null);
@@ -350,3 +433,4 @@ if (creatorImageInput) {
 }
 
 setHeroBackground("");
+restoreDraft();
